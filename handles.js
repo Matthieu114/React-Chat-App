@@ -5,18 +5,9 @@ const content = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=p, initial-scale=1.0" />
     <title>Document</title>
   </head>
   <body>
-    
-      <a
-        href="https://github.com/adaltas/ece-webtech-2021-fall/blob/master/courses/webtech/modules/01.nodejs/lab.md#part-5-create-a-basic-application-with-multiple-routes"
-      >Tutorial</a>
-       <p> When using the route /hello in the Url , it takes a name query parameter </p>
-       <p>Your query should look like this /hello/?name=matthieu </p>
-    
   </body>
 </html>`
 
