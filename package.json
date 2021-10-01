@@ -9,7 +9,7 @@
     "develop": "./node_modules/.bin/nodemon ./lib/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "DENIS Matthieu BRICE Benjamin",
   "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.6",
