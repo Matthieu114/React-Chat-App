@@ -9,4 +9,4 @@ Managed to dynamically display all available channels with by using res.write an
 but they were not displayed like a list
 
 Used the array.map instead of array.foreach to dynamically display all the channels and also to
-be able to format them as lists and links using html <li> and <a>
+be able to format them as lists and links using html `<li>` `ul` `<a>`
