@@ -12,3 +12,4 @@ const useStyles = (theme) => ({
     overflow: "hidden"
   }
 })
+const styles = useStyles(useTheme())

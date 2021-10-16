@@ -21,3 +21,4 @@ const useStyles = (theme) => ({
     }
   }
 })
+const styles = useStyles(useTheme())
