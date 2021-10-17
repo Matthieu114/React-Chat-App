@@ -1,28 +1,23 @@
-# Web-Technologies
 
-This is the repository that contains all of the labs for the web tech course
-The code is implemented weekly
+# ECE WebTech Chat
 
-### Names of the team : DENIS Matthieu , BRICE Benjamin
-
-# README.MD
-
-## About
-
-We are building a Chat application. This chat application will offer different channels
-that a user can indidually select. They will redirect him to the page of the desired channel.
-Each channel contains different content that is unique to the channel
-
-The backend for the channels is developped using `Node.js` , more specifically using `Express.js`
-
-The frontend will be developped using `HTML CSS Javascript`as well as the `React` framework
+This is a chat application we wrote to learn the basics and the not so basics features of backend and frontend web programing. It leverages Node.js and React as well as complementary technologies such as unit testing with Mocha and Should.js, embeded storage with LevelDB, REST APIs, ... If we have time, we'll also play with GraphQL and Socket.io
 
 ## Usage
 
-To launch the app, make sure you are in the folder containing index.js.
+Start the web application:
 
-In the command prompt, enter the following command :
+```bash
+./bin/start 
+Chat is waiting for you at http://localhost:3000
+```
 
-`npm run develop`
+Run the tests with mocha:
 
-Your server should then be running on the designated port `localhost:3000`
+```bash
+npm run test
+```
+
+## Instructions
+
+See "../lab.md" for the lab instructions.
