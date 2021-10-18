@@ -5,8 +5,10 @@
   "author": "david worms <david@adaltas.com>",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "level": "^6.0.1",
+    "microtime": "^3.0.0",
     "mixme": "^0.3.5",
     "nodemon": "^2.0.13",
     "should": "^13.2.3",
