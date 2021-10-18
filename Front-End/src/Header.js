@@ -1,9 +1,11 @@
-import { useTheme } from "@material-ui/core/styles"
+import React from "react"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 
-const useStyles = (theme) => ({
+const styles = {
   header: {
     height: "60px",
-    backgroundColor: "rgba(255,255,255,.3)",
+    color: "blue",
     flexShrink: 0
   },
   headerLogIn: {
@@ -12,4 +14,12 @@ const useStyles = (theme) => ({
   headerLogOut: {
     backgroundColor: "blue"
   }
-})
+}
+const Header = () => {
+  return (
+    <header css={styles} img src={require("./header.jpg")}>
+      <h1>Welcome on our chat application</h1>
+    </header>
+  )
+}
+export default Header

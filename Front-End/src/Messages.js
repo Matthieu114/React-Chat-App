@@ -1,6 +1,6 @@
-import { useTheme } from "@material-ui/core/styles"
+import React from "react"
 
-const useStyles = (theme) => ({
+const styles = {
   messages: {
     flex: "1 1 auto",
     height: "100%",
@@ -11,14 +11,31 @@ const useStyles = (theme) => ({
       textIndent: 0,
       listStyleType: 0
     }
-  },
-  message: {
-    margin: ".2rem",
-    padding: ".2rem",
-    // backgroundColor: '#66728E',
-    ":hover": {
-      backgroundColor: "rgba(255,255,255,.2)"
-    }
   }
-})
-const styles = useStyles(useTheme())
+}
+const messages = ({ channel, messages }) => {
+  return (
+    <div style={styles.messages}>
+      <h1>Messages from {channel.name}</h1>
+      <ul>
+        {messages.map((message, i) => (
+          <li key={i} style={styles.messages}>
+            <p>
+              <span>{message.author}</span>{" "}
+              <span>{new Date(message.creation).toString()}</span>
+            </p>
+            <div>
+              {message.content
+                .split(/(\n +\n)/)
+                .filter((el) => el.trim())
+                .map((el) => (
+                  <p>{el}</p>
+                ))}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+export default messages

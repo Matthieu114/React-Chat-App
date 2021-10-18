@@ -1,6 +1,7 @@
-import { useTheme } from "@material-ui/core/styles"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 
-const useStyles = (theme) => ({
+const styles = {
   channels: {
     minWidth: "200px"
   },
@@ -11,5 +12,6 @@ const useStyles = (theme) => ({
     flexDirection: "column",
     overflow: "hidden"
   }
-})
-const styles = useStyles(useTheme())
+}
+
+export default () => <div css={styles.channels}></div>

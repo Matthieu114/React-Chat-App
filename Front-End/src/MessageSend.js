@@ -1,19 +1,5 @@
-import { useTheme } from "@material-ui/core/styles"
+import React from "react"
+import MessageForm from "./MessageForm.js"
 
-const useStyles = (theme) => ({
-  content: {
-    flex: "1 1 auto",
-    marginRight: ".5rem"
-  },
-  send: {
-    backgroundColor: "#D6DDEC",
-    padding: ".2rem .5rem",
-    border: "none",
-    ":hover": {
-      backgroundColor: "#2A4B99",
-      cursor: "pointer",
-      color: "#fff"
-    }
-  }
-})
-const styles = useStyles(useTheme())
+const MessageSend = ({ addMessage }) => <MessageForm addMessage={addMessage} />
+export default MessageSend
