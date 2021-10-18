@@ -1,13 +1,6 @@
-import { useTheme } from "@material-ui/core/styles"
-
-const useStyles = (theme) => ({
-  form: {
-    borderTop: "2px solid #373B44",
-    padding: ".5rem",
-    display: "flex"
-  }
-})
-const styles = useStyles(useTheme())
+import MessageSend from "./MessageSend.js"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 
 const MessageForm = ({ addMessage }) => {
   const onSubmit = (e) => {
@@ -21,9 +14,11 @@ const MessageForm = ({ addMessage }) => {
     e.target.elements.content.value = ""
   }
   return (
-    <form css={styles.form} onSubmit={onSubmit}>
-      <input type="input" name="content" css={styles.content} />
-      <input type="submit" value="Send" css={styles.send} />
+    <form css={MessageSend.form} onSubmit={onSubmit}>
+      <input type="input" name="content" css={MessageSend.content} />
+      <input type="submit" value="Send" css={MessageSend.send} />
     </form>
   )
 }
+
+export default { MessageForm }

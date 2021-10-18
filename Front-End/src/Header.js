@@ -1,9 +1,8 @@
-import { useTheme } from "@material-ui/core/styles"
-
-const useStyles = (theme) => ({
+const styles = {
   header: {
     height: "60px",
-    backgroundColor: "rgba(255,255,255,.3)",
+    color: "blue",
+    backgroundColor: "rgba(0,255,0,.3)",
     flexShrink: 0
   },
   headerLogIn: {
@@ -12,4 +11,5 @@ const useStyles = (theme) => ({
   headerLogOut: {
     backgroundColor: "blue"
   }
-})
+}
+export default { styles }

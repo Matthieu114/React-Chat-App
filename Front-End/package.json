@@ -1,5 +1,5 @@
 {
-  "name": "webtech-front-end-gr-03",
+  "name": "front-end",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,7 +18,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [

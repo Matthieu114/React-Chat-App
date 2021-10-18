@@ -1,6 +1,4 @@
-import { useTheme } from "@material-ui/core/styles"
-
-const useStyles = (theme) => ({
+const styles = {
   messages: {
     flex: "1 1 auto",
     height: "100%",
@@ -11,14 +9,6 @@ const useStyles = (theme) => ({
       textIndent: 0,
       listStyleType: 0
     }
-  },
-  message: {
-    margin: ".2rem",
-    padding: ".2rem",
-    // backgroundColor: '#66728E',
-    ":hover": {
-      backgroundColor: "rgba(255,255,255,.2)"
-    }
   }
-})
-const styles = useStyles(useTheme())
+}
+export default { styles }
