@@ -1,5 +1,6 @@
+import React from "react"
 import Messages from "./Messages.js"
-import MessageSend from "./MessagesSend.js"
+import MessageSend from "./MessageSend.js"
 const styles = {
   channel: {
     height: "100%",
@@ -9,4 +10,12 @@ const styles = {
     overflow: "hidden"
   }
 }
-export default { styles, Messages, MessageSend }
+const Channel = ({ messages, addMessages }) => {
+  return (
+    <div style={styles.channel}>
+      <Messages channel={this} messages={messages} />
+      <MessageSend addMessages={addMessages} />
+    </div>
+  )
+}
+export default Channel

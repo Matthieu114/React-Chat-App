@@ -1,3 +1,4 @@
+import React from "react"
 const styles = {
   footer: {
     height: "30px",
@@ -6,4 +7,11 @@ const styles = {
     flexShrink: 0
   }
 }
-export default { styles }
+const Footer = () => {
+  return (
+    <footer css={styles.footer}>
+      <h2>by BRICE and DENIS</h2>
+    </footer>
+  )
+}
+export default Footer

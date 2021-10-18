@@ -1,4 +1,3 @@
-import { useState } from "react"
 import "./App.css"
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
@@ -15,48 +14,16 @@ const styles = {
     padding: "50px"
   }
 }
-
-export default ({
-  channel = {
-    name: "Fake channel"
-  }
-}) => {
-  //addMessage
+const App = () => {
+  //const [user,setUser]= useState(null)
   return (
+    //dans header { user ? <Main/> : <Login onUser={setUser}/> }
     <div className="App" css={styles.root}>
-      <header className="App-header" css={Header.header}>
-        <h1>Header</h1>
-      </header>
-      <main className="App-main" css={Main.main}>
-        <div css={Main.channels}></div>
-        <div css={Main.channel}>
-          <div css={Main.Messages}>
-            <h1>Messages for {channel.name}</h1>
-            <ul>
-              {messages.map((message, i) => (
-                <li key={i} css={styles.message}>
-                  <p>
-                    <span>{message.author}</span>{" "}
-                    <span>{new Date(message.creation).toString()}</span>
-                  </p>
-                  <div>
-                    {message.content
-                      .split(/(\n +\n)/)
-                      .filter((el) => el.trim())
-                      .map((el) => (
-                        <p>{el}</p>
-                      ))}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <MessageForm addMessage={Main.addMessage} />
-        </div>
-      </main>
-      <footer className="App-footer" style={Footer.footer}>
-        footer
-      </footer>
+      <Header />
+      <Main />
+      <Footer />
     </div>
   )
 }
+
+export default App
