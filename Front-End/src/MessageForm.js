@@ -47,4 +47,4 @@ const MessageForm = ({ addMessage }) => {
   )
 }
 
-export default { MessageForm }
+export default MessageForm

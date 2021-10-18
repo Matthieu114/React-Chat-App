@@ -10,11 +10,11 @@ const styles = {
     overflow: "hidden"
   }
 }
-const Channel = ({ messages, addMessages }) => {
+const Channel = ({ channel, messages, addMessage }) => {
   return (
     <div style={styles.channel}>
-      <Messages channel={this} messages={messages} />
-      <MessageSend addMessages={addMessages} />
+      <Messages channel={channel} messages={messages} />
+      <MessageSend addMessage={addMessage} />
     </div>
   )
 }

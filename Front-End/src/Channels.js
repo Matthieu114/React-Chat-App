@@ -1,3 +1,6 @@
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
+
 const styles = {
   channels: {
     minWidth: "200px"
@@ -11,4 +14,4 @@ const styles = {
   }
 }
 
-export default { styles }
+export default () => <div css={styles.channels}></div>

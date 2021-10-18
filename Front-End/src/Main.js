@@ -1,7 +1,10 @@
 import React from "react"
 import { useState } from "react"
-import Channels from "./Channels.js"
-import Channel from "./Channel.js"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
+import Channels from "./Channels"
+import Channel from "./Channel"
+
 const styles = {
   main: {
     color: "pink",

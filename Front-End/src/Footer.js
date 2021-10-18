@@ -1,4 +1,6 @@
 import React from "react"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 const styles = {
   footer: {
     height: "30px",
@@ -8,10 +10,6 @@ const styles = {
   }
 }
 const Footer = () => {
-  return (
-    <footer css={styles.footer}>
-      <h2>by BRICE and DENIS</h2>
-    </footer>
-  )
+  return <footer css={styles.footer}>by BRICE and DENIS</footer>
 }
 export default Footer

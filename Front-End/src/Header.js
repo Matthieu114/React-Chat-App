@@ -1,9 +1,11 @@
 import React from "react"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
+
 const styles = {
   header: {
     height: "60px",
     color: "blue",
-    backgroundColor: "rgba(0,255,0,.3)",
     flexShrink: 0
   },
   headerLogIn: {
@@ -15,7 +17,7 @@ const styles = {
 }
 const Header = () => {
   return (
-    <header css={styles}>
+    <header css={styles} img src={require("./header.jpg")}>
       <h1>Welcome on our chat application</h1>
     </header>
   )
