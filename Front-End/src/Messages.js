@@ -1,4 +1,5 @@
-import React from "react"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 
 const styles = {
   messages: {
@@ -15,11 +16,11 @@ const styles = {
 }
 const messages = ({ channel, messages }) => {
   return (
-    <div style={styles.messages}>
+    <div css={styles.messages}>
       <h1>Messages from {channel.name}</h1>
       <ul>
         {messages.map((message, i) => (
-          <li key={i} style={styles.messages}>
+          <li key={i} css={styles.messages}>
             <p>
               <span>{message.author}</span>{" "}
               <span>{new Date(message.creation).toString()}</span>

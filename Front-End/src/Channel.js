@@ -1,4 +1,5 @@
-import React from "react"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 import Messages from "./Messages.js"
 import MessageSend from "./MessageSend.js"
 const styles = {
@@ -12,7 +13,7 @@ const styles = {
 }
 const Channel = ({ channel, messages, addMessage }) => {
   return (
-    <div style={styles.channel}>
+    <div css={styles.channel}>
       <Messages channel={channel} messages={messages} />
       <MessageSend addMessage={addMessage} />
     </div>

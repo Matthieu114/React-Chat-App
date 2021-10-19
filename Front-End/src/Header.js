@@ -1,12 +1,14 @@
-import React from "react"
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
+import image from "./header.jpg"
 
 const styles = {
   header: {
     height: "60px",
     color: "blue",
-    flexShrink: 0
+    flexShrink: 0,
+    backgroundImage: `URL(${image})`,
+    backgroundSize: "cover"
   },
   headerLogIn: {
     backgroundColor: "red"
@@ -17,7 +19,7 @@ const styles = {
 }
 const Header = () => {
   return (
-    <header css={styles} img src={require("./header.jpg")}>
+    <header css={styles.header}>
       <h1>Welcome on our chat application</h1>
     </header>
   )

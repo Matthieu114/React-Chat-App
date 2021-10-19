@@ -1,4 +1,3 @@
-import React from "react"
 import { useState } from "react"
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
@@ -64,6 +63,11 @@ const Main = () => {
   Consider adding syntax highlight support with a library like
   [Prism](https://prismjs.com/).
   `
+    },
+    {
+      author: "Benjamin",
+      creation: 1602848139202,
+      content: `SALUT LES LOULOUS`
     }
   ])
 

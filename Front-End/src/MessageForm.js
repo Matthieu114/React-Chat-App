@@ -1,4 +1,5 @@
-import React from "react"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 const styles = {
   message: {
     margin: ".2rem",
