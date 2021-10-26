@@ -1,18 +1,17 @@
-
 /** @jsxImportSource @emotion/react */
 
-const styles = {
+//import { ThemeContext } from "@emotion/react"
+import { useTheme } from "@mui/styles"
+
+const useStyles = (theme) => ({
   footer: {
-    height: '30px',
-    backgroundColor: 'rgba(255,255,255,.3)',
-    flexShrink: 0,
-  },
-}
+    height: "30px",
+    backgroundColor: theme.palette.primary.dark,
+    flexShrink: 0
+  }
+})
 
 export default function Footer() {
-  return (
-    <footer style={styles.footer}>
-      footer
-    </footer>
-  );
+  const styles = useStyles(useTheme())
+  return <footer style={styles.footer}>Designed by brice and denis</footer>
 }

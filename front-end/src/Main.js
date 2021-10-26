@@ -1,19 +1,18 @@
-
 /** @jsxImportSource @emotion/react */
-import {useState} from 'react'
+import { useState } from "react"
 // Local
-import Channels from './Channels'
-import Channel from './Channel'
-import Welcome from './Welcome'
+import Channels from "./Channels"
+import Channel from "./Channel"
+import Welcome from "./Welcome"
 
 const styles = {
   main: {
-    backgroundColor: '#373B44',
-    overflow: 'hidden',
-    flex: '1 1 auto',
-    display: 'flex',
-    flexDirection: 'row',
-  },
+    backgroundColor: "#373B44",
+    overflow: "hidden",
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "row"
+  }
 }
 
 export default function Main() {
@@ -25,6 +24,7 @@ export default function Main() {
     <main css={styles.main}>
       <Channels onChannel={fetchChannel} />
       {channel ? <Channel channel={channel} messages={[]} /> : <Welcome />}
+      TemporaryDrawer()
     </main>
-  );
+  )
 }
