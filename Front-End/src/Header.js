@@ -1,27 +1,47 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/core"
-import image from "./header.jpg"
 
-const styles = {
+/** @jsxImportSource @emotion/react */
+// Layout
+import { useTheme } from '@mui/styles';
+import {IconButton} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+
+const useStyles = (theme) => ({
   header: {
-    height: "60px",
-    color: "blue",
+    padding: theme.spacing(1),
+    backgroundColor: 'rgba(255,255,255,.3)',
     flexShrink: 0,
-    backgroundImage: `URL(${image})`,
-    backgroundSize: "cover"
   },
   headerLogIn: {
-    backgroundColor: "red"
+    backgroundColor: 'red',
   },
   headerLogOut: {
-    backgroundColor: "blue"
+    backgroundColor: 'blue',
+  },
+  menu: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none !important',
+    },
   }
-}
-const Header = () => {
+})
+
+export default function Header({
+  drawerToggleListener
+}) {
+  const styles = useStyles(useTheme())
+  const handleDrawerToggle = (e) => {
+    drawerToggleListener()
+  }
   return (
     <header css={styles.header}>
-      <h1>Welcome on our chat application</h1>
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        onClick={handleDrawerToggle}
+        css={styles.menu}
+      >
+        <MenuIcon />
+      </IconButton>
+      Header
     </header>
-  )
+  );
 }
-export default Header

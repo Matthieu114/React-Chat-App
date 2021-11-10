@@ -1,14 +1,18 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/core"
+
+/** @jsxImportSource @emotion/react */
+
 const styles = {
   footer: {
-    height: "30px",
-    color: "red",
-    backgroundColor: "rgba(255,255,255,.3)",
-    flexShrink: 0
-  }
+    height: '30px',
+    backgroundColor: 'rgba(255,255,255,.3)',
+    flexShrink: 0,
+  },
 }
-const Footer = () => {
-  return <footer css={styles.footer}>by BRICE and DENIS</footer>
+
+export default function Footer() {
+  return (
+    <footer style={styles.footer}>
+      footer
+    </footer>
+  );
 }
-export default Footer

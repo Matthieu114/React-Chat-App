@@ -1,84 +1,59 @@
-import { useState } from "react"
-/** @jsx jsx */
-import { jsx } from "@emotion/core"
-import Channels from "./Channels"
-import Channel from "./Channel"
 
-const styles = {
+/** @jsxImportSource @emotion/react */
+import {useState} from 'react'
+// Layout
+import { useTheme } from '@mui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {Drawer} from '@mui/material';
+// Local
+import Channels from './Channels'
+import Channel from './Channel'
+import Welcome from './Welcome'
+
+const useStyles = (theme) => ({
   main: {
-    color: "pink",
-    backgroundColor: "#373B44",
-    flex: "1 1 auto",
-    display: "flex",
-    flexDirection: "row",
-    overflow: "hidden"
-  }
-}
-const channel = {
-  name: "Fake channel"
-}
-const Main = () => {
-  const [messages, setMessages] = useState([
-    {
-      author: "david",
-      creation: 1602832138892,
-      content: `
-  ## 2 - Styles - Level easy
-  
-  Give it some styles, use CSS to make it looks good. Possible source of
-  improvements include changing the colors, replacing the HTML "send" button
-  with an icon, working on the header, providing day/night themes ... be creative
-  `
-    },
-    {
-      author: "sergei",
-      creation: 1602840139202,
-      content: `
-  ## 3 - Use an external library - Level medium
-  
-  Format the date in a human readable format. While the date is generated on
-  the server side to ensure its relevance and prevent from forgery, it must be
-  displayed according to the user browser local. The
-  [Moment.js](https://momentjs.com/) library has been the library of choice
-  for many years to accomplish date formatting. Read what is displayed on the
-  top right corner of their homepage, it is now depreciated. Read the reasons
-  and act accordingly.
-  `
-    },
-    {
-      author: "david",
-      creation: 1602844139200,
-      content: `
-  ## 4 - Support message contents in Markdown - Level hard
-  
-  Markdown is the most popular syntax to format text into HTML. It is used
-  by the majority of the project Readme files, to write documentation and to
-  generate websites.
-  
-  I recommand you to use the [unified](https://unifiedjs.com/) which is very
-  powerful and comes with a lot of plugins. You can read the Markdown to HTML
-  guide in the learn section and enrich it with your selection of relevant
-  plugins.
-  
-  Consider adding syntax highlight support with a library like
-  [Prism](https://prismjs.com/).
-  `
-    },
-    {
-      author: "Benjamin",
-      creation: 1602848139202,
-      content: `SALUT LES LOULOUS`
-    }
-  ])
+    backgroundColor: '#373B44',
+    overflow: 'hidden',
+    flex: '1 1 auto',
+    display: 'flex',
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  drawer: {
+    width: '200px',
+    display: 'none',
+  },
+  drawerVisible: {
+    display: 'block',
+  },
+})
 
-  const addMessage = (message) => {
-    setMessages([...messages, message])
+export default function Main({
+  drawerMobileVisible,
+}) {
+  const [channel, setChannel] = useState(null)
+  const fetchChannel = async (channel) => {
+    setChannel(channel)
   }
+  const theme = useTheme()
+  const styles = useStyles(theme)
+  const alwaysOpen = useMediaQuery(theme.breakpoints.up('sm'))
+  const isDrawerVisible = alwaysOpen || drawerMobileVisible
   return (
-    <div css={styles.main}>
-      <Channels />
-      <Channel channel={channel} messages={messages} addMessage={addMessage} />
-    </div>
-  )
+    <main css={styles.main}>
+      <Drawer
+        PaperProps={{ style: { position: 'relative' } }}
+        BackdropProps={{ style: { position: 'relative' } }}
+        ModalProps={{
+          style: { position: 'relative' }
+        }}
+        variant="persistent"
+        open={isDrawerVisible}
+        css={[styles.drawer, isDrawerVisible && styles.drawerVisible]}
+      >
+        <Channels onChannel={fetchChannel} />
+      </Drawer>
+      {channel ? <Channel channel={channel} messages={[]} /> : <Welcome />}
+    </main>
+  );
 }
-export default Main
