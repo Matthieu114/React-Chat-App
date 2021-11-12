@@ -12,7 +12,7 @@ const styles = {
     flexDirection: "column",
     backgroundColor: "#565E71",
     padding: "50px",
-    position: "sticky"
+    overflow: "auto"
   }
 };
 
@@ -20,7 +20,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   return (
     <div className="App" css={styles.root}>
-      {user ? <Main /> : <Login onUser={setUser} />}
+      {!user ? <Main /> : <Login onUser={setUser} />}
     </div>
   );
 }
