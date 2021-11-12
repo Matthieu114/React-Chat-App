@@ -12,14 +12,17 @@ import List from "./channel/List";
 const useStyles = (theme) => ({
   root: {
     height: "100%",
-    width: "70%",
+    width: "calc(100% - 240px)",
+    margin: "auto",
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "column",
     background: "rgba(0,0,0,.2)",
     position: "absolute",
     bottom: "0",
-    overflow: "auto"
+    left: "0",
+    overflow: "auto",
+    marginLeft: "240px"
   },
   fab: {
     position: "absolute !important",

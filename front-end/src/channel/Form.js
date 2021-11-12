@@ -18,7 +18,8 @@ const useStyles = (theme) => {
       padding: ".5rem",
       display: "flex",
       position: "sticky",
-      bottom: "0"
+      bottom: "0",
+      backgroundColor: "white"
     },
     content: {
       flex: "1 1 auto",

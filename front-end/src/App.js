@@ -11,8 +11,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#565E71",
-    padding: "50px",
-    overflow: "auto"
+    padding: "50px"
   }
 };
 
