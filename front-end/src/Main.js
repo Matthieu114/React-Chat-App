@@ -39,8 +39,8 @@ function Main(props) {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` }
+          width: { sm: `calc(100% - ${drawerWidth}px)` }
+          //   ml: { sm: `${drawerWidth}px` }
         }}
       >
         <Toolbar>
@@ -100,9 +100,7 @@ function Main(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` }
+          p: 3
         }}
       >
         <Channel channel={channel} />
@@ -112,3 +110,4 @@ function Main(props) {
 }
 
 export default Main;
+export { drawerWidth };

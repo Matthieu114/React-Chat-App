@@ -8,21 +8,21 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // Local
 import Form from "./channel/Form";
 import List from "./channel/List";
+//width
+import { drawerWidth } from "./Main";
 
 const useStyles = (theme) => ({
   root: {
     height: "100%",
-    width: "calc(100% - 240px)",
-    margin: "auto",
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: "-23px",
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "column",
     background: "rgba(0,0,0,.2)",
     position: "absolute",
     bottom: "0",
-    left: "0",
-    overflow: "auto",
-    marginLeft: "240px"
+    overflow: "auto"
   },
   fab: {
     position: "absolute !important",
@@ -86,6 +86,11 @@ export default function Channel({ channel }) {
       >
         <ArrowDropDownIcon />
       </Fab>
+	if (condition) {
+		
+	}	else{
+
+	}
     </div>
   );
 }

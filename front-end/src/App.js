@@ -11,7 +11,8 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#565E71",
-    padding: "50px"
+    marginTop: "50px"
+    // padding: "50px"
   }
 };
 
