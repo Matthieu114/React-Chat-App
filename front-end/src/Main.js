@@ -54,7 +54,7 @@ function Main(props) {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap component="div">
-						Responsive drawer
+						BriceDenis Chat
 					</Typography>
 				</Toolbar>
 			</AppBar>

@@ -6,6 +6,7 @@ import qs from "qs";
 import axios from "axios";
 // Layout
 import { useTheme } from "@mui/styles";
+import { Box, TextField, Button } from "@mui/material";
 import { Link } from "@mui/material";
 
 const base64URLEncode = (str) => {
@@ -42,7 +43,7 @@ const useStyles = (theme) => ({
 	}
 });
 
-const Redirect = ({ config, codeVerifier }) => {
+const Redirect = ({ config, codeVerifier, onUser }) => {
 	const styles = useStyles(useTheme());
 	const redirect = (e) => {
 		e.stopPropagation();
@@ -59,11 +60,52 @@ const Redirect = ({ config, codeVerifier }) => {
 		window.location = url;
 	};
 	return (
-		<div css={styles.root}>
-			<Link onClick={redirect} color="secondary">
-				Login with OpenID Connect and OAuth2
-			</Link>
-		</div>
+		<Box
+			component="form"
+			sx={{
+				"& .MuiTextField-root": { m: 1, width: "25ch" }
+			}}
+			noValidate
+			autoComplete="off"
+		>
+			<div css={styles.root}>
+				<div>
+					<fieldset>
+						<TextField
+							color="secondary"
+							id="standard-required"
+							label="Username"
+							variant="standard"
+						/>
+					</fieldset>
+					<fieldset>
+						<TextField
+							color="secondary"
+							id="standard-password-input"
+							label="Password"
+							type="password"
+							autoComplete="current-password"
+							variant="standard"
+						/>
+					</fieldset>
+					<fieldset>
+						<Button
+							color="secondary"
+							variant="outlined"
+							onClick={(e) => {
+								e.stopPropagation();
+								onUser({ username: "david" });
+							}}
+						>
+							Login
+						</Button>
+						<Button color="secondary" variant="outlined" onClick={redirect}>
+							Login with external account
+						</Button>
+					</fieldset>
+				</div>
+			</div>
+		</Box>
 	);
 };
 
