@@ -7,7 +7,7 @@ import axios from "axios";
 // Layout
 import { useTheme } from "@mui/styles";
 import { Box, TextField, Button } from "@mui/material";
-import { Link } from "@mui/material";
+//import { Link } from "@mui/material";
 
 const base64URLEncode = (str) => {
 	return str
@@ -43,7 +43,7 @@ const useStyles = (theme) => ({
 	}
 });
 
-const Redirect = ({ config, codeVerifier, onUser }) => {
+const Redirect = ({ config, codeVerifier }) => {
 	const styles = useStyles(useTheme());
 	const redirect = (e) => {
 		e.stopPropagation();
@@ -89,7 +89,7 @@ const Redirect = ({ config, codeVerifier, onUser }) => {
 						/>
 					</fieldset>
 					<fieldset>
-						<Button
+						{/* <Button
 							color="secondary"
 							variant="outlined"
 							onClick={(e) => {
@@ -98,7 +98,7 @@ const Redirect = ({ config, codeVerifier, onUser }) => {
 							}}
 						>
 							Login
-						</Button>
+						</Button> */}
 						<Button color="secondary" variant="outlined" onClick={redirect}>
 							Login with external account
 						</Button>
@@ -122,9 +122,9 @@ const Tokens = ({ oauth }) => {
 	return (
 		<div css={styles.root}>
 			Welcome {email}{" "}
-			<Link onClick={logout} color="secondary">
+			<Button onClick={logout} color="secondary" variant="outlined">
 				logout
-			</Link>
+			</Button>
 		</div>
 	);
 };
@@ -133,8 +133,10 @@ const LoadToken = function ({
 	code,
 	codeVerifier,
 	config,
+	cookies,
 	removeCookie,
-	setCookie
+	setCookie,
+	onUser
 }) {
 	const styles = useStyles(useTheme());
 	useEffect(() => {
@@ -159,7 +161,22 @@ const LoadToken = function ({
 		};
 		fetch();
 	});
-	return <div css={styles.root}>Loading tokens</div>;
+	return (
+		<Button
+			onClick={(e) => {
+				e.stopPropagation();
+				const { id_token } = cookies.oauth;
+				const id_payload = id_token.split(".")[1];
+				const { email } = JSON.parse(atob(id_payload));
+				onUser({ username: `${email}` });
+			}}
+			css={styles.root}
+			color="secondary"
+			variant="outlined"
+		>
+			Go to channel
+		</Button>
+	);
 };
 
 export default function Login({ onUser }) {
@@ -180,6 +197,7 @@ export default function Login({ onUser }) {
 		if (!cookies.oauth) {
 			const codeVerifier = base64URLEncode(crypto.randomBytes(32));
 			setCookie("code_verifier", codeVerifier);
+
 			return (
 				<Redirect
 					codeVerifier={codeVerifier}
@@ -188,18 +206,20 @@ export default function Login({ onUser }) {
 				/>
 			);
 		} else {
-			// Yes: user is already logged in, great, is is working
+			// Yes: user is already logged in, great, it is working
 			return <Tokens oauth={cookies.oauth} css={styles.root} />;
 		}
 	} else {
 		// Yes, we are coming from an oauth server
 		return (
 			<LoadToken
+				cookies={cookies}
 				code={code}
 				codeVerifier={cookies.code_verifier}
 				config={config}
 				setCookie={setCookie}
 				removeCookie={removeCookie}
+				onUser={onUser}
 			/>
 		);
 	}

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState /*useEffect*/ } from "react";
+//import axios from "axios";
 // Layout
 import { Link } from "@mui/material";
 const chann = [
@@ -20,7 +20,7 @@ const styles = {
 };
 
 export default function Channels({ onChannel }) {
-	const [channels, setChannels] = useState(chann);
+	const [channels /*setChannels*/] = useState(chann);
 	// useEffect( () => {
 	//   const fetch = async () => {
 	//     const {data: channels} = await axios.get('http://localhost:3001/channels')
