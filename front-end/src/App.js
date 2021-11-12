@@ -6,20 +6,21 @@ import Main from "./Main";
 import Login from "./Login";
 
 const styles = {
-	root: {
-		boxSizing: "border-box",
-		display: "flex",
-		flexDirection: "column",
-		backgroundColor: "#565E71",
-		padding: "50px"
-	}
+  root: {
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#565E71",
+    padding: "50px",
+    position: "sticky"
+  }
 };
 
 export default function App() {
-	const [user, setUser] = useState(null);
-	return (
-		<div className="App" css={styles.root}>
-			{user ? <Main /> : <Login onUser={setUser} />}
-		</div>
-	);
+  const [user, setUser] = useState(null);
+  return (
+    <div className="App" css={styles.root}>
+      {user ? <Main /> : <Login onUser={setUser} />}
+    </div>
+  );
 }
