@@ -14,22 +14,19 @@ import IconButton from "@mui/material/IconButton";
 // import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+//import Typography from "@mui/material/Typography";
 import Channels from "./Channels";
 import Channel from "./Channel";
 
 const drawerWidth = 240;
 
-function Main(props) {
-	const { window } = props;
+function Main({user}) {
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
 
-	const container =
-		window !== undefined ? () => window().document.body : undefined;
 	const [channel, onChannel] = React.useState({ name: "channel1", id: 1 });
 
 	const drawer = <Channels onChannel={onChannel} />;
@@ -53,9 +50,9 @@ function Main(props) {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap component="div">
-						BriceDenis Chat
-					</Typography>
+					<h1>
+						{user.username ? user.username : "BriceDenis Chat"}
+					</h1>
 				</Toolbar>
 			</AppBar>
 			<Box
@@ -65,7 +62,6 @@ function Main(props) {
 			>
 				{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
 				<Drawer
-					container={container}
 					variant="temporary"
 					open={mobileOpen}
 					onClose={handleDrawerToggle}
@@ -104,7 +100,7 @@ function Main(props) {
 					width: { sm: `calc(100% - ${drawerWidth}px)` }
 				}}
 			>
-				<Channel channel={channel} />
+				<Channel channel={channel} user={user}/>
 			</Box>
 		</Box>
 	);

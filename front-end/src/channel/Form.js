@@ -30,6 +30,7 @@ const useStyles = (theme) => {
 export default function Form({
   addMessage,
   channel,
+  user
 }) {
   const [content, setContent] = useState('')
   const styles = useStyles(useTheme())
@@ -38,7 +39,7 @@ export default function Form({
       `http://localhost:3001/channels/${channel.id}/messages`
     , {
       content: content,
-      author: 'david',
+      author: user.username,
     })
     addMessage(message)
     setContent('')
