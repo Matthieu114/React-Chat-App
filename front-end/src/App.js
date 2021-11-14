@@ -6,13 +6,14 @@ import Main from "./Main";
 import Login from "./Login";
 
 const styles = {
-	root: {
-		boxSizing: "border-box",
-		display: "flex",
-		flexDirection: "column",
-		backgroundColor: "#565E71",
-		padding: "50px"
-	}
+  root: {
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#565E71",
+    marginTop: "50px"
+    // padding: "50px"
+  }
 };
 
 export default function App() {

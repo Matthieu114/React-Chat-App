@@ -107,3 +107,4 @@ function Main({user}) {
 }
 
 export default Main;
+export { drawerWidth };
