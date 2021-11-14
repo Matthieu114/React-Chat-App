@@ -22,7 +22,6 @@ const drawerWidth = 240;
 
 function Main({user}) {
 	const [mobileOpen, setMobileOpen] = React.useState(false);
-
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
@@ -50,9 +49,9 @@ function Main({user}) {
 					>
 						<MenuIcon />
 					</IconButton>
-					<h1>
-						{user.username ? user.username : "BriceDenis Chat"}
-					</h1>
+					<h3>
+						Welcome on the BriceDenis Chat: {user.username ? user.username : "BriceDenis Chat"}
+					</h3>
 				</Toolbar>
 			</AppBar>
 			<Box

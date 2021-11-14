@@ -28,7 +28,6 @@ const styles = {
 };
 
 export default function Channels({ onChannel }) {
-<<<<<<< HEAD
 	const [channels /*setChannels*/] = useState(chann);
 	// useEffect( () => {
 	//   const fetch = async () => {
@@ -54,31 +53,4 @@ export default function Channels({ onChannel }) {
 			))}
 		</ul>
 	);
-=======
-  const [channels, setChannels] = useState(chann);
-  // useEffect( () => {
-  //   const fetch = async () => {
-  //     const {data: channels} = await axios.get('http://localhost:3001/channels')
-  //     setChannels(channels)
-  //   }
-  //   fetch()
-  // }, [])
-  return (
-    <ul style={styles.root}>
-      {channels.map((channel, i) => (
-        <li key={i} css={styles.channel}>
-          <Link
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              onChannel(channel);
-            }}
-          >
-            {channel.name}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
->>>>>>> origin/matt-develop
 }
