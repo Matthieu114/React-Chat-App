@@ -17,10 +17,10 @@ const styles = {
 };
 
 export default function App() {
-	const [user, setUser] = useState(null);
-	return (
-		<div className="App" css={styles.root}>
-			{user ? <Main user={user} /> : <Login onUser={setUser} />}
-		</div>
-	);
+  const [user, setUser] = useState(null);
+  return (
+    <div className="App" css={styles.root}>
+      {user ? <Main user={user} /> : <Login onUser={setUser} />}
+    </div>
+  );
 }
