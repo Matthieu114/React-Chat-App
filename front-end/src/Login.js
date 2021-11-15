@@ -6,8 +6,7 @@ import qs from "qs";
 import axios from "axios";
 // Layout
 import { useTheme } from "@mui/styles";
-import { Box, TextField, Button } from "@mui/material";
-import { Link } from "@mui/material";
+import { Box,TextField,Button,Link } from "@mui/material";
 
 const base64URLEncode = (str) => {
 	return str
@@ -43,7 +42,7 @@ const useStyles = (theme) => ({
 	}
 });
 
-const Redirect = ({ config, codeVerifier, onUser }) => {
+const Redirect = ({ config, codeVerifier }) => {
 	const styles = useStyles(useTheme());
 	const redirect = (e) => {
 		e.stopPropagation();
@@ -68,48 +67,45 @@ const Redirect = ({ config, codeVerifier, onUser }) => {
 			noValidate
 			autoComplete="off"
 		>
-			<div css={styles.root}>
-				<div>
-					<fieldset>
-						<TextField
-							color="secondary"
-							id="standard-required"
-							label="Username"
-							variant="standard"
-						/>
-					</fieldset>
-					<fieldset>
-						<TextField
-							color="secondary"
-							id="standard-password-input"
-							label="Password"
-							type="password"
-							autoComplete="current-password"
-							variant="standard"
-						/>
-					</fieldset>
-					<fieldset>
-						<Button
-							color="secondary"
-							variant="outlined"
-							onClick={(e) => {
-								e.stopPropagation();
-								onUser({ username: "david" });
-							}}
-						>
-							Login
-						</Button>
-						<Button color="secondary" variant="outlined" onClick={redirect}>
-							Login with external account
-						</Button>
-					</fieldset>
-				</div>
+		<div css={styles.root}>
+			<div>
+				<fieldset>
+					<TextField
+						color="secondary"
+						id="standard-required"
+						label="Username"
+						variant="standard"
+					/>
+				</fieldset>
+				<fieldset>
+					<TextField
+						color="secondary"
+						id="standard-password-input"
+						label="Password"
+						type="password"
+						autoComplete="current-password"
+						variant="standard"
+					/>
+				</fieldset>
+				<fieldset>
+					<Button
+						color="secondary"
+						variant="outlined"
+						//TO DO: on click verifier les matchs avec la db et onUser({username: usernamedb });
+					>
+						Login with db
+					</Button>
+					<Button color="secondary" variant="outlined" onClick={redirect}>
+						Login with external account
+					</Button>
+				</fieldset>
 			</div>
-		</Box>
+		</div>
+	</Box>
 	);
 };
 
-const Tokens = ({ oauth }) => {
+const Tokens = ({ oauth, onUser}) => {
 	const [, , removeCookie] = useCookies([]);
 	const styles = useStyles(useTheme());
 	const { id_token } = oauth;
@@ -119,6 +115,7 @@ const Tokens = ({ oauth }) => {
 		e.stopPropagation();
 		removeCookie("oauth");
 	};
+	onUser({username: email});
 	return (
 		<div css={styles.root}>
 			Welcome {email}{" "}
@@ -137,6 +134,7 @@ const LoadToken = function ({
 	setCookie
 }) {
 	const styles = useStyles(useTheme());
+	console.log(codeVerifier);
 	useEffect(() => {
 		const fetch = async () => {
 			try {
@@ -179,7 +177,9 @@ export default function Login({ onUser }) {
 		// No: we are no being redirected from an oauth server
 		if (!cookies.oauth) {
 			const codeVerifier = base64URLEncode(crypto.randomBytes(32));
+			console.log("initalisation of verifer:", codeVerifier);
 			setCookie("code_verifier", codeVerifier);
+			console.log("cookies.code_verifier:", cookies.code_verifier);
 			return (
 				<Redirect
 					codeVerifier={codeVerifier}
@@ -189,7 +189,7 @@ export default function Login({ onUser }) {
 			);
 		} else {
 			// Yes: user is already logged in, great, is is working
-			return <Tokens oauth={cookies.oauth} css={styles.root} />;
+			return <Tokens oauth={cookies.oauth} css={styles.root} onUser={onUser}/>;
 		}
 	} else {
 		// Yes, we are coming from an oauth server

@@ -39,7 +39,7 @@ const useStyles = (theme) => ({
   }
 });
 
-export default function Channel({ channel }) {
+export default function Channel({ channel, user }) {
   const styles = useStyles(useTheme());
   const listRef = useRef();
   const channelId = useRef();
@@ -77,7 +77,7 @@ export default function Channel({ channel }) {
         onScrollDown={onScrollDown}
         ref={listRef}
       />
-      <Form addMessage={addMessage} channel={channel} />
+      <Form addMessage={addMessage} channel={channel} user={user}/>
       <Fab
         color="primary"
         aria-label="Latest messages"
@@ -86,11 +86,6 @@ export default function Channel({ channel }) {
       >
         <ArrowDropDownIcon />
       </Fab>
-	if (condition) {
-		
-	}	else{
-
-	}
-    </div>
-  );
+	</div>
+	);
 }
