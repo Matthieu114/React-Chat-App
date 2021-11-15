@@ -31,31 +31,26 @@ const useStyles = (theme) => {
   };
 };
 
-export default function Form({
-  addMessage,
-  channel,
-  user
-}) {
-  const [content, setContent] = useState('')
-  const styles = useStyles(useTheme())
+export default function Form({ addMessage, channel, user }) {
+  const [content, setContent] = useState("");
+  const styles = useStyles(useTheme());
   const onSubmit = async () => {
-    const {data: message} = await axios.post(
-      `http://localhost:3001/channels/${channel.id}/messages`
-    , {
-      content: content,
-      author: user.username,
-    })
-    addMessage(message)
-    setContent('')
-  }
+    const { data: message } = await axios.post(
+      `http://localhost:3001/channels/${channel.id}/messages`,
+      {
+        content: content,
+        author: user.username
+      }
+    );
+    addMessage(message);
+    setContent("");
+  };
   const handleChange = (e) => {
     setContent(e.target.value);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.keyCode === 13) {
-      onSubmit();
-    }
+  const onKeyPress = ({ nativeEvent: { key: keyValue } }) => {
+    if (keyValue === "Enter") onSubmit();
   };
 
   return (
@@ -63,13 +58,13 @@ export default function Form({
       <TextField
         id="outlined-multiline-flexible"
         label="Message"
-        // multiline
-        maxRows={4}
+        multiline
+        maxRows={10000}
         value={content}
         onChange={handleChange}
-        onKeyPress={handleKeyPress}
         variant="outlined"
         css={styles.content}
+        onKeyPress={onKeyPress}
       />
       <div>
         <Button
