@@ -20,7 +20,7 @@ const useStyles = (theme) => ({
     display: "flex",
     flexDirection: "column",
     background: "rgba(0,0,0,.2)",
-    position: "absolute",
+    position: "fixed",
     bottom: "0",
     overflow: "auto"
   },
@@ -77,7 +77,7 @@ export default function Channel({ channel, user }) {
         onScrollDown={onScrollDown}
         ref={listRef}
       />
-      <Form addMessage={addMessage} channel={channel} user={user}/>
+      <Form addMessage={addMessage} channel={channel} user={user} />
       <Fab
         color="primary"
         aria-label="Latest messages"
@@ -86,6 +86,6 @@ export default function Channel({ channel, user }) {
       >
         <ArrowDropDownIcon />
       </Fab>
-	</div>
-	);
+    </div>
+  );
 }
