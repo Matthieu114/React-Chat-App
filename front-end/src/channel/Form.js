@@ -45,18 +45,27 @@ export default function Form({ addMessage, channel }) {
     addMessage(message);
     setContent("");
   };
+
   const handleChange = (e) => {
     setContent(e.target.value);
   };
+
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      onSubmit();
+    }
+  };
+
   return (
     <form css={styles.form} onSubmit={onSubmit} noValidate>
       <TextField
         id="outlined-multiline-flexible"
         label="Message"
-        multiline
+        // multiline
         maxRows={4}
         value={content}
         onChange={handleChange}
+        onKeyPress={handleKeyPress}
         variant="outlined"
         css={styles.content}
       />

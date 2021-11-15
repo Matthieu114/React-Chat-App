@@ -20,7 +20,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   return (
     <div className="App" css={styles.root}>
-      {!user ? <Main /> : <Login onUser={setUser} />}
+      {user ? <Main /> : <Login onUser={setUser} />}
     </div>
   );
 }
