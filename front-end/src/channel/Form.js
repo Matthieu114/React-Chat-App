@@ -31,21 +31,23 @@ const useStyles = (theme) => {
   };
 };
 
-export default function Form({ addMessage, channel }) {
-  const [content, setContent] = useState("");
-  const styles = useStyles(useTheme());
+export default function Form({
+  addMessage,
+  channel,
+  user
+}) {
+  const [content, setContent] = useState('')
+  const styles = useStyles(useTheme())
   const onSubmit = async () => {
-    const { data: message } = await axios.post(
-      `http://localhost:3001/channels/${channel.id}/messages`,
-      {
-        content: content,
-        author: "david"
-      }
-    );
-    addMessage(message);
-    setContent("");
-  };
-
+    const {data: message} = await axios.post(
+      `http://localhost:3001/channels/${channel.id}/messages`
+    , {
+      content: content,
+      author: user.username,
+    })
+    addMessage(message)
+    setContent('')
+  }
   const handleChange = (e) => {
     setContent(e.target.value);
   };
