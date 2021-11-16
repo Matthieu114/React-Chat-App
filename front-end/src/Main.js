@@ -94,7 +94,7 @@ function Main() {
 					width: { sm: `calc(100% - ${drawerWidth}px)` }
 				}}
 			>
-				<Channel />;
+				<Channel />
 			</Box>
 		</Box>
 	);
