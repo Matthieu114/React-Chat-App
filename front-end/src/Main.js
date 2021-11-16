@@ -1,34 +1,31 @@
 import * as React from "react";
-// import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-// import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-// import InboxIcon from "@mui/icons-material/MoveToInbox";
-// import List from "@mui/material/List";
-// import ListItem from "@mui/material/ListItem";
-// import ListItemIcon from "@mui/material/ListItemIcon";
-// import ListItemText from "@mui/material/ListItemText";
-// import MailIcon from "@mui/icons-material/Mail";
+import {
+	AppBar,
+	Box,
+	CssBaseline,
+	Drawer,
+	IconButton,
+	Toolbar
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-//import Typography from "@mui/material/Typography";
+
+//Local
 import Channels from "./Channels";
 import Channel from "./Channel";
+//Context
+import { Session } from "./SessionContext";
+import { useContext } from "react";
 
 const drawerWidth = 240;
 
-function Main({user}) {
+function Main() {
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
+	const drawer = <Channels />;
 
-	const [channel, onChannel] = React.useState({ name: "channel1", id: 1 });
-
-	const drawer = <Channels onChannel={onChannel} />;
+	const { user } = useContext(Session);
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
@@ -49,9 +46,7 @@ function Main({user}) {
 					>
 						<MenuIcon />
 					</IconButton>
-					<h3>
-						Welcome on the BriceDenis Chat: {user.username ? user.username : "BriceDenis Chat"}
-					</h3>
+					<h3>Welcome on the BriceDenis Chat: {user ? user : "Unconnected"}</h3>
 				</Toolbar>
 			</AppBar>
 			<Box
@@ -99,7 +94,7 @@ function Main({user}) {
 					width: { sm: `calc(100% - ${drawerWidth}px)` }
 				}}
 			>
-				<Channel channel={channel} user={user}/>
+				<Channel />;
 			</Box>
 		</Box>
 	);

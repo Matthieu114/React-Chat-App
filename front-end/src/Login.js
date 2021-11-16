@@ -1,12 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import crypto from "crypto";
 import qs from "qs";
 import axios from "axios";
 // Layout
 import { useTheme } from "@mui/styles";
-import { Box,TextField,Button,Link } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
+//Context
+import { Session } from "./SessionContext";
 
 const base64URLEncode = (str) => {
 	return str
@@ -67,63 +69,53 @@ const Redirect = ({ config, codeVerifier }) => {
 			noValidate
 			autoComplete="off"
 		>
-		<div css={styles.root}>
-			<div>
-				<fieldset>
-					<TextField
-						color="secondary"
-						id="standard-required"
-						label="Username"
-						variant="standard"
-					/>
-				</fieldset>
-				<fieldset>
-					<TextField
-						color="secondary"
-						id="standard-password-input"
-						label="Password"
-						type="password"
-						autoComplete="current-password"
-						variant="standard"
-					/>
-				</fieldset>
-				<fieldset>
-					<Button
-						color="secondary"
-						variant="outlined"
-						//TO DO: on click verifier les matchs avec la db et onUser({username: usernamedb });
-					>
-						Login with db
-					</Button>
-					<Button color="secondary" variant="outlined" onClick={redirect}>
-						Login with external account
-					</Button>
-				</fieldset>
+			<div css={styles.root}>
+				<div>
+					<fieldset>
+						<TextField
+							color="secondary"
+							id="standard-required"
+							label="Username"
+							variant="standard"
+						/>
+					</fieldset>
+					<fieldset>
+						<TextField
+							color="secondary"
+							id="standard-password-input"
+							label="Password"
+							type="password"
+							autoComplete="current-password"
+							variant="standard"
+						/>
+					</fieldset>
+					<fieldset>
+						<Button color="secondary" variant="outlined">
+							Login with db
+						</Button>
+						<Button color="secondary" variant="outlined" onClick={redirect}>
+							Login with external account
+						</Button>
+					</fieldset>
+				</div>
 			</div>
-		</div>
-	</Box>
+		</Box>
 	);
 };
 
-const Tokens = ({ oauth, onUser}) => {
-	const [, , removeCookie] = useCookies([]);
-	const styles = useStyles(useTheme());
+const Tokens = ({ oauth }) => {
+	//const [, , removeCookie] = useCookies([]);
 	const { id_token } = oauth;
 	const id_payload = id_token.split(".")[1];
 	const { email } = JSON.parse(atob(id_payload));
-	const logout = (e) => {
-		e.stopPropagation();
-		removeCookie("oauth");
-	};
-	onUser({username: email});
-	return (
-		<div css={styles.root}>
-			Welcome {email}{" "}
-			<Link onClick={logout} color="secondary">
-				logout
-			</Link>
-		</div>
-	);
+	// const logout = (e) => {
+	// 	e.stopPropagation();
+	// 	removeCookie("oauth");
+	// };
+	const { setUser } = useContext(Session);
+	const user = email;
+	setUser(user);
+	return null;
 };
 
 const LoadToken = function ({
@@ -160,7 +152,7 @@ const LoadToken = function ({
 	return <div css={styles.root}>Loading tokens</div>;
 };
 
-export default function Login({ onUser }) {
+export default function Login() {
 	const styles = useStyles(useTheme());
 	const [cookies, setCookie, removeCookie] = useCookies([]);
 	const config = {
@@ -189,7 +181,7 @@ export default function Login({ onUser }) {
 			);
 		} else {
 			// Yes: user is already logged in, great, is is working
-			return <Tokens oauth={cookies.oauth} css={styles.root} onUser={onUser}/>;
+			return <Tokens oauth={cookies.oauth} css={styles.root} />;
 		}
 	} else {
 		// Yes, we are coming from an oauth server

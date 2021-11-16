@@ -1,41 +1,33 @@
 /** @jsxImportSource @emotion/react */
-import { useState /*useEffect*/ } from "react";
-//import axios from "axios";
 // Layout
 import { Link } from "@mui/material";
-const chann = [
-  {
-    name: "channel1",
-    id: 1
-  },
-  {
-    name: "channel2",
-    id: 2
-  },
-  {
-    name: "channel3",
-    id: 3
-  }
-];
+import axios from "axios";
+//Context
+import { Session } from "./SessionContext";
+import { useContext, useEffect } from "react";
+
 const styles = {
-  root: {
-    minWidth: "200px"
-  },
-  channel: {
-    padding: ".2rem .5rem",
-    whiteSpace: "nowrap"
-  }
+	root: {
+		minWidth: "200px"
+	},
+	channel: {
+		padding: ".2rem .5rem",
+		whiteSpace: "nowrap"
+	}
 };
 
-export default function Channels({ onChannel }) {
-	const [channels /*setChannels*/] = useState(chann);
-	// useEffect( () => {
-	//   const fetch = async () => {
-	//     const {data: channels} = await axios.get('http://localhost:3001/channels')
-	//     setChannels(channels)
-	//   }
-	//   fetch()
-	// }, [])
+export default function Channels() {
+	const { user, setChannels, channels, setChannel } = useContext(Session);
+	useEffect(() => {
+		const fetchChannels = async () => {
+			const { data: channels } = await axios.get(
+				"http://localhost:3001/channels"
+			);
+			setChannels(channels);
+		};
+		if (user) fetchChannels();
+	}, [user, setChannels, setChannel]);
+
 	return (
 		<ul style={styles.root}>
 			{channels.map((channel, i) => (
@@ -44,7 +36,7 @@ export default function Channels({ onChannel }) {
 						href="#"
 						onClick={(e) => {
 							e.preventDefault();
-							onChannel(channel);
+							setChannel(channel);
 						}}
 					>
 						{channel.name}
