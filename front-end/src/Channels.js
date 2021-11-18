@@ -24,6 +24,10 @@ const styles = {
 		border: "2px solid #000",
 		boxShadow: 24,
 		p: 4
+	},
+	AddChannel: {
+		position: "fixed",
+		bottom: "10px"
 	}
 };
 
@@ -91,9 +95,6 @@ export default function Channels() {
 
 	return (
 		<ul style={styles.root}>
-			<li>
-				<AddChannel />
-			</li>
 			{channels.map((channel, i) => (
 				<li key={i} css={styles.channel}>
 					<Link
@@ -107,6 +108,7 @@ export default function Channels() {
 					</Link>
 				</li>
 			))}
+			<AddChannel style={styles.AddChannel} />
 		</ul>
 	);
 }

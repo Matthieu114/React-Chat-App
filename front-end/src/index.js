@@ -11,19 +11,47 @@ import { SessionProvider } from "./SessionContext";
 const theme = createTheme({
 	palette: {
 		primary: {
-			light: "#819ca9",
-			main: "#546e7a",
-			dark: "#29434e",
+			light: "#4f5b62",
+			main: "#263238",
+			dark: "#000a12",
 			contrastText: "#000"
 		},
 		secondary: {
-			light: "#ffa4a2",
-			main: "#e57373",
-			dark: "#af4448",
+			light: "#63a4ff",
+			main: "#1976d2",
+			dark: "#004ba0",
 			contrastText: "#000"
 		},
 		background: {
 			login: "#546e7a" //primary.main
+		}
+	},
+	night: {
+		primary: {
+			light: "#4f5b62",
+			main: "#263238",
+			dark: "#000a12",
+			contrastText: "#000"
+		},
+		secondary: {
+			light: "#63a4ff",
+			main: "#1976d2",
+			dark: "#004ba0",
+			contrastText: "#000"
+		}
+	},
+	day: {
+		primary: {
+			light: "#ffffff",
+			main: "#f5f5f5",
+			dark: "#000a12",
+			contrastText: "#000"
+		},
+		secondary: {
+			light: "#63a4ff",
+			main: "#1976d2",
+			dark: "#004ba0",
+			contrastText: "#000"
 		}
 	}
 });

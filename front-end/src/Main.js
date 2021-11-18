@@ -8,7 +8,6 @@ import {
 	Toolbar
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-
 //Local
 import Channels from "./Channels";
 import Channel from "./Channel";
