@@ -39,7 +39,7 @@ function Main() {
 
   const drawer = <Channels />;
 
-  const { user } = useContext(Session);
+  const { channel } = useContext(Session);
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -60,7 +60,7 @@ function Main() {
           >
             <MenuIcon />
           </IconButton>
-          <h3>Welcome on the BriceDenis Chat: {user ? user : 'Unconnected'}</h3>
+          <h3>{channel.name}</h3>
         </Toolbar>
       </AppBar>
       <Box
