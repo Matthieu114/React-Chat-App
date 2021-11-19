@@ -8,6 +8,7 @@ import {
 // Layout
 import { useTheme } from '@mui/styles';
 // Markdown
+import { drawerWidth } from '../Main';
 import { unified } from 'unified';
 import markdown from 'remark-parse';
 import remark2rehype from 'remark-rehype';
@@ -33,7 +34,7 @@ const useStyles = (theme) => ({
     position: 'relative',
     marginTop: '50px',
     flex: '1 1 auto',
-    width: '100vw',
+    width: `calc(100vw - ${drawerWidth}px)`,
     pre: {
       overflowY: 'auto'
     },

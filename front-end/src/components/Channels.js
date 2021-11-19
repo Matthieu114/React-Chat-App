@@ -4,12 +4,14 @@ import { Button, Link, Box, Typography, Modal, TextField } from '@mui/material';
 import axios from 'axios';
 //Context
 import { Session } from '../SessionContext';
+import Discussions from './Discussions';
 import { useContext, useEffect, useState } from 'react';
-import { height } from '@mui/system';
+
 
 const styles = {
   root: {
     minWidth: '200px',
+    maxWidth: '240px',
     height: '100vh'
   },
   channel: {
@@ -63,8 +65,7 @@ function AddChannel() {
         marginTop='300px'
         onClick={handleOpen}
       >
-        {' '}
-        +{' '}
+        Add Channel
       </Button>
       <Modal
         open={open}
@@ -103,21 +104,24 @@ export default function Channels() {
   }, [user, setChannels, setChannel]);
 
   return (
-    <ul style={styles.root}>
-      {channels.map((channel, i) => (
-        <li key={i} css={styles.channel}>
-          <Link
-            href='#'
-            onClick={(e) => {
-              e.preventDefault();
-              setChannel(channel);
-            }}
-          >
-            {channel.name}
-          </Link>
-        </li>
-      ))}
-      <AddChannel style={styles.AddChannel} />
-    </ul>
+    <div>
+      <Discussions />
+      <ul style={styles.root}>
+        {channels.map((channel, i) => (
+          <li key={i} css={styles.channel}>
+            <Link
+              href='#'
+              onClick={(e) => {
+                e.preventDefault();
+                setChannel(channel);
+              }}
+            >
+              {channel.name}
+            </Link>
+          </li>
+        ))}
+        <AddChannel style={styles.AddChannel} />
+      </ul>
+    </div>
   );
 }
