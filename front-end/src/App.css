@@ -1,11 +1,13 @@
 
 @import-normalize;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 
 .App {
   color: #fff;
   position: absolute;
   height: 100%;
   width: 100%;
+  font-family: 'Poppins', sans-serif;
 }
 
 ul {

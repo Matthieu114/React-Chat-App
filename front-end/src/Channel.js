@@ -1,32 +1,32 @@
 /** @jsxImportSource @emotion/react */
-import { useRef, useState, useContext } from "react";
-import axios from "axios";
+import { useRef, useState, useContext } from 'react';
+import axios from 'axios';
 // Layout
-import { useTheme } from "@mui/styles";
-import { Fab } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useTheme } from '@mui/styles';
+import { Fab } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // Local
-import Form from "./channel/Form";
-import List from "./channel/List";
-import { Session } from "./SessionContext";
+import Form from './channel/Form';
+import List from './channel/List';
+import { Session } from './SessionContext';
 //width
-import { drawerWidth } from "./Main";
+import { drawerWidth } from './Main';
 
 const useStyles = (theme) => ({
 	root: {
-		height: "100%",
-		width: `calc(100% - ${drawerWidth}px)`,
-		marginLeft: "-23px",
-		flex: "1 1 auto",
-		display: "flex",
-		flexDirection: "column",
-		background: "rgba(0,0,0,.2)",
-		position: "fixed",
-		bottom: "0",
-		overflow: "auto"
+		height: '100%',
+		width: `calc(100vw - ${drawerWidth}px)`,
+		marginLeft: '-23px',
+		flex: '1 1 auto',
+		display: 'flex',
+		flexDirection: 'column',
+		background: 'rgba(0,0,0,.2)',
+		position: 'fixed',
+		bottom: '0',
+		overflow: 'auto'
 	},
 	fab: {
-		position: "absolute !important",
+		position: 'absolute !important',
 		// position: 'fixed !important',
 		top: theme.spacing(2),
 		// width: '50px',
@@ -36,7 +36,7 @@ const useStyles = (theme) => ({
 		right: theme.spacing(2)
 	},
 	fabDisabled: {
-		display: "none !important"
+		display: 'none !important'
 	}
 });
 
@@ -80,11 +80,10 @@ export default function Channel() {
 			/>
 			<Form addMessage={addMessage} />
 			<Fab
-				color="primary"
-				aria-label="Latest messages"
+				color='primary'
+				aria-label='Latest messages'
 				css={[styles.fab, scrollDown || styles.fabDisabled]}
-				onClick={onClickScroll}
-			>
+				onClick={onClickScroll}>
 				<ArrowDropDownIcon />
 			</Fab>
 		</div>

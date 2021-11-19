@@ -4,39 +4,43 @@ import {
 	useImperativeHandle,
 	useLayoutEffect,
 	useRef
-} from "react";
+} from 'react';
 // Layout
-import { useTheme } from "@mui/styles";
+import { useTheme } from '@mui/styles';
+import { IconButton } from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 // Markdown
-import { unified } from "unified";
-import markdown from "remark-parse";
-import remark2rehype from "remark-rehype";
-import html from "rehype-stringify";
+import { unified } from 'unified';
+import markdown from 'remark-parse';
+import remark2rehype from 'remark-rehype';
+import html from 'rehype-stringify';
 // Time
-import dayjs from "dayjs";
-import calendar from "dayjs/plugin/calendar";
-import updateLocale from "dayjs/plugin/updateLocale";
+import dayjs from 'dayjs';
+import calendar from 'dayjs/plugin/calendar';
+import updateLocale from 'dayjs/plugin/updateLocale';
 //Context
-import { Session } from "../SessionContext";
-import { useContext } from "react";
+import { Session } from '../SessionContext';
+import { useContext, useState, useEffect } from 'react';
+//Local
+import Propriety from './MessageChanger';
 
 dayjs.extend(calendar);
 dayjs.extend(updateLocale);
-dayjs.updateLocale("en", {
+dayjs.updateLocale('en', {
 	calendar: {
-		sameElse: "DD/MM/YYYY hh:mm A"
+		sameElse: 'DD/MM/YYYY hh:mm A'
 	}
 });
 
 const useStyles = (theme) => ({
 	root: {
-		position: "relative",
-		marginTop: "50px",
-		flex: "1 1 auto",
+		position: 'relative',
+		marginTop: '50px',
+		flex: '1 1 auto',
 		pre: {
-			overflowY: "auto"
+			overflowY: 'auto'
 		},
-		"& ul": {
+		'& ul': {
 			margin: 0,
 			padding: 0,
 			textIndent: 0,
@@ -44,24 +48,53 @@ const useStyles = (theme) => ({
 		}
 	},
 	message: {
-		padding: ".2rem .5rem",
-		":hover": {
-			backgroundColor: "rgba(255,255,255,.05)"
+		padding: '.2rem .5rem',
+		':hover': {
+			backgroundColor: 'rgba(255,255,255,.05)'
 		}
 	},
 	fabWrapper: {
-		position: "absolute",
+		position: 'absolute',
 		right: 0,
 		top: 0,
-		width: "50px"
+		width: '50px'
 	},
 	fab: {
-		position: "fixed !important",
+		position: 'fixed !important',
 		top: 0,
-		width: "50px"
+		width: '50px'
 	}
 });
 
+const LiList = ({ message, i, value }) => {
+	const [isShown, setIsShown] = useState(false);
+	const [anchorEl, setAnchorEl] = useState(null);
+	const styles = useStyles(useTheme());
+	const open = Boolean(anchorEl);
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+		setIsShown(false);
+	};
+	return (
+		<li
+			key={i}
+			css={styles.message}
+			onMouseEnter={() => setIsShown(true)}
+			onMouseLeave={() => setIsShown(false)}>
+			<p>
+				<span>{message.author}</span>
+				{' - '}
+				<span>{dayjs().calendar(message.creation)}</span>
+				{isShown && <MoreVertIcon color='secondary' onClick={handleClick} />}
+				<Propriety anchorEl={anchorEl} open={open} handleClose={handleClose} />
+			</p>
+			<div dangerouslySetInnerHTML={{ __html: value }}></div>
+		</li>
+	);
+};
 export default forwardRef(({ onScrollDown }, ref) => {
 	const { messages } = useContext(Session);
 	const styles = useStyles(useTheme());
@@ -88,8 +121,8 @@ export default forwardRef(({ onScrollDown }, ref) => {
 			}
 		};
 		handleScroll();
-		rootNode.addEventListener("scroll", handleScroll);
-		return () => rootNode.removeEventListener("scroll", handleScroll);
+		rootNode.addEventListener('scroll', handleScroll);
+		return () => rootNode.removeEventListener('scroll', handleScroll);
 	});
 	return (
 		<div css={styles.root} ref={rootEl}>
@@ -100,16 +133,7 @@ export default forwardRef(({ onScrollDown }, ref) => {
 						.use(remark2rehype)
 						.use(html)
 						.processSync(message.content);
-					return (
-						<li key={i} css={styles.message}>
-							<p>
-								<span>{message.author}</span>
-								{" - "}
-								<span>{dayjs().calendar(message.creation)}</span>
-							</p>
-							<div dangerouslySetInnerHTML={{ __html: value }}></div>
-						</li>
-					);
+					return <LiList message={message} i={i} value={value} />;
 				})}
 			</ul>
 			<div ref={scrollEl} />

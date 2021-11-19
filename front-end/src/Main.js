@@ -8,6 +8,7 @@ import {
 	Toolbar
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+
 //Local
 import Channels from "./Channels";
 import Channel from "./Channel";
@@ -93,7 +94,7 @@ function Main() {
 					width: { sm: `calc(100% - ${drawerWidth}px)` }
 				}}
 			>
-				<Channel />
+				<Channel/>
 			</Box>
 		</Box>
 	);
