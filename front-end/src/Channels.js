@@ -35,7 +35,13 @@ function AddChannel() {
 	const [open, setOpen] = useState(false);
 	const handleClose = () => setOpen(false);
 	const handleOpen = () => setOpen(true);
-	const { setChannels } = useContext(Session);
+	const { setChannels} = useContext(Session);
+	const fetchChannels = async () => {
+		const { data: channels } = await axios.get(
+			"http://localhost:3001/channels"
+		);
+		setChannels(channels);
+	};
 	const onSubmit = async () => {
 		const { data: channels } = await axios.post(
 			`http://localhost:3001/channels`,
@@ -43,7 +49,8 @@ function AddChannel() {
 				name: document.getElementById("newChannel").value
 			}
 		);
-		setChannels(channels);
+		fetchChannels(channels);
+		handleClose();
 	};
 	return (
 		<div>
