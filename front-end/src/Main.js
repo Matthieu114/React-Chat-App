@@ -9,8 +9,8 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 //Local
-import Channels from './components/Channels';
-import Channel from './components/Channel';
+import Channels from './Channels';
+import Channel from './Channel';
 //Context
 import { Session } from './SessionContext';
 import { useContext } from 'react';

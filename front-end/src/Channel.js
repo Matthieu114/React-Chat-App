@@ -6,11 +6,11 @@ import { useTheme } from '@mui/styles';
 import { Fab } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // Local
-import Form from '../channel/Form';
-import List from '../channel/List';
-import { Session } from '../SessionContext';
+import Form from './channel/Form';
+import List from './channel/List';
+import { Session } from './SessionContext';
 //width
-import { drawerWidth } from '../Main';
+import { drawerWidth } from './Main';
 
 const useStyles = (theme) => ({
   root: {

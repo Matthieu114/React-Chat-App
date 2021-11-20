@@ -3,7 +3,7 @@
 import { Button, Link, Box, Typography, Modal, TextField } from '@mui/material';
 import axios from 'axios';
 //Context
-import { Session } from '../SessionContext';
+import { Session } from './SessionContext';
 import Discussions from './Discussions';
 import { useContext, useEffect, useState } from 'react';
 
