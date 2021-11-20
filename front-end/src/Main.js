@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+
   AppBar,
   Box,
   CssBaseline,
@@ -8,6 +9,7 @@ import {
   Toolbar
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+
 //Local
 import Channels from './Channels';
 import Channel from './Channel';
@@ -20,6 +22,7 @@ const drawerWidth = 240;
 function Main() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [minWidth, setMinWidth] = React.useState(false);
+
 
   React.useEffect(() => {
     function handleResize() {
@@ -105,6 +108,7 @@ function Main() {
       </Box>
     </Box>
   );
+
 }
 
 export default Main;

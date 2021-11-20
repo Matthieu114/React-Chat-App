@@ -13,6 +13,7 @@ import { Session } from './SessionContext';
 import { drawerWidth } from './Main';
 
 const useStyles = (theme) => ({
+
   root: {
     height: '100%',
     width: `calc(100vw - ${drawerWidth}px)`,
@@ -71,6 +72,7 @@ export default function Channel({ open }) {
     fetchMessages();
   };
 
+
   if (channelId.current !== channel.id) {
     fetchMessages();
     channelId.current = channel.id;
@@ -100,4 +102,6 @@ export default function Channel({ open }) {
       </Fab>
     </div>
   );
+
+	
 }

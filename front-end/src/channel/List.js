@@ -1,14 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import {
-  forwardRef,
-  useImperativeHandle,
-  useLayoutEffect,
-  useRef
+
+	forwardRef,
+	useImperativeHandle,
+	useLayoutEffect,
+	useRef
 } from 'react';
 // Layout
-import { useTheme } from '@mui/styles';
-// Markdown
 import { drawerWidth } from '../Main';
+import { useTheme } from '@mui/styles';
+import { IconButton } from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+// Markdown
 import { unified } from 'unified';
 import markdown from 'remark-parse';
 import remark2rehype from 'remark-rehype';
@@ -19,11 +22,15 @@ import calendar from 'dayjs/plugin/calendar';
 import updateLocale from 'dayjs/plugin/updateLocale';
 //Context
 import { Session } from '../SessionContext';
-import { useContext } from 'react';
+
+import { useContext, useState, useEffect } from 'react';
+//Local
+import Propriety from './MessageChanger';
 
 dayjs.extend(calendar);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', {
+
   calendar: {
     sameElse: 'DD/MM/YYYY hh:mm A'
   }
@@ -62,59 +69,82 @@ const useStyles = (theme) => ({
     top: 0,
     width: '50px'
   }
+
 });
 
+const LiList = ({ message, i, value }) => {
+	const [isShown, setIsShown] = useState(false);
+	const [anchorEl, setAnchorEl] = useState(null);
+	const styles = useStyles(useTheme());
+	const open = Boolean(anchorEl);
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+		setIsShown(false);
+	};
+	return (
+		<li
+			key={i}
+			css={styles.message}
+			onMouseEnter={() => setIsShown(true)}
+			onMouseLeave={() => setIsShown(false)}>
+			<p>
+				<span>{message.author}</span>
+				{' - '}
+				<span>{dayjs().calendar(message.creation)}</span>
+				{isShown && <MoreVertIcon color='secondary' onClick={handleClick} />}
+				<Propriety anchorEl={anchorEl} open={open} handleClose={handleClose} />
+			</p>
+			<div dangerouslySetInnerHTML={{ __html: value }}></div>
+		</li>
+	);
+};
 export default forwardRef(({ onScrollDown }, ref) => {
-  const { messages } = useContext(Session);
-  const styles = useStyles(useTheme());
-  // Expose the `scroll` action
-  useImperativeHandle(ref, () => ({
-    scroll: scroll
-  }));
-  const rootEl = useRef(null);
-  const scrollEl = useRef(null);
-  const scroll = () => {
-    scrollEl.current.scrollIntoView();
-  };
-  // See https://dev.to/n8tb1t/tracking-scroll-position-with-react-hooks-3bbj
-  const throttleTimeout = useRef(null); // react-hooks/exhaustive-deps
-  useLayoutEffect(() => {
-    const rootNode = rootEl.current; // react-hooks/exhaustive-deps
-    const handleScroll = () => {
-      if (throttleTimeout.current === null) {
-        throttleTimeout.current = setTimeout(() => {
-          throttleTimeout.current = null;
-          const { scrollTop, offsetHeight, scrollHeight } = rootNode; // react-hooks/exhaustive-deps
-          onScrollDown(scrollTop + offsetHeight < scrollHeight);
-        }, 200);
-      }
-    };
-    handleScroll();
-    rootNode.addEventListener('scroll', handleScroll);
-    return () => rootNode.removeEventListener('scroll', handleScroll);
-  });
-  return (
-    <div css={styles.root} ref={rootEl}>
-      <ul>
-        {messages.map((message, i) => {
-          const { value } = unified()
-            .use(markdown)
-            .use(remark2rehype)
-            .use(html)
-            .processSync(message.content);
-          return (
-            <li key={i} css={styles.message}>
-              <p>
-                <span>{message.author}</span>
-                {' - '}
-                <span>{dayjs().calendar(message.creation)}</span>
-              </p>
-              <div dangerouslySetInnerHTML={{ __html: value }}></div>
-            </li>
-          );
-        })}
-      </ul>
-      <div ref={scrollEl} />
-    </div>
-  );
+
+	const { messages } = useContext(Session);
+	const styles = useStyles(useTheme());
+	// Expose the `scroll` action
+	useImperativeHandle(ref, () => ({
+		scroll: scroll
+	}));
+	const rootEl = useRef(null);
+	const scrollEl = useRef(null);
+	const scroll = () => {
+		scrollEl.current.scrollIntoView();
+	};
+	// See https://dev.to/n8tb1t/tracking-scroll-position-with-react-hooks-3bbj
+	const throttleTimeout = useRef(null); // react-hooks/exhaustive-deps
+	useLayoutEffect(() => {
+		const rootNode = rootEl.current; // react-hooks/exhaustive-deps
+		const handleScroll = () => {
+			if (throttleTimeout.current === null) {
+				throttleTimeout.current = setTimeout(() => {
+					throttleTimeout.current = null;
+					const { scrollTop, offsetHeight, scrollHeight } = rootNode; // react-hooks/exhaustive-deps
+					onScrollDown(scrollTop + offsetHeight < scrollHeight);
+				}, 200);
+			}
+		};
+		handleScroll();
+		rootNode.addEventListener('scroll', handleScroll);
+		return () => rootNode.removeEventListener('scroll', handleScroll);
+	});
+	return (
+		<div css={styles.root} ref={rootEl}>
+			<ul>
+				{messages.map((message, i) => {
+					const { value } = unified()
+						.use(markdown)
+						.use(remark2rehype)
+						.use(html)
+						.processSync(message.content);
+					return <LiList message={message} i={i} value={value} />;
+				})}
+			</ul>
+			<div ref={scrollEl} />
+		</div>
+	);
+
 });
