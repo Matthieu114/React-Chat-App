@@ -1,4 +1,3 @@
-
 /** @jsxImportSource @emotion/react */
 import { useContext } from 'react';
 // Layout
@@ -10,58 +9,54 @@ import Context from './Context';
 const useStyles = (theme) => ({
   header: {
     padding: theme.spacing(1),
-    backgroundColor: 'rgba(255,255,255,.3)',
-    flexShrink: 0,
+    backgroundColor: 'black',
+    flexShrink: 0
   },
   headerLogIn: {
-    backgroundColor: 'red',
+    backgroundColor: 'red'
   },
   headerLogOut: {
-    backgroundColor: 'blue',
+    backgroundColor: 'blue'
   },
   menu: {
     [theme.breakpoints.up('sm')]: {
-      display: 'none !important',
-    },
+      display: 'none !important'
+    }
   }
-})
+});
 
-export default function Header({
-  drawerToggleListener
-}) {
-  const styles = useStyles(useTheme())
-  const {
-    oauth, setOauth,
-    drawerVisible, setDrawerVisible
-  } = useContext(Context)
+export default function Header({ channel, drawerToggleListener }) {
+  const styles = useStyles(useTheme());
+  const { oauth, setOauth, drawerVisible, setDrawerVisible } =
+    useContext(Context);
   const drawerToggle = (e) => {
-    setDrawerVisible(!drawerVisible)
-  }
+    setDrawerVisible(!drawerVisible);
+  };
   const onClickLogout = (e) => {
-    e.stopPropagation()
-    setOauth(null)
-  }
+    e.stopPropagation();
+    setOauth(null);
+  };
   return (
     <header css={styles.header}>
       <IconButton
-        color="inherit"
-        aria-label="open drawer"
+        color='inherit'
+        aria-label='open drawer'
         onClick={drawerToggle}
         css={styles.menu}
       >
         <MenuIcon />
       </IconButton>
-      Header
-      {
-        oauth ?
-          <span>
-            {oauth.email}
-            <Link onClick={onClickLogout}>logout</Link>
-          </span>
-        :
-          <span>new user</span>
-      }
-      
+      <h3>{channel.name}</h3>
+      {oauth ? (
+        <span>
+          {oauth.email}
+          {/* <Link onClick={onClickLogout} sx={{ float: 'right' }}>
+            logout
+          </Link> */}
+        </span>
+      ) : (
+        <span>new user</span>
+      )}
     </header>
   );
 }

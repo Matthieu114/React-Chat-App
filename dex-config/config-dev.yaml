@@ -48,7 +48,8 @@ storage:
 # Configuration for the HTTP endpoints.
 web:
   http: 0.0.0.0:5556
-  allowedOrigins: ['*']
+  allowedOrigins:
+    ['*']
     # Uncomment for HTTPS options.
     # https: 127.0.0.1:5554
     # tlsCert: /etc/dex/tls.crt
