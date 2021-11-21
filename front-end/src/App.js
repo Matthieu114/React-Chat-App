@@ -1,28 +1,59 @@
+
 /** @jsxImportSource @emotion/react */
-import { useContext } from "react";
-import "./App.css";
+import { useContext, useState } from 'react'
 // Local
-import Main from "./Main";
-import Login from "./Login";
-import { Session } from "./SessionContext";
+import Oups from './Oups'
+import Footer from './Footer'
+import Header from './Header'
+import Main from './Main'
+import Login from './Login'
+import Context from './Context'
+// Rooter
+import {
+  Route,
+  Routes,
+  Navigate,
+  useLocation
+} from "react-router-dom"
 
 const styles = {
-	root: {
-		boxSizing: "border-box",
-		display: "flex",
-		flexDirection: "column",
-		backgroundColor: "#565E71",
-		marginTop: "50px"
-		// padding: "50px"
-	}
-};
+  root: {
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#565E71',
+    padding: '50px',
+  },
+}
 
 export default function App() {
-	const { user } = useContext(Session);
-
-	return (
-		<div className="App" css={styles.root}>
-			{user ? <Main /> : <Login />}
-		</div>
-	);
+  const location = useLocation()
+  const {oauth} = useContext(Context)
+  const [drawerMobileVisible, setDrawerMobileVisible] = useState(false)
+  const drawerToggleListener = () => {
+    setDrawerMobileVisible(!drawerMobileVisible)
+  }
+  const gochannels = (<Navigate
+    to={{
+      pathname: "/channels",
+      state: { from: location }
+    }}
+  />)
+  const gohome = (<Navigate
+    to={{
+      pathname: "/",
+      state: { from: location }
+    }}
+  />)
+  return (
+    <div className="App" css={styles.root}>
+      <Header drawerToggleListener={drawerToggleListener}/>
+      <Routes>
+        <Route exact path="/" element={oauth ? (gochannels) : (<Login />)}/>
+        <Route path="/channels/*" element={oauth ? (<Main />) : (gohome)}/>
+        <Route path="/Oups" element={<Oups />} />
+      </Routes>
+      <Footer />
+    </div>
+  );
 }

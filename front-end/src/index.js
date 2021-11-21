@@ -1,68 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { CookiesProvider } from 'react-cookie';
 import './index.css';
 import App from './App';
-import 'typeface-roboto';
+import { Provider as ContextProvider } from './Context';
+import * as serviceWorker from './serviceWorker';
+import 'typeface-roboto'
 // Layout
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-//Session context
-import { SessionProvider } from './SessionContext';
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
 
 const theme = createTheme({
-	palette: {
-		primary: {
-			light: '#63a4ff',
-			main: '#1976d2',
-			dark: '#004ba0',
-			contrastText: '#000'
-		},
-		secondary: {
-			light: '#4f5b62',
-			main: '#263238',
-			dark: '#000a12',
-			contrastText: '#000'
-		},
-		background: {
-			login: '#546e7a' //primary.main
-		}
-	},
-	night: {
-		primary: {
-			light: '#4f5b62',
-			main: '#263238',
-			dark: '#000a12',
-			contrastText: '#000'
-		},
-		secondary: {
-			light: '#63a4ff',
-			main: '#1976d2',
-			dark: '#004ba0',
-			contrastText: '#000'
-		}
-	},
-	day: {
-		primary: {
-			light: '#ffffff',
-			main: '#f5f5f5',
-			dark: '#000a12',
-			contrastText: '#000'
-		},
-		secondary: {
-			light: '#63a4ff',
-			main: '#1976d2',
-			dark: '#004ba0',
-			contrastText: '#000'
-		}
-	}
+  palette: {
+    mode: 'dark',
+  }
 });
 
 ReactDOM.render(
-	<React.StrictMode>
-		<SessionProvider>
-			<ThemeProvider theme={theme}>
-				<App />
-			</ThemeProvider>
-		</SessionProvider>
-	</React.StrictMode>,
-	document.getElementById('root')
+  <React.StrictMode>
+    <ContextProvider>
+      <CookiesProvider>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <App />
+          </Router>
+        </ThemeProvider>
+      </CookiesProvider>
+    </ContextProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();

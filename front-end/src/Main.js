@@ -1,103 +1,66 @@
-import * as React from "react";
+
+/** @jsxImportSource @emotion/react */
+import {useContext} from 'react'
+// Layout
+import { useTheme } from '@mui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { Drawer } from '@mui/material';
+// Local
+import Context from './Context'
+import Channels from './Channels'
+import Channel from './Channel'
+import Welcome from './Welcome'
 import {
-	AppBar,
-	Box,
-	CssBaseline,
-	Drawer,
-	IconButton,
-	Toolbar
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-//Local
-import Channels from "./Channels";
-import Channel from "./Channel";
-//Context
-import { Session } from "./SessionContext";
-import { useContext } from "react";
+  Route,
+  Routes,
+} from 'react-router-dom'
 
-const drawerWidth = 240;
+const useStyles = (theme) => ({
+  root: {
+    backgroundColor: '#373B44',
+    overflow: 'hidden',
+    flex: '1 1 auto',
+    display: 'flex',
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  drawer: {
+    width: '200px',
+    display: 'none',
+  },
+  drawerVisible: {
+    display: 'block',
+  },
+})
 
-function Main() {
-	const [mobileOpen, setMobileOpen] = React.useState(false);
-	const handleDrawerToggle = () => {
-		setMobileOpen(!mobileOpen);
-	};
-	const drawer = <Channels />;
-
-	const { user } = useContext(Session);
-	return (
-		<Box sx={{ display: "flex" }}>
-			<CssBaseline />
-			<AppBar
-				position="fixed"
-				sx={{
-					width: { sm: `calc(100% - ${drawerWidth}px)` },
-					ml: { sm: `${drawerWidth}px` }
-				}}
-			>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						edge="start"
-						onClick={handleDrawerToggle}
-						sx={{ mr: 2, display: { sm: "none" } }}
-					>
-						<MenuIcon />
-					</IconButton>
-					<h3>Welcome on the BriceDenis Chat: {user ? user : "Unconnected"}</h3>
-				</Toolbar>
-			</AppBar>
-			<Box
-				component="nav"
-				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-				aria-label="mailbox folders"
-			>
-				{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-				<Drawer
-					variant="temporary"
-					open={mobileOpen}
-					onClose={handleDrawerToggle}
-					ModalProps={{
-						keepMounted: true // Better open performance on mobile.
-					}}
-					sx={{
-						display: { xs: "block", sm: "none" },
-						"& .MuiDrawer-paper": {
-							boxSizing: "border-box",
-							width: drawerWidth
-						}
-					}}
-				>
-					{drawer}
-				</Drawer>
-				<Drawer
-					variant="permanent"
-					sx={{
-						display: { xs: "none", sm: "block" },
-						"& .MuiDrawer-paper": {
-							boxSizing: "border-box",
-							width: drawerWidth
-						}
-					}}
-					open
-				>
-					{drawer}
-				</Drawer>
-			</Box>
-			<Box
-				component="main"
-				sx={{
-					flexGrow: 1,
-					p: 3,
-					width: { sm: `calc(100% - ${drawerWidth}px)` }
-				}}
-			>
-				<Channel />
-			</Box>
-		</Box>
-	);
+export default function Main() {
+  const {
+    // currentChannel, not yet used
+    drawerVisible,
+  } = useContext(Context)
+  
+  const theme = useTheme()
+  const styles = useStyles(theme)
+  const alwaysOpen = useMediaQuery(theme.breakpoints.up('sm'))
+  const isDrawerVisible = alwaysOpen || drawerVisible
+  return (
+    <main css={styles.root}>
+      <Drawer
+        PaperProps={{ style: { position: 'relative' } }}
+        BackdropProps={{ style: { position: 'relative' } }}
+        ModalProps={{
+          style: { position: 'relative' }
+        }}
+        variant="persistent"
+        open={isDrawerVisible}
+        css={[styles.drawer, isDrawerVisible && styles.drawerVisible]}
+      >
+        <Channels />
+      </Drawer>
+      <Routes>
+        <Route path=":id" element={<Channel />}/>
+        <Route path="*" element={<Welcome />}/>
+      </Routes>
+    </main>
+  );
 }
-
-export default Main;
-export { drawerWidth };

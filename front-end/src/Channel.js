@@ -1,92 +1,93 @@
+
 /** @jsxImportSource @emotion/react */
-import { useRef, useState, useContext } from "react";
-import axios from "axios";
+import {useContext, useRef, useState, useEffect} from 'react';
+import axios from 'axios';
 // Layout
-import { useTheme } from "@mui/styles";
-import { Fab } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useTheme } from '@mui/styles';
+import {Fab} from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // Local
-import Form from "./channel/Form";
-import List from "./channel/List";
-import { Session } from "./SessionContext";
-//width
-import { drawerWidth } from "./Main";
+import Form from './channel/Form'
+import List from './channel/List'
+import Context from './Context'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const useStyles = (theme) => ({
-	root: {
-		height: "100%",
-		width: `calc(100% - ${drawerWidth}px)`,
-		marginLeft: "-23px",
-		flex: "1 1 auto",
-		display: "flex",
-		flexDirection: "column",
-		background: "rgba(0,0,0,.2)",
-		position: "fixed",
-		bottom: "0",
-		overflow: "auto"
-	},
-	fab: {
-		position: "absolute !important",
-		// position: 'fixed !important',
-		top: theme.spacing(2),
-		// width: '50px',
-		// bottom: '0',
-		// marginLeft: '100%',
-		// bottom: theme.spacing(2),
-		right: theme.spacing(2)
-	},
-	fabDisabled: {
-		display: "none !important"
-	}
-});
+  root: {
+    height: '100%',
+    flex: '1 1 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    overflowX: 'auto',
+  },
+  fab: {
+    position: 'absolute !important',
+    top: theme.spacing(2),
+    right: theme.spacing(2),
+  },
+  fabDisabled: {
+    display: 'none !important',
+  }
+})
 
 export default function Channel() {
-	const styles = useStyles(useTheme());
-	const listRef = useRef();
-	const channelId = useRef();
-	const [scrollDown, setScrollDown] = useState(false);
-
-	const { messages, setMessages, channel } = useContext(Session);
-
-	const fetchMessages = async () => {
-		const { data: messages } = await axios.get(
-			`http://localhost:3001/channels/${channel.id}/messages`
-		);
-		setMessages(messages);
-		if (listRef.current) listRef.current.scroll();
-	};
-
-	const addMessage = (message) => {
-		fetchMessages();
-	};
-
-	if (channelId.current !== channel.id) {
-		fetchMessages();
-		channelId.current = channel.id;
-	}
-	const onScrollDown = (scrollDown) => {
-		setScrollDown(scrollDown);
-	};
-	const onClickScroll = () => {
-		listRef.current.scroll();
-	};
-	return (
-		<div css={styles.root}>
-			<List
-				channel={channel}
-				messages={messages}
-				onScrollDown={onScrollDown}
-				ref={listRef}
-			/>
-			<Form addMessage={addMessage} />
-			<Fab
-				color="primary"
-				aria-label="Latest messages"
-				css={[styles.fab, scrollDown || styles.fabDisabled]}
-				onClick={onClickScroll}
-			>
-				<ArrowDropDownIcon />
-			</Fab>
-		</div>
-	);
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const {channels, oauth} = useContext(Context)
+  const channel = channels.find( channel => channel.id === id)
+  const styles = useStyles(useTheme())
+  const listRef = useRef()
+  const [messages, setMessages] = useState([])
+  const [scrollDown, setScrollDown] = useState(false)
+  const addMessage = (message) => {
+    setMessages([...messages, message])
+  }
+  useEffect( () => {
+    const fetch = async () => {
+      try{
+        const {data: messages} = await axios.get(`http://localhost:3001/channels/${id}/messages`, {
+          headers: {
+            // TODO: secure the request
+          }
+        })
+        setMessages(messages)
+        if(listRef.current){
+          listRef.current.scroll()
+        }
+      }catch(err){
+        navigate('/oups')
+      }
+    }
+    fetch()
+  }, [id, oauth, navigate])
+  const onScrollDown = (scrollDown) => {
+    setScrollDown(scrollDown)
+  }
+  const onClickScroll = () => {
+    listRef.current.scroll()
+  }
+  // On refresh, context.channel is not yet initialized
+  if(!channel){
+    return (<div>loading</div>)
+  }
+  return (
+    <div css={styles.root}>
+      <List
+        channel={channel}
+        messages={messages}
+        onScrollDown={onScrollDown}
+        ref={listRef}
+      />
+      <Form addMessage={addMessage} channel={channel} />
+      <Fab
+        color="primary"
+        aria-label="Latest messages"
+        css={[styles.fab, scrollDown || styles.fabDisabled]}
+        onClick={onClickScroll}
+      >
+        <ArrowDropDownIcon />
+      </Fab>
+    </div>
+  );
 }
