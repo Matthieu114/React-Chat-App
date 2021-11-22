@@ -1,9 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 // Local
 import Oups from './Oups';
-import Footer from './Footer';
-import Header from './Header';
 import Main from './Main';
 import Login from './Login';
 import Context from './Context';

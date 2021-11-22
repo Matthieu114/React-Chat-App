@@ -2,7 +2,6 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 // Layout
-import { Link as RouterLink } from 'react-router-dom';
 import { Link, IconButton } from '@mui/material';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 // Local
@@ -33,8 +32,6 @@ const styles = {
 
 const ChannelComponent = ({ i, channel, deleteChannel }) => {
   const [isShown, setIsShown] = useState(false);
-  const { oauth, channels, setChannels, currentChannel, setCurrentChannel } =
-    useContext(Context);
   const navigate = useNavigate();
   return (
     <li
@@ -42,7 +39,6 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
       css={styles.channel}
       onMouseEnter={(e) => {
         setIsShown(true);
-        setCurrentChannel(channel);
       }}
       onMouseLeave={(e) => setIsShown(false)}
       onClick={(e) => {
@@ -82,6 +78,7 @@ export default function Channels() {
             }
           }
         );
+
         setChannels(channels);
       } catch (err) {
         console.error(err);
