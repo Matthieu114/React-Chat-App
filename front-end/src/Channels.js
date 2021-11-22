@@ -55,6 +55,36 @@ export default function Channels() {
     fetch();
   }, [oauth, setChannels]);
 
+  const fetchChannels = async () => {
+    const { data: channels } = await axios.get(
+      'http://localhost:3001/channels',
+      {
+        headers: {
+          Authorization: `Bearer ${oauth.access_token}`
+        }
+      }
+    );
+    setChannels(channels);
+  };
+
+  const deleteChannel = async (channel) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${oauth.access_token}`
+      },
+      params: {
+        name: channel.name,
+        id: channel.id
+      }
+    };
+    const { data: channels } = await axios.delete(
+      `http://localhost:3001/channels/${channel.id}`,
+      { config }
+    );
+
+    fetchChannels(channels);
+  };
+
   return (
     <div css={styles.root}>
       <Discussions />
@@ -88,6 +118,7 @@ export default function Channels() {
               <IconButton
                 style={{ float: 'right', margin: '-15px' }}
                 color='info'
+                onClick={() => deleteChannel(channel)}
               >
                 <RemoveOutlinedIcon />
               </IconButton>

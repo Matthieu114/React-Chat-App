@@ -10,7 +10,9 @@ const useStyles = (theme) => ({
   header: {
     padding: theme.spacing(1),
     backgroundColor: 'black',
-    flexShrink: 0
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center'
   },
   headerLogIn: {
     backgroundColor: 'red'
@@ -50,9 +52,12 @@ export default function Header({ channel, drawerToggleListener }) {
       {oauth ? (
         <span>
           {oauth.email}
-          {/* <Link onClick={onClickLogout} sx={{ float: 'right' }}>
+          <Link
+            onClick={onClickLogout}
+            sx={{ color: 'white', justifyContent: 'right' }}
+          >
             logout
-          </Link> */}
+          </Link>
         </span>
       ) : (
         <span>new user</span>
