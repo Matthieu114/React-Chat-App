@@ -41,14 +41,14 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
         setIsShown(true);
       }}
       onMouseLeave={(e) => setIsShown(false)}
-      onClick={(e) => {
-        e.preventDefault();
-        navigate(`/channels/${channel.id}`);
-      }}
     >
       <Link
         sx={{ textDecoration: 'none', color: 'black' }}
         href={`/channels/${channel.id}`}
+        onClick={(e) => {
+          e.preventDefault();
+          navigate(`/channels/${channel.id}`);
+        }}
       >
         {channel.name}
       </Link>
@@ -66,7 +66,8 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
 };
 
 export default function Channels() {
-  const { oauth, channels, setChannels } = useContext(Context);
+  const { oauth, channels, setChannels, setCurrentChannel } =
+    useContext(Context);
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -99,6 +100,15 @@ export default function Channels() {
     setChannels(channels);
   };
 
+  const removeChannel = (channel) => {
+    const arr = channels.filter(function (item) {
+      return item.id !== channel.id;
+    });
+
+    setChannels(arr);
+    setCurrentChannel({});
+  };
+
   const deleteChannel = async (channel) => {
     const config = {
       headers: {
@@ -109,11 +119,13 @@ export default function Channels() {
         id: channel.id
       }
     };
+
     const { data: channels } = await axios.delete(
       `http://localhost:3001/channels/${channel.id}`,
       { config }
     );
 
+    removeChannel(channel);
     fetchChannels(channels);
   };
 

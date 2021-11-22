@@ -70,8 +70,8 @@ export default function Channel() {
         navigate('/oups');
       }
     };
+    // return () => (mounted = false);
     fetch();
-    // mounted = false;
   }, [id, oauth, navigate]);
 
   const onScrollDown = (scrollDown) => {
