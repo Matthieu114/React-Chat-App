@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import SearchBar from './SearchBar';
+import AddChannel from './channel/AddChannel.js';
 
 const styles = {
   root: {
@@ -13,14 +14,18 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: '-5px',
-    color: 'black'
+    color: 'black',
+    clear: 'both'
   }
 };
 
 const Discussions = () => {
   return (
     <div css={styles.root}>
-      <h1 css={styles.text}>Discussions</h1>
+      <h1 css={styles.text}>
+        Discussions <AddChannel />
+      </h1>
+
       <SearchBar />
     </div>
   );

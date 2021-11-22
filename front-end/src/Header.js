@@ -51,7 +51,6 @@ export default function Header({ channel, drawerToggleListener }) {
       <h3>{channel.name}</h3>
       {oauth ? (
         <span>
-          {oauth.email}
           <Link
             onClick={onClickLogout}
             sx={{ color: 'white', justifyContent: 'right' }}

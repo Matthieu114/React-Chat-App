@@ -51,7 +51,6 @@ export default function SearchBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <AddChannel />
         </Toolbar>
       </AppBar>
     </Box>

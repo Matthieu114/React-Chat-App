@@ -31,11 +31,46 @@ const styles = {
   }
 };
 
+const ChannelComponent = ({ i, channel, deleteChannel }) => {
+  const [isShown, setIsShown] = useState(false);
+  const { oauth, channels, setChannels, currentChannel, setCurrentChannel } =
+    useContext(Context);
+  const navigate = useNavigate();
+  return (
+    <li
+      key={i}
+      css={styles.channel}
+      onMouseEnter={(e) => {
+        setIsShown(true);
+        setCurrentChannel(channel);
+      }}
+      onMouseLeave={(e) => setIsShown(false)}
+      onClick={(e) => {
+        e.preventDefault();
+        navigate(`/channels/${channel.id}`);
+      }}
+    >
+      <Link
+        sx={{ textDecoration: 'none', color: 'black' }}
+        href={`/channels/${channel.id}`}
+      >
+        {channel.name}
+      </Link>
+      {isShown && (
+        <IconButton
+          style={{ float: 'right', margin: '-15px' }}
+          color='info'
+          onClick={() => deleteChannel(channel)}
+        >
+          <RemoveOutlinedIcon />
+        </IconButton>
+      )}
+    </li>
+  );
+};
+
 export default function Channels() {
   const { oauth, channels, setChannels } = useContext(Context);
-  const [isShown, setIsShown] = useState(false);
-  const [currentChannel, setCurrentChannel] = useState('');
-  const navigate = useNavigate();
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -72,7 +107,7 @@ export default function Channels() {
       headers: {
         Authorization: `Bearer ${oauth.access_token}`
       },
-      params: {
+      data: {
         name: channel.name,
         id: channel.id
       }
@@ -95,35 +130,11 @@ export default function Channels() {
           </Link>
         </li> */}
         {channels.map((channel, i) => (
-          <li
-            key={i}
-            css={styles.channel}
-            onMouseEnter={(e) => {
-              setIsShown(true);
-              setCurrentChannel(e.target.innerText);
-            }}
-            onMouseLeave={(e) => setIsShown(false)}
-            onClick={(e) => {
-              e.preventDefault();
-              navigate(`/channels/${channel.id}`);
-            }}
-          >
-            <Link
-              sx={{ textDecoration: 'none', color: 'black' }}
-              href={`/channels/${channel.id}`}
-            >
-              {channel.name}
-            </Link>
-            {currentChannel === channel.name.trim() && isShown && (
-              <IconButton
-                style={{ float: 'right', margin: '-15px' }}
-                color='info'
-                onClick={() => deleteChannel(channel)}
-              >
-                <RemoveOutlinedIcon />
-              </IconButton>
-            )}
-          </li>
+          <ChannelComponent
+            i={i}
+            channel={channel}
+            deleteChannel={deleteChannel}
+          />
         ))}
       </ul>
     </div>
