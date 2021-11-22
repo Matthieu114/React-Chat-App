@@ -86,6 +86,10 @@ module.exports = {
 						resolve(messages);
 					});
 			});
+		},
+		delete: async (channelId) => {
+			if (!channelId) throw Error('invalid message');
+			await db.del(`messages:${channelId}`);
 		}
 	},
 	users: {
