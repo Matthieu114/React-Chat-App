@@ -34,8 +34,8 @@ app.get('/channels/:id', async (req, res) => {
 });
 
 app.put('/channels/:id', async (req, res) => {
-	const channel = await db.channels.update(req.body);
-	res.json(channel);
+  const channel = await db.channels.update(req.params.id, req.body);
+  res.json(channel);
 });
 
 app.delete('/channels/:id', async (req, res) => {
