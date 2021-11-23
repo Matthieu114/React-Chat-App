@@ -38,11 +38,13 @@ module.exports = {
           });
       });
     },
-    update: (id, channel) => {
+    update: async (id, channel) => {
       if (!id) throw Error('invalid Id');
-      const original = store.channels[id];
-      if (!original) throw Error('Unregistered channel id');
-      store.channels[id] = merge(original, channel);
+      if (!channel.name) {
+        throw Error('Invalid Channel: ' + channel);
+      }
+
+      await db.put(`channels:${id}`, JSON.stringify(channel));
     },
     delete: async (id) => {
       if (!id) throw Error('invalid Id');

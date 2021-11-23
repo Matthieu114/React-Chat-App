@@ -5,16 +5,26 @@ import './index.css';
 import App from './App';
 import { Provider as ContextProvider } from './Context';
 import * as serviceWorker from './serviceWorker';
-import 'typeface-roboto'
+import 'typeface-roboto';
 // Layout
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {
-  BrowserRouter as Router,
-} from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    //mode: 'dark',
+    primary: {
+      light: '#6d6d6d',
+      main: '#1b1b1b', //424242
+      dark: '#1b1b1b',
+      contrastText: '#000'
+    },
+    secondary: {
+      light: '#ffff5a',
+      main: '#ffff00',
+      dark: '#c7cc00',
+      contrastText: '#000'
+    }
   }
 });
 

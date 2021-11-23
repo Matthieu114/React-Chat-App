@@ -4,12 +4,12 @@ import axios from 'axios';
 // Layout
 import { Link } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ModifyChannelModal from './channel/ModifyChannelModal';
 
 // Local
 import Context from './Context';
 import { useNavigate } from 'react-router-dom';
 import Discussions from './Discussions';
-import ChannelEdit from './ChannelEdit';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
@@ -69,9 +69,6 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
       <Link
         sx={{ textDecoration: 'none', color: 'black' }}
         href={`/channels/${channel.id}`}
-        // onClick={() => {
-        //   navigate(`/channels/${channel.id}`);
-        // }}
       >
         {channel.name}
       </Link>
@@ -97,11 +94,10 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
       >
         <MenuItem
           onClick={() => {
-            handleClose();
             canClick = false;
           }}
         >
-          Modify
+          <ModifyChannelModal channel={channel} handleClose={handleClose} />
         </MenuItem>
         <MenuItem
           style={{ float: 'right' }}
