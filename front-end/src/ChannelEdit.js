@@ -2,16 +2,23 @@
 import { useTheme } from '@mui/styles';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 
 const useStyles = (theme) => ({
   root: {
-    width: '20px'
+    width: 'max-content'
   }
 });
 
-const MessageChanger = ({ anchorEl, open, handleClose }) => {
+const ChannelEdit = ({
+  anchorEl,
+  open,
+  handleClose,
+  channel,
+  deleteChannel,
+  canClick
+}) => {
   const styles = useStyles(useTheme());
-
   return (
     <div css={styles}>
       <Menu
@@ -23,17 +30,29 @@ const MessageChanger = ({ anchorEl, open, handleClose }) => {
           'aria-labelledby': 'basic-button'
         }}
       >
-        <MenuItem onClick={handleClose}>Modify</MenuItem>
         <MenuItem
-          onClick={function (event) {
+          onClick={() => {
             handleClose();
+            canClick = false;
           }}
         >
-          Delete
+          Modify
+        </MenuItem>
+        <MenuItem
+          style={{ float: 'right' }}
+          color='info'
+          onClick={(e) => {
+            handleClose();
+            e.preventDefault();
+            deleteChannel(channel);
+          }}
+        >
+          Delete Channel <RemoveOutlinedIcon />
         </MenuItem>
       </Menu>
     </div>
   );
 };
 
-export default MessageChanger;
+
+export default ChannelEdit;
