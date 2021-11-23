@@ -19,7 +19,8 @@ import dayjs from 'dayjs';
 import calendar from 'dayjs/plugin/calendar';
 import updateLocale from 'dayjs/plugin/updateLocale';
 //local
-import Propriety from './MessageChanger';
+import MessageChanger from './MessageChanger';
+
 dayjs.extend(calendar);
 dayjs.extend(updateLocale);
 dayjs.updateLocale('en', {
@@ -89,7 +90,11 @@ const LiList = ({ message, i, value }) => {
             style={{ margin: '-10px 0px' }}
           />
         )}
-        <Propriety anchorEl={anchorEl} open={open} handleClose={handleClose} />
+        <MessageChanger
+          anchorEl={anchorEl}
+          open={open}
+          handleClose={handleClose}
+        />
       </p>
       <div dangerouslySetInnerHTML={{ __html: value }}></div>
     </li>

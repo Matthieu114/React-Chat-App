@@ -2,12 +2,17 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 // Layout
-import { Link, IconButton } from '@mui/material';
-import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import { Link } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 // Local
 import Context from './Context';
 import { useNavigate } from 'react-router-dom';
 import Discussions from './Discussions';
+import ChannelEdit from './ChannelEdit';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 
 const styles = {
   root: {
@@ -32,8 +37,19 @@ const styles = {
 
 const ChannelComponent = ({ i, channel, deleteChannel }) => {
   const [isShown, setIsShown] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const navigate = useNavigate();
   let canClick = true;
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setIsShown(false);
+  };
 
   return (
     <li
@@ -45,7 +61,7 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
       onMouseLeave={(e) => setIsShown(false)}
       onClick={(e) => {
         e.preventDefault();
-        canClick == true
+        canClick === true
           ? navigate(`/channels/${channel.id}`)
           : (canClick = false);
       }}
@@ -53,22 +69,53 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
       <Link
         sx={{ textDecoration: 'none', color: 'black' }}
         href={`/channels/${channel.id}`}
+        // onClick={() => {
+        //   navigate(`/channels/${channel.id}`);
+        // }}
       >
         {channel.name}
       </Link>
       {isShown && (
-        <IconButton
-          style={{ float: 'right', margin: '-15px' }}
+        <MoreHorizIcon
           color='info'
           onClick={(e) => {
             canClick = false;
+            handleClick(e);
+          }}
+          style={{ float: 'right' }}
+        />
+      )}
+
+      <Menu
+        id='basic-menu'
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button'
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            canClick = false;
+          }}
+        >
+          Modify
+        </MenuItem>
+        <MenuItem
+          style={{ float: 'right' }}
+          color='info'
+          onClick={(e) => {
+            canClick = false;
+            handleClose();
             e.preventDefault();
             deleteChannel(channel);
           }}
         >
-          <RemoveOutlinedIcon />
-        </IconButton>
-      )}
+          Delete Channel <RemoveOutlinedIcon />
+        </MenuItem>
+      </Menu>
     </li>
   );
 };
