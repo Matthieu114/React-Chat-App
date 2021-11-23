@@ -39,8 +39,10 @@ app.put('/channels/:id', async (req, res) => {
 });
 
 app.delete('/channels/:id', async (req, res) => {
-	const channel = await db.channels.delete(req.params.id);
-	res.status(201).json(channel);
+
+  const channel = await db.channels.delete(req.params.id);
+  res.status(201).json(channel);
+
 });
 
 // Messages

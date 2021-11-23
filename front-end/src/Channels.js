@@ -2,7 +2,6 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 // Layout
-import { Link as RouterLink } from 'react-router-dom';
 import { Link, IconButton } from '@mui/material';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 // Local
@@ -31,29 +30,73 @@ const styles = {
 	}
 };
 
+
+const ChannelComponent = ({ i, channel, deleteChannel }) => {
+  const [isShown, setIsShown] = useState(false);
+  const navigate = useNavigate();
+  let canClick = true;
+
+  return (
+    <li
+      key={i}
+      css={styles.channel}
+      onMouseEnter={(e) => {
+        setIsShown(true);
+      }}
+      onMouseLeave={(e) => setIsShown(false)}
+      onClick={(e) => {
+        e.preventDefault();
+        canClick == true
+          ? navigate(`/channels/${channel.id}`)
+          : (canClick = false);
+      }}
+    >
+      <Link
+        sx={{ textDecoration: 'none', color: 'black' }}
+        href={`/channels/${channel.id}`}
+      >
+        {channel.name}
+      </Link>
+      {isShown && (
+        <IconButton
+          style={{ float: 'right', margin: '-15px' }}
+          color='info'
+          onClick={(e) => {
+            canClick = false;
+            e.preventDefault();
+            deleteChannel(channel);
+          }}
+        >
+          <RemoveOutlinedIcon />
+        </IconButton>
+      )}
+    </li>
+  );
+};
+
 export default function Channels() {
-	const { oauth, channels, setChannels } = useContext(Context);
-	const [isShown, setIsShown] = useState(false);
-	const [currentChannel, setCurrentChannel] = useState('');
-	const navigate = useNavigate();
-	useEffect(() => {
-		const fetch = async () => {
-			try {
-				const { data: channels } = await axios.get(
-					'http://localhost:3001/channels',
-					{
-						headers: {
-							Authorization: `Bearer ${oauth.access_token}`
-						}
-					}
-				);
-				setChannels(channels);
-			} catch (err) {
-				console.error(err);
-			}
-		};
-		fetch();
-	}, [oauth, setChannels]);
+  const { oauth, channels, setChannels, setCurrentChannel } =
+    useContext(Context);
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const { data: channels } = await axios.get(
+          'http://localhost:3001/channels',
+          {
+            headers: {
+              Authorization: `Bearer ${oauth.access_token}`
+            }
+          }
+        );
+
+        setChannels(channels);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetch();
+  }, [oauth, setChannels]);
+
 
 	const fetchChannels = async () => {
 		const { data: channels } = await axios.get(
@@ -67,57 +110,54 @@ export default function Channels() {
 		setChannels(channels);
 	};
 
-	const deleteChannel = async (channel) => {
-		const config = {
-			headers: {
-				Authorization: `Bearer ${oauth.access_token}`
-			},
-			data: {
-				name: channel.name,
-				id: channel.id
-			}
-		};
-		const { data: channels } = await axios.delete(
-			`http://localhost:3001/channels/${channel.id}`,
-			{ config }
-		);
 
-		fetchChannels(channels);
-	};
+  const removeChannel = (channel) => {
+    const arr = channels.filter(function (item) {
+      return item.id !== channel.id;
+    });
 
-	return (
-		<div css={styles.root}>
-			<Discussions />
-			<ul css={styles.list}>
-				{channels.map((channel, i) => (
-					<li
-						key={i}
-						css={styles.channel}
-						onMouseEnter={(e) => {
-							setIsShown(true);
-							setCurrentChannel(e.target.innerText);
-						}}
-						onMouseLeave={(e) => setIsShown(false)}
-						onClick={(e) => {
-							e.preventDefault();
-							navigate(`/channels/${channel.id}`);
-						}}>
-						<Link
-							sx={{ textDecoration: 'none', color: 'black' }}
-							href={`/channels/${channel.id}`}>
-							{channel.name}
-						</Link>
-						{currentChannel === channel.name.trim() && isShown && (
-							<IconButton
-								style={{ float: 'right', margin: '-15px' }}
-								color='info'
-								onClick={() => deleteChannel(channel)}>
-								<RemoveOutlinedIcon />
-							</IconButton>
-						)}
-					</li>
-				))}
-			</ul>
-		</div>
-	);
+    setChannels(arr);
+    setCurrentChannel({});
+  };
+
+  const deleteChannel = async (channel) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${oauth.access_token}`
+      },
+      data: {
+        name: channel.name,
+        id: channel.id
+      }
+    };
+
+    const { data: channels } = await axios.delete(
+      `http://localhost:3001/channels/${channel.id}`,
+      { config }
+    );
+
+    removeChannel(channel);
+    fetchChannels(channels);
+  };
+
+  return (
+    <div css={styles.root}>
+      <Discussions />
+      <ul css={styles.list}>
+        {/* <li css={styles.channel}>
+          <Link to='/channels' component={RouterLink}>
+            Welcome
+          </Link>
+        </li> */}
+        {channels.map((channel, i) => (
+          <ChannelComponent
+            i={i}
+            channel={channel}
+            deleteChannel={deleteChannel}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+
 }

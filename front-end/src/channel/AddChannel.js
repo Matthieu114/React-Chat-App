@@ -23,7 +23,8 @@ const styles = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4
-  }
+  },
+  position: {}
 };
 
 const AddChannel = () => {
@@ -54,6 +55,10 @@ const AddChannel = () => {
     fetchChannels(channels);
     handleClose();
   };
+
+  const onKeyPress = ({ nativeEvent: { key: keyValue } }) => {
+    if (keyValue === 'Enter') onSubmit();
+  };
   return (
     <div css={styles.position}>
       <IconButton
@@ -80,6 +85,7 @@ const AddChannel = () => {
             label='Name of Channel'
             variant='standard'
             name='newChannel'
+            onKeyPress={onKeyPress}
           />
           <Button onClick={onSubmit}>Push</Button>
         </Box>

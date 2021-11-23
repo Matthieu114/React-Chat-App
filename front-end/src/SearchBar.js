@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import AddChannel from './channel/AddChannel.js';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -51,7 +50,6 @@ export default function SearchBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <AddChannel />
         </Toolbar>
       </AppBar>
     </Box>
