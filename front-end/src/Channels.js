@@ -33,6 +33,8 @@ const styles = {
 const ChannelComponent = ({ i, channel, deleteChannel }) => {
   const [isShown, setIsShown] = useState(false);
   const navigate = useNavigate();
+  let canClick = true;
+
   return (
     <li
       key={i}
@@ -41,14 +43,16 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
         setIsShown(true);
       }}
       onMouseLeave={(e) => setIsShown(false)}
+      onClick={(e) => {
+        e.preventDefault();
+        canClick == true
+          ? navigate(`/channels/${channel.id}`)
+          : (canClick = false);
+      }}
     >
       <Link
         sx={{ textDecoration: 'none', color: 'black' }}
         href={`/channels/${channel.id}`}
-        onClick={(e) => {
-          e.preventDefault();
-          navigate(`/channels/${channel.id}`);
-        }}
       >
         {channel.name}
       </Link>
@@ -56,7 +60,11 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
         <IconButton
           style={{ float: 'right', margin: '-15px' }}
           color='info'
-          onClick={() => deleteChannel(channel)}
+          onClick={(e) => {
+            canClick = false;
+            e.preventDefault();
+            deleteChannel(channel);
+          }}
         >
           <RemoveOutlinedIcon />
         </IconButton>
