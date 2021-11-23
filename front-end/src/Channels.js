@@ -10,25 +10,26 @@ import { useNavigate } from 'react-router-dom';
 import Discussions from './Discussions';
 
 const styles = {
-  root: {
-    minWidth: '200px',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'start',
-    backgroundColor: 'white'
-  },
-  list: {
-    overflow: 'auto'
-  },
-  channel: {
-    padding: '1.2rem',
-    whiteSpace: 'nowrap',
-    ':hover': {
-      backgroundColor: 'lightgrey'
-    }
-  }
+	root: {
+		minWidth: '200px',
+		height: '100vh',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'start',
+		backgroundColor: 'white'
+	},
+	list: {
+		overflow: 'auto'
+	},
+	channel: {
+		padding: '1.2rem',
+		whiteSpace: 'nowrap',
+		':hover': {
+			backgroundColor: 'lightgrey'
+		}
+	}
 };
+
 
 const ChannelComponent = ({ i, channel, deleteChannel }) => {
   const [isShown, setIsShown] = useState(false);
@@ -96,17 +97,19 @@ export default function Channels() {
     fetch();
   }, [oauth, setChannels]);
 
-  const fetchChannels = async () => {
-    const { data: channels } = await axios.get(
-      'http://localhost:3001/channels',
-      {
-        headers: {
-          Authorization: `Bearer ${oauth.access_token}`
-        }
-      }
-    );
-    setChannels(channels);
-  };
+
+	const fetchChannels = async () => {
+		const { data: channels } = await axios.get(
+			'http://localhost:3001/channels',
+			{
+				headers: {
+					Authorization: `Bearer ${oauth.access_token}`
+				}
+			}
+		);
+		setChannels(channels);
+	};
+
 
   const removeChannel = (channel) => {
     const arr = channels.filter(function (item) {
@@ -156,4 +159,5 @@ export default function Channels() {
       </ul>
     </div>
   );
+
 }
