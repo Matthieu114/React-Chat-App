@@ -50,7 +50,6 @@ export default function Channel() {
   };
 
   useEffect(() => {
-    // let mounted = true;
     const fetch = async () => {
       try {
         const { data: messages } = await axios.get(
@@ -61,7 +60,6 @@ export default function Channel() {
             }
           }
         );
-        // if (!mounted) return;
         setMessages(messages);
         if (listRef.current) {
           listRef.current.scroll();
@@ -70,7 +68,7 @@ export default function Channel() {
         navigate('/oups');
       }
     };
-    // return () => (mounted = false);
+
     fetch();
   }, [id, oauth, navigate]);
 
@@ -87,7 +85,13 @@ export default function Channel() {
   return (
     <div css={styles.root}>
       <Header channel={channel} drawerToggleListener={drawerToggleListener} />
-      <List messages={messages} onScrollDown={onScrollDown} ref={listRef} />
+      <List
+        messages={messages}
+        onScrollDown={onScrollDown}
+        ref={listRef}
+        channel={channel}
+        setMessages={setMessages}
+      />
       <Form addMessage={addMessage} channel={channel} />
       <Fab
         color='primary'

@@ -80,7 +80,7 @@ const AddChannel = () => {
             Create a new Channel
           </Typography>
           <TextField
-            color='secondary'
+            color='primary'
             id='newChannel'
             label='Name of Channel'
             variant='standard'

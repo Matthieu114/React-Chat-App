@@ -60,7 +60,7 @@ const useStyles = (theme) => ({
   }
 });
 
-const LiList = ({ message, i, value }) => {
+const LiList = ({ message, i, value, channel, setMessages }) => {
   const [isShown, setIsShown] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const styles = useStyles(useTheme());
@@ -94,6 +94,9 @@ const LiList = ({ message, i, value }) => {
           anchorEl={anchorEl}
           open={open}
           handleClose={handleClose}
+          message={message}
+          channel={channel}
+          setMessages={setMessages}
         />
       </p>
       <div dangerouslySetInnerHTML={{ __html: value }}></div>
@@ -101,50 +104,60 @@ const LiList = ({ message, i, value }) => {
   );
 };
 
-export default forwardRef(({ messages, onScrollDown }, ref) => {
-  const styles = useStyles(useTheme());
-  // Expose the `scroll` action
-  useImperativeHandle(ref, () => ({
-    scroll: scroll
-  }));
-  const rootEl = useRef(null);
-  const scrollEl = useRef(null);
+export default forwardRef(
+  ({ messages, onScrollDown, channel, setMessages }, ref) => {
+    const styles = useStyles(useTheme());
+    // Expose the `scroll` action
+    useImperativeHandle(ref, () => ({
+      scroll: scroll
+    }));
+    const rootEl = useRef(null);
+    const scrollEl = useRef(null);
 
-  const scroll = () => {
-    scrollEl.current.scrollIntoView();
-  };
-  // See https://dev.to/n8tb1t/tracking-scroll-position-with-react-hooks-3bbj
-  const throttleTimeout = useRef(null); // react-hooks/exhaustive-deps
-
-  useLayoutEffect(() => {
-    const rootNode = rootEl.current; // react-hooks/exhaustive-deps
-    const handleScroll = () => {
-      if (throttleTimeout.current === null) {
-        throttleTimeout.current = setTimeout(() => {
-          throttleTimeout.current = null;
-          const { scrollTop, offsetHeight, scrollHeight } = rootNode; // react-hooks/exhaustive-deps
-          onScrollDown(scrollTop + offsetHeight < scrollHeight);
-        }, 200);
-      }
+    const scroll = () => {
+      scrollEl.current.scrollIntoView();
     };
+    // See https://dev.to/n8tb1t/tracking-scroll-position-with-react-hooks-3bbj
+    const throttleTimeout = useRef(null); // react-hooks/exhaustive-deps
 
-    handleScroll();
-    rootNode.addEventListener('scroll', handleScroll);
-    return () => rootNode.removeEventListener('scroll', handleScroll);
-  });
-  return (
-    <div css={styles.root} ref={rootEl}>
-      <ul>
-        {messages.map((message, i) => {
-          const { value } = unified()
-            .use(markdown)
-            .use(remark2rehype)
-            .use(html)
-            .processSync(message.content);
-          return <LiList message={message} i={i} value={value} />;
-        })}
-      </ul>
-      <div ref={scrollEl} />
-    </div>
-  );
-});
+    useLayoutEffect(() => {
+      const rootNode = rootEl.current; // react-hooks/exhaustive-deps
+      const handleScroll = () => {
+        if (throttleTimeout.current === null) {
+          throttleTimeout.current = setTimeout(() => {
+            throttleTimeout.current = null;
+            const { scrollTop, offsetHeight, scrollHeight } = rootNode; // react-hooks/exhaustive-deps
+            onScrollDown(scrollTop + offsetHeight < scrollHeight);
+          }, 200);
+        }
+      };
+
+      handleScroll();
+      rootNode.addEventListener('scroll', handleScroll);
+      return () => rootNode.removeEventListener('scroll', handleScroll);
+    });
+    return (
+      <div css={styles.root} ref={rootEl}>
+        <ul>
+          {messages.map((message, i) => {
+            const { value } = unified()
+              .use(markdown)
+              .use(remark2rehype)
+              .use(html)
+              .processSync(message.content);
+            return (
+              <LiList
+                message={message}
+                i={i}
+                value={value}
+                channel={channel}
+                setMessages={setMessages}
+              />
+            );
+          })}
+        </ul>
+        <div ref={scrollEl} />
+      </div>
+    );
+  }
+);

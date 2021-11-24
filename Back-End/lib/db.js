@@ -5,7 +5,6 @@ const level = require('level');
 const db = level(__dirname + '/../db');
 
 module.exports = {
-
   channels: {
     create: async (channel) => {
       if (!channel.name) throw Error('Invalid channel');
@@ -89,7 +88,15 @@ module.exports = {
             resolve(messages);
           });
       });
-    }
+    },
+    delete: async (channelId, messageCreation) => {
+      if (!channelId) throw Error('Invalid Channel');
+      if (!messageCreation) throw Error('no message creation');
+
+      await db.del(`messages:${channelId}:${messageCreation}`);
+    },
+
+    update: async () => {}
   },
   users: {
     create: async (user) => {
@@ -140,5 +147,4 @@ module.exports = {
       await db.clear();
     }
   }
-
 };
