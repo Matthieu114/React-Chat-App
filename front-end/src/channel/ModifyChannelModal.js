@@ -100,6 +100,7 @@ const ModifyChannelModal = ({ channel, handleClose }) => {
           >
             Modify
           </Button>
+          <Button onClick={handleClose}> Cancel</Button>
         </Box>
       </Modal>
     </div>
