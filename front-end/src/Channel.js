@@ -41,23 +41,27 @@ export default function Channel() {
   const [messages, setMessages] = useState([]);
   const [scrollDown, setScrollDown] = useState(false);
   const [drawerMobileVisible, setDrawerMobileVisible] = useState(false);
+
   const drawerToggleListener = () => {
     setDrawerMobileVisible(!drawerMobileVisible);
   };
   const addMessage = (message) => {
     setMessages([...messages, message]);
   };
+
   useEffect(() => {
+    // let mounted = true;
     const fetch = async () => {
       try {
         const { data: messages } = await axios.get(
           `http://localhost:3001/channels/${id}/messages`,
           {
             headers: {
-              // TODO: secure the request
+              Authorization: `Bearer ${oauth.access_token}`
             }
           }
         );
+        // if (!mounted) return;
         setMessages(messages);
         if (listRef.current) {
           listRef.current.scroll();
@@ -66,8 +70,10 @@ export default function Channel() {
         navigate('/oups');
       }
     };
+    // return () => (mounted = false);
     fetch();
   }, [id, oauth, navigate]);
+
   const onScrollDown = (scrollDown) => {
     setScrollDown(scrollDown);
   };

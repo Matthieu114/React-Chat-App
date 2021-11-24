@@ -1,14 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // Layout
-import { Link as RouterLink } from 'react-router-dom';
-import { Link, IconButton } from '@mui/material';
+import { Link } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+
 // Local
 import Context from './Context';
-import { useNavigate } from 'react-router-dom';
 import Discussions from './Discussions';
+import ModifyChannelModal from './channel/ModifyChannelModal';
 
 const styles = {
 	root: {
@@ -31,11 +35,85 @@ const styles = {
 	}
 };
 
-export default function Channels() {
-	const { oauth, channels, setChannels } = useContext(Context);
+const ChannelComponent = ({ i, channel, deleteChannel }) => {
 	const [isShown, setIsShown] = useState(false);
-	const [currentChannel, setCurrentChannel] = useState('');
+	const [anchorEl, setAnchorEl] = useState(null);
+	const open = Boolean(anchorEl);
 	const navigate = useNavigate();
+	let canClick = true;
+
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+		setIsShown(false);
+	};
+
+	return (
+		<li
+			key={i}
+			css={styles.channel}
+			onMouseEnter={(e) => {
+				setIsShown(true);
+			}}
+			onMouseLeave={(e) => setIsShown(false)}
+			onClick={(e) => {
+				e.preventDefault();
+				canClick === true
+					? navigate(`/channels/${channel.id}`)
+					: (canClick = false);
+			}}>
+			<Link
+				sx={{ textDecoration: 'none', color: 'black' }}
+				href={`/channels/${channel.id}`}>
+				{channel.name}
+			</Link>
+			{isShown && (
+				<MoreHorizIcon
+					color='info'
+					onClick={(e) => {
+						canClick = false;
+						handleClick(e);
+					}}
+					style={{ float: 'right' }}
+				/>
+			)}
+
+			<Menu
+				id='basic-menu'
+				anchorEl={anchorEl}
+				open={open}
+				onClose={handleClose}
+				MenuListProps={{
+					'aria-labelledby': 'basic-button'
+				}}>
+				<MenuItem
+					onClick={() => {
+						canClick = false;
+					}}>
+					<ModifyChannelModal channel={channel} handleClose={handleClose} />
+				</MenuItem>
+				<MenuItem
+					style={{ float: 'right' }}
+					color='info'
+					onClick={(e) => {
+						canClick = false;
+						handleClose();
+						e.preventDefault();
+						deleteChannel(channel);
+					}}>
+					Delete Channel <RemoveOutlinedIcon />
+				</MenuItem>
+			</Menu>
+		</li>
+	);
+};
+
+export default function Channels() {
+	const { oauth, channels, setChannels, setCurrentChannel } =
+		useContext(Context);
 	useEffect(() => {
 		const fetch = async () => {
 			try {
@@ -47,6 +125,7 @@ export default function Channels() {
 						}
 					}
 				);
+
 				setChannels(channels);
 			} catch (err) {
 				console.error(err);
@@ -67,6 +146,15 @@ export default function Channels() {
 		setChannels(channels);
 	};
 
+	const removeChannel = (channel) => {
+		const arr = channels.filter(function (item) {
+			return item.id !== channel.id;
+		});
+
+		setChannels(arr);
+		setCurrentChannel({});
+	};
+
 	const deleteChannel = async (channel) => {
 		const config = {
 			headers: {
@@ -77,11 +165,13 @@ export default function Channels() {
 				id: channel.id
 			}
 		};
+
 		const { data: channels } = await axios.delete(
 			`http://localhost:3001/channels/${channel.id}`,
 			{ config }
 		);
 
+		removeChannel(channel);
 		fetchChannels(channels);
 	};
 
@@ -89,33 +179,17 @@ export default function Channels() {
 		<div css={styles.root}>
 			<Discussions />
 			<ul css={styles.list}>
+				{/* <li css={styles.channel}>
+          <Link to='/channels' component={RouterLink}>
+            Welcome
+          </Link>
+        </li> */}
 				{channels.map((channel, i) => (
-					<li
-						key={i}
-						css={styles.channel}
-						onMouseEnter={(e) => {
-							setIsShown(true);
-							setCurrentChannel(e.target.innerText);
-						}}
-						onMouseLeave={(e) => setIsShown(false)}
-						onClick={(e) => {
-							e.preventDefault();
-							navigate(`/channels/${channel.id}`);
-						}}>
-						<Link
-							sx={{ textDecoration: 'none', color: 'black' }}
-							href={`/channels/${channel.id}`}>
-							{channel.name}
-						</Link>
-						{currentChannel === channel.name.trim() && isShown && (
-							<IconButton
-								style={{ float: 'right', margin: '-15px' }}
-								color='info'
-								onClick={() => deleteChannel(channel)}>
-								<RemoveOutlinedIcon />
-							</IconButton>
-						)}
-					</li>
+					<ChannelComponent
+						i={i}
+						channel={channel}
+						deleteChannel={deleteChannel}
+					/>
 				))}
 			</ul>
 		</div>

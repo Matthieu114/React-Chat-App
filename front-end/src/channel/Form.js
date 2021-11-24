@@ -18,7 +18,8 @@ const useStyles = (theme) => {
 			borderTop: `2px solid ${borderColor}`,
 			padding: '.5rem',
 			display: 'flex',
-			alignItems: 'center'
+			alignItems: 'center',
+			backgroundColor: 'white'
 		},
 		content: {
 			color: 'black',
@@ -70,7 +71,7 @@ export default function Form({ addMessage, channel }) {
 			<div>
 				<Button
 					variant='contained'
-					color='primary'
+					color='info'
 					css={styles.send}
 					endIcon={<SendIcon />}
 					onClick={onSubmit}>

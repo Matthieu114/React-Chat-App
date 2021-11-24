@@ -11,6 +11,7 @@ export const Provider = ({ children }) => {
 	const [drawerVisible, setDrawerVisible] = useState(false);
 	const [channels, setChannels] = useState([]);
 	const [currentChannel, setCurrentChannel] = useState(null);
+	const [ifAvatar, setIfAvatar] = useState(false);
 	return (
 		<Context.Provider
 			value={{
@@ -39,7 +40,9 @@ export const Provider = ({ children }) => {
 				setCurrentChannel: (channelId) => {
 					const channel = channels.find((channel) => channel.id === channelId);
 					setCurrentChannel(channel);
-				}
+				},
+				ifAvatar: ifAvatar,
+				setIfAvatar: setIfAvatar
 			}}>
 			{children}
 		</Context.Provider>
