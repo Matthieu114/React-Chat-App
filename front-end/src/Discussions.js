@@ -24,15 +24,15 @@ const styles = {
   }
 };
 
-const Discussions = () => {
+const Discussions = ({ channels, setChannels, oauth }) => {
   return (
     <div css={styles.root}>
       <h2 css={styles.text}>
-        <AvatarProfil sx={styles.avatar} />
+        <AvatarProfil sx={styles.avatar} clickable={true} />
         <p style={{ margin: '0 15px' }}>Discussions</p> <AddChannel />
       </h2>
 
-      <SearchBar />
+      <SearchBar channels={channels} setChannels={setChannels} oauth={oauth} />
     </div>
   );
 };
