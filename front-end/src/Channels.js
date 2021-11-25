@@ -3,11 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // Layout
-import { Link } from '@mui/material';
-import Button from '@mui/material/Button';
+import { Link, Button, Menu, MenuItem } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 
@@ -216,7 +213,11 @@ export default function Channels() {
 
   return (
     <div css={styles.root}>
-      <Discussions />
+      <Discussions
+        channels={channels}
+        setChannels={setChannels}
+        oauth={oauth}
+      />
       <ul css={styles.list}>
         {channels.map((channel, i) => (
           <ChannelComponent

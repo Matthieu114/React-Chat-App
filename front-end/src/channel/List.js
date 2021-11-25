@@ -148,7 +148,7 @@ const LiMessage = ({ message, i, value, channel, setMessages }) => {
             style={{ margin: '-10px 0px' }}
           />
         ) : (
-          console.log('not yourmessage')
+          <></>
         )}
         <MessageChanger
           anchorEl={anchorEl}

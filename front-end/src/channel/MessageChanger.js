@@ -5,13 +5,15 @@ import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
 
 //modal
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Box from '@mui/material/Box';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Box
+} from '@mui/material';
 import AvatarProfil from '../Avatar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
@@ -70,6 +72,10 @@ const DeleteMessageConfirmation = ({
 
   return (
     <div onClick={handleClickOpen}>
+      <DeleteIcon
+        fontSize='small'
+        sx={{ marginRight: '5px', marginBottom: '-5px' }}
+      />
       Delete Message
       <Dialog
         open={open}
@@ -206,7 +212,6 @@ const MessageChanger = ({
               }
             }}
           >
-            <DeleteIcon fontSize='small' sx={{ marginRight: '5px' }} />
             <DeleteMessageConfirmation
               deleteMessage={deleteMessage}
               handleClose={handleClose}

@@ -1,11 +1,4 @@
-import {
-  Button,
-  Box,
-  Typography,
-  Modal,
-  TextField,
-  IconButton
-} from '@mui/material';
+import { Button, Box, Modal, TextField, IconButton } from '@mui/material';
 import axios from 'axios';
 //Context
 import Context from '../Context';
