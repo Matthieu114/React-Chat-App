@@ -28,7 +28,7 @@ const Discussions = () => {
   return (
     <div css={styles.root}>
       <h2 css={styles.text}>
-        <AvatarProfil sx={styles.avatar} />
+        <AvatarProfil sx={styles.avatar} clickable={true} />
         <p style={{ margin: '0 15px' }}>Discussions</p> <AddChannel />
       </h2>
 

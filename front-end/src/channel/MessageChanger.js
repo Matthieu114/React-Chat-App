@@ -13,6 +13,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Box from '@mui/material/Box';
 import AvatarProfil from '../Avatar';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 //
 import { useState } from 'react';
 //time
@@ -66,7 +68,6 @@ const DeleteMessageConfirmation = ({
     setOpen(false);
   };
 
-  const clickable = false;
   return (
     <div onClick={handleClickOpen}>
       Delete Message
@@ -83,7 +84,7 @@ const DeleteMessageConfirmation = ({
           </DialogContentText>
           <Box css={styles.box}>
             <div style={{ marginRight: '1rem' }}>
-              <AvatarProfil clickable={clickable} />
+              <AvatarProfil clickable={false} />
             </div>
             <div>
               <p style={{ fontSize: 'small', clear: 'both', color: '#4d4d4d' }}>
@@ -154,7 +155,7 @@ const MessageChanger = ({
   };
 
   return (
-    <div css={styles}>
+    <div>
       <Menu
         id='basic-menu'
         anchorEl={anchorEl}
@@ -169,17 +170,51 @@ const MessageChanger = ({
             handleClose();
             editOpen();
           }}
+          sx={{
+            ':hover': {
+              backgroundColor: 'white'
+            }
+          }}
         >
-          Edit Message
+          <Button
+            sx={{
+              fontSize: 'small',
+              ':hover': {
+                backgroundColor: '#0099ff',
+                color: 'white'
+              }
+            }}
+          >
+            <ModeEditOutlineIcon fontSize='small' sx={{ marginRight: '5px' }} />
+            Edit Message
+          </Button>
         </MenuItem>
-        <MenuItem>
-          <DeleteMessageConfirmation
-            deleteMessage={deleteMessage}
-            handleClose={handleClose}
-            message={message}
-            channel={channel}
-            styles={styles}
-          />
+        <MenuItem
+          sx={{
+            ':hover': {
+              backgroundColor: 'white'
+            }
+          }}
+        >
+          <Button
+            sx={{
+              color: 'red',
+              fontSize: 'small',
+              ':hover': {
+                backgroundColor: 'red',
+                color: 'white'
+              }
+            }}
+          >
+            <DeleteIcon fontSize='small' sx={{ marginRight: '5px' }} />
+            <DeleteMessageConfirmation
+              deleteMessage={deleteMessage}
+              handleClose={handleClose}
+              message={message}
+              channel={channel}
+              styles={styles}
+            />
+          </Button>
         </MenuItem>
       </Menu>
     </div>
