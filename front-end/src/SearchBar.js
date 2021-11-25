@@ -34,7 +34,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchBar({ channels, setChannels, oauth }) {
-  const fetchChannels = async () => {
+  const searchChannels = async () => {
     const { data: channels } = await axios.get(
       'http://localhost:3001/channels',
       {
@@ -43,10 +43,6 @@ export default function SearchBar({ channels, setChannels, oauth }) {
         }
       }
     );
-    setChannels(channels);
-  };
-
-  const searchChannels = () => {
     const query = document.getElementById('channel-search').value;
     setChannels(
       channels.filter((channel) => {
@@ -54,8 +50,6 @@ export default function SearchBar({ channels, setChannels, oauth }) {
         return name.toLowerCase().includes(query.toLowerCase());
       })
     );
-    query === '' && fetchChannels();
-    // query.includes(' ') && fetchChannels();
   };
 
   const onKeyPress = ({ nativeEvent: { key: keyValue } }) => {
