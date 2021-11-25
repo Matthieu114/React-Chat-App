@@ -65,6 +65,15 @@ app.delete('/channels/:id/messages/:creation', async (req, res) => {
   res.status(201).json(message);
 });
 
+app.put('/channels/:id/messages/:creation', async (req, res) => {
+  const message = await db.messages.update(
+    req.params.id,
+    req.params.creation,
+    req.body
+  );
+  res.json(message);
+});
+
 // Users
 
 app.get('/users', async (req, res) => {

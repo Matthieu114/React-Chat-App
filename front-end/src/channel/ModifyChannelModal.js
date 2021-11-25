@@ -78,10 +78,6 @@ const ModifyChannelModal = ({ channel, handleClose }) => {
       >
         <Box sx={styles.modal}>
           <TextField
-            sx={{
-              Input: { color: 'black' },
-              InputLabel: { color: 'primary' }
-            }}
             fullWidth
             color='primary'
             id='modifyChannel'
@@ -90,6 +86,7 @@ const ModifyChannelModal = ({ channel, handleClose }) => {
             variant='outlined'
             onKeyPress={onKeyPress}
             helperText='Enter the new channel name'
+            autoFocus
           />
           <Button
             onClick={() => {
@@ -97,10 +94,14 @@ const ModifyChannelModal = ({ channel, handleClose }) => {
               handleClose();
             }}
             sx={{ justifyContent: 'center' }}
+            color='info'
           >
             Modify
           </Button>
-          <Button onClick={handleClose}> Cancel</Button>
+          <Button onClick={handleClose} color='info'>
+            {' '}
+            Cancel
+          </Button>
         </Box>
       </Modal>
     </div>

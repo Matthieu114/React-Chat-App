@@ -63,7 +63,7 @@ const Redirect = ({ config, codeVerifier }) => {
   };
   return (
     <div css={styles.root}>
-      <Link onClick={redirect} color='secondary'>
+      <Link onClick={redirect} color='primary'>
         Login with OpenID Connect and OAuth2
       </Link>
     </div>
