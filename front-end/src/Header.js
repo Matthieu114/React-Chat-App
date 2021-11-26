@@ -9,7 +9,7 @@ import Context from './Context';
 const useStyles = (theme) => ({
   header: {
     padding: theme.spacing(1),
-    backgroundColor: 'black',
+    backgroundColor: 'white',
     flexShrink: 0,
     display: 'flex',
     alignItems: 'center'
@@ -48,10 +48,10 @@ export default function Header({ channel }) {
       >
         <MenuIcon />
       </IconButton>
-      <h3 style={{ whiteSpace: 'nowrap' }}>{channel.name}</h3>
+      <h3 style={{ whiteSpace: 'nowrap', color: 'black' }}>{channel.name}</h3>
       {oauth ? (
         <span style={{ width: '100%' }}>
-          <Link onClick={onClickLogout} sx={{ color: 'white', float: 'right' }}>
+          <Link onClick={onClickLogout} sx={{ color: 'black', float: 'right' }}>
             logout
           </Link>
         </span>
