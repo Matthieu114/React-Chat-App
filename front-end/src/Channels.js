@@ -20,7 +20,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'start',
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   list: {
     overflow: 'auto'
@@ -213,11 +213,7 @@ export default function Channels() {
 
   return (
     <div css={styles.root}>
-      <Discussions
-        channels={channels}
-        setChannels={setChannels}
-        oauth={oauth}
-      />
+      <Discussions setChannels={setChannels} oauth={oauth} />
       <ul css={styles.list}>
         {channels.map((channel, i) => (
           <ChannelComponent

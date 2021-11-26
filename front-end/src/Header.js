@@ -12,7 +12,8 @@ const useStyles = (theme) => ({
     backgroundColor: 'white',
     flexShrink: 0,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    boxShadow: '0px 0px 7px 1px grey'
   },
   headerLogIn: {
     backgroundColor: 'red'

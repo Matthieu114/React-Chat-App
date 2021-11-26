@@ -24,7 +24,7 @@ const styles = {
   }
 };
 
-const Discussions = ({ channels, setChannels, oauth }) => {
+const Discussions = ({ setChannels, oauth }) => {
   return (
     <div css={styles.root}>
       <h2 css={styles.text}>
@@ -32,7 +32,7 @@ const Discussions = ({ channels, setChannels, oauth }) => {
         <p style={{ margin: '0 15px' }}>Discussions</p> <AddChannel />
       </h2>
 
-      <SearchBar channels={channels} setChannels={setChannels} oauth={oauth} />
+      <SearchBar setChannels={setChannels} oauth={oauth} />
     </div>
   );
 };

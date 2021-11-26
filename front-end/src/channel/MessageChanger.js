@@ -131,7 +131,7 @@ const MessageChanger = ({
   handleClose,
   message,
   channel,
-  editOpen,
+  toggleEdit,
   fetchMessages,
   oauth
 }) => {
@@ -170,11 +170,19 @@ const MessageChanger = ({
         MenuListProps={{
           'aria-labelledby': 'basic-button'
         }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
       >
         <MenuItem
           onClick={() => {
             handleClose();
-            editOpen();
+            toggleEdit();
           }}
           sx={{
             ':hover': {
