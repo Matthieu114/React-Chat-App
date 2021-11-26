@@ -4,8 +4,10 @@ import {
   useImperativeHandle,
   useLayoutEffect,
   useRef,
-  useState
+  useState,
+  useContext
 } from 'react';
+import Context from '../Context';
 // Layout
 import { useTheme } from '@mui/styles';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -22,8 +24,6 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 //local
 import MessageChanger from './MessageChanger';
 import axios from 'axios';
-import Context from '../Context';
-import { useContext } from 'react';
 
 dayjs.extend(calendar);
 dayjs.extend(updateLocale);
@@ -34,6 +34,7 @@ dayjs.updateLocale('en', {
 });
 
 const useStyles = (theme) => ({
+  rootdiv: { width: '100%' },
   root: {
     position: 'relative',
     flex: '1 1 auto',
@@ -46,30 +47,53 @@ const useStyles = (theme) => ({
     }
   },
   message: {
-    padding: '.2rem .5rem',
+    padding: '1px .8rem',
     ':hover': {
-      backgroundColor: 'rgba(255,255,255,.05)'
-    }
+      backgroundColor: '#0099ff'
+    },
+    margin: '10px 5px',
+    fontSize: 'small',
+    borderRadius: '20px 15px 15px 0px',
+    backgroundColor: '#33adff',
+    width: 'fit-content',
+    color: 'white'
   },
-  fabWrapper: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    width: '50px'
+  myMessage: {
+    padding: '1px .8rem',
+    ':hover': {
+      backgroundColor: '#999999'
+    },
+    margin: '5px 15px 15px 0px',
+    fontSize: 'small',
+    borderRadius: '20px 15px 0px 15px',
+    backgroundColor: '#737373',
+    width: 'fit-content',
+    color: 'white'
   },
-  fab: {
-    position: 'fixed !important',
-    top: '0',
-    width: '50px'
+  contentdiv: { display: 'flex', alignItems: 'center' },
+  myContentDiv: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'right'
   },
-
+  myMessageInfo: {
+    display: 'flex',
+    justifyContent: 'right',
+    margin: '10px 15px 5px 0px'
+  },
+  messageInfo: {},
   edit: {
     display: 'flex',
     alignItems: 'center'
+  },
+  info: {
+    fontSize: '12px',
+    color: '#4d4d4d',
+    marginLeft: '6px'
   }
 });
 
-const LiMessage = ({ message, i, value, channel, setMessages }) => {
+const LiMessage = ({ message, i, value, channel, setMessages, myMessage }) => {
   const [isShown, setIsShown] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
@@ -131,16 +155,16 @@ const LiMessage = ({ message, i, value, channel, setMessages }) => {
   };
 
   return (
-    <li
-      key={i}
-      css={styles.message}
-      onMouseEnter={() => setIsShown(true)}
-      onMouseLeave={() => setIsShown(false)}
-    >
-      <p>
-        <span>{message.author}</span>
-        {' - '}
-        <span>{dayjs().calendar(message.creation)}</span>
+    <div css={styles.rootdiv}>
+      <div css={myMessage ? styles.myMessageInfo : styles.messageInfo}>
+        <span css={styles.info}>{message.author}</span>
+        <span css={styles.info}>{dayjs().calendar(message.creation)}</span>
+      </div>
+      <div
+        css={myMessage ? styles.myContentDiv : styles.contentdiv}
+        onMouseEnter={() => setIsShown(true)}
+        onMouseLeave={() => setIsShown(false)}
+      >
         {isShown && oauth.email === message.author ? (
           <MoreVertIcon
             color='info'
@@ -157,50 +181,54 @@ const LiMessage = ({ message, i, value, channel, setMessages }) => {
           message={message}
           channel={channel}
           setMessages={setMessages}
-          editOpen={toggleEdit}
+          toggleEdit={toggleEdit}
           fetchMessages={fetchMessages}
           oauth={oauth}
         />
-      </p>
-      {!editOpen ? (
-        <div dangerouslySetInnerHTML={{ __html: value }}></div>
-      ) : (
-        <div css={styles.edit}>
-          <TextField
-            autoFocus
-            type='text'
-            placeholder={message.content}
-            id='editedMessage'
-            onKeyPress={(e) => {
-              onKeyPress(e);
-            }}
-            variant='standard'
-            color='info'
-            sx={{
-              input: { color: 'white' }
-            }}
-          ></TextField>
-          <Button
-            onClick={() => {
-              toggleEdit();
-              editMessage(message, channel);
-            }}
-            color='info'
-          >
-            confirm
-          </Button>
-          <Button onClick={closeEdit} color='info'>
-            Cancel
-          </Button>
-        </div>
-      )}
-    </li>
+        <li key={i} css={myMessage ? styles.myMessage : styles.message}>
+          {!editOpen ? (
+            <div dangerouslySetInnerHTML={{ __html: value }}></div>
+          ) : (
+            <div css={styles.edit}>
+              <TextField
+                autoFocus
+                type='text'
+                placeholder={message.content}
+                id='editedMessage'
+                onKeyPress={(e) => {
+                  onKeyPress(e);
+                }}
+                variant='standard'
+                color='primary'
+                sx={{
+                  input: { color: 'white' }
+                }}
+              ></TextField>
+              <Button
+                onClick={() => {
+                  toggleEdit();
+                  editMessage(message, channel);
+                }}
+                sx={{ color: 'white' }}
+              >
+                confirm
+              </Button>
+              <Button onClick={closeEdit} sx={{ color: 'white' }}>
+                Cancel
+              </Button>
+            </div>
+          )}
+        </li>
+      </div>
+    </div>
   );
 };
 
 export default forwardRef(
   ({ messages, onScrollDown, channel, setMessages }, ref) => {
+    const { oauth } = useContext(Context);
     const styles = useStyles(useTheme());
+    let myMessage = true;
     // Expose the `scroll` action
     useImperativeHandle(ref, () => ({
       scroll: scroll
@@ -246,6 +274,11 @@ export default forwardRef(
                 value={value}
                 channel={channel}
                 setMessages={setMessages}
+                myMessage={
+                  message.author === oauth.email
+                    ? (myMessage = true)
+                    : console.log('lol')
+                }
               />
             );
           })}

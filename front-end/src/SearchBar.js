@@ -33,7 +33,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-export default function SearchBar({ channels, setChannels, oauth }) {
+export default function SearchBar({ setChannels, oauth }) {
   const searchChannels = async () => {
     const { data: channels } = await axios.get(
       'http://localhost:3001/channels',

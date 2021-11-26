@@ -25,8 +25,8 @@ const useStyles = (theme) => ({
   },
   fab: {
     position: 'absolute !important',
-    top: theme.spacing(2),
-    right: theme.spacing(2)
+    bottom: theme.spacing(10),
+    left: theme.spacing(2)
   },
   fabDisabled: {
     display: 'none !important'
@@ -80,6 +80,7 @@ export default function Channel() {
   const onClickScroll = () => {
     listRef.current.scroll();
   };
+
   // On refresh, context.channel is not yet initialized
   if (!channel) {
     return <div>loading</div>;
@@ -94,9 +95,13 @@ export default function Channel() {
         channel={channel}
         setMessages={setMessages}
       />
-      <Form addMessage={addMessage} channel={channel} />
+      <Form
+        addMessage={addMessage}
+        channel={channel}
+        onClickScroll={onClickScroll}
+      />
       <Fab
-        color='primary'
+        color='blue'
         aria-label='Latest messages'
         css={[styles.fab, scrollDown || styles.fabDisabled]}
         onClick={onClickScroll}

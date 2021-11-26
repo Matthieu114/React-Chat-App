@@ -56,7 +56,7 @@ const Search = styled('div')(({ theme }) => ({
   width: '100vw'
 }));
 
-export default function Form({ addMessage, channel }) {
+export default function Form({ addMessage, channel, onClickScroll }) {
   const { oauth } = useContext(Context);
   const [content, setContent] = useState('');
   const styles = useStyles(useTheme());
@@ -76,7 +76,10 @@ export default function Form({ addMessage, channel }) {
   };
 
   const onKeyPress = ({ nativeEvent: { key: keyValue } }) => {
-    if (keyValue === 'Enter') onSubmit();
+    if (keyValue === 'Enter') {
+      onSubmit();
+      onClickScroll();
+    }
   };
 
   return (
