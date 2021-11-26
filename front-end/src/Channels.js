@@ -20,7 +20,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'start',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   list: {
     overflow: 'auto'
