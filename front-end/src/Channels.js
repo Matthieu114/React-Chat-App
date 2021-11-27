@@ -159,7 +159,6 @@ export default function Channels() {
 				console.error(err);
 			}
 		};
-		verifyUser();
 		fetch();
 	}, [oauth, setChannels]);
 
@@ -202,29 +201,6 @@ export default function Channels() {
 
 		removeChannel(channel);
 		fetchChannels(channels);
-	};
-	const verifyUser = async () => {
-		const { data: user } = await axios.get(`http://localhost:3001/users`, {
-			headers: {
-				Authorization: `Bearer ${oauth.access_token}`
-			}
-		});
-		user.forEach((element) => {
-			console.log('in the loop' + element);
-			oauth.email === element.email
-				? console.log('Verified!')
-				: createDefaultUSer();
-		});
-	};
-
-	const createDefaultUSer = async () => {
-		console.log('before');
-		await axios.post(`http://localhost:3001/users`, {
-			username: oauth.email,
-			email: oauth.email,
-			password: null
-		});
-		console.log('after');
 	};
 
 	return (
