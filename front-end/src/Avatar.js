@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import Avatar from '@mui/material/Avatar';
 import { useContext, useState } from 'react';
+import axios from 'axios';
 //Layout
 import {
 	Modal,
@@ -40,26 +41,81 @@ const styles = {
 };
 export default function AvatarProfil({ clickable }) {
 	const [open, setOpen] = useState(false);
-	const { ifAvatar, oauth, setIfAvatar, user } = useContext(Context);
+	const { ifAvatar, oauth, setIfAvatar, user, setUser } = useContext(Context);
 	const handleClose = () => setOpen(false);
 	const handleOpen = () => setOpen(true);
 
+	const fonctionDeMerdePourSimulerUnUser = async () => {
+		const id = 'fe4c64ae-2c75-44cf-8d42-01fb89b39885';
+		const { data: users } = await axios.get(
+			`http://localhost:3001/users/${id}`,
+			{
+				headers: {
+					Authorization: `Bearer ${oauth.access_token}`
+				}
+			}
+		);
+		setUser(users);
+		console.log(user);
+	};
 	const DefaultAvatar = () => {
 		//Set default Avatar to the first letter of the email
 		if (ifAvatar === false) {
-			const str = oauth.email.charAt(0);
-			return <Avatar sx={{ bgcolor: 'grey' }}>{str.toUpperCase()}</Avatar>;
+			const str = user?.email.charAt(0);
+			return <Avatar sx={{ bgcolor: 'grey' }}>{str?.toUpperCase()}</Avatar>;
 		}
 		//Use the Avatar database after the first modification
 		else {
-			return;
+			console.log(user.img);
+			return <Avatar src={{ uri: user.img }} />;
 		}
 	};
 
-	const setImg = () => {
-		const img = document.getElementById('imgAvatar');
+	const getBase64 = (file) => {
+		return new Promise((resolve) => {
+			let fileInfo;
+			let baseURL = '';
+			// Make new FileReader
+			let reader = new FileReader();
 
-		//setIfAvatar(true);
+			// Convert the file to base64 text
+			reader.readAsDataURL(file);
+
+			// on reader load somthing...
+			reader.onload = () => {
+				// Make a fileInfo Object
+				//console.log('Called', reader);
+				baseURL = reader.result;
+				//console.log(baseURL);
+				resolve(baseURL);
+			};
+			//console.log(fileInfo);
+		});
+	};
+
+	const handleFileInputChange = async (e) => {
+		let imgUrl = '';
+		getBase64(e.target.files[0])
+			.then((result) => {
+				imgUrl = result;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		await fetch(
+			`http://localhost:3001/users/fe4c64ae-2c75-44cf-8d42-01fb89b39885`,
+			{
+				method: 'PUT',
+				headers: {
+					Authorization: `Bearer ${oauth.access_token}`,
+					'Content-type': 'application/json'
+				},
+				body: JSON.stringify({
+					img: 'imgUrl'
+				})
+			}
+		);
+		setIfAvatar(true);
 	};
 
 	return (
@@ -68,6 +124,7 @@ export default function AvatarProfil({ clickable }) {
 				<IconButton
 					onClick={() => {
 						handleOpen();
+						fonctionDeMerdePourSimulerUnUser();
 					}}>
 					<DefaultAvatar />
 				</IconButton>
@@ -89,7 +146,11 @@ export default function AvatarProfil({ clickable }) {
 					</Typography>
 					<Box sx={styles.boxAvatar}>
 						<DefaultAvatar />
-						<input type='file' id='imgAvatar' />
+						<input
+							type='file'
+							id='imgAvatar'
+							onChange={handleFileInputChange}
+						/>
 					</Box>
 					<Box sx={styles.box2}>
 						<TextField id='UserName' variant='standard' label='set Username' />

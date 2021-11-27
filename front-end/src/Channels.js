@@ -203,6 +203,29 @@ export default function Channels() {
 		fetchChannels(channels);
 	};
 
+	// const verifyUser = async () => {
+	// 	const { data: users } = await axios.get(`http://localhost:3001/users`, {
+	// 		headers: {
+	// 			Authorization: `Bearer ${oauth.access_token}`
+	// 		}
+	// 	});
+	// 	users.length == 0
+	// 		? users.forEach((element) => {
+	// 				oauth.email === element.email
+	// 					? console.log('Verified!')
+	// 					: createDefaultUser();
+	// 		  })
+	// 		: createDefaultUser();
+	// };
+
+	// const createDefaultUser = async () => {
+	// 	await axios.post(`http://localhost:3001/users`, {
+	// 		username: oauth.email,
+	// 		email: oauth.email,
+	// 		password: null
+	// 	});
+	// };
+
 	return (
 		<div css={styles.root}>
 			<Discussions setChannels={setChannels} oauth={oauth} />
