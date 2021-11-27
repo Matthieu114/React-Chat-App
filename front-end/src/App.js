@@ -7,6 +7,7 @@ import Login from './Login';
 import Context from './Context';
 // Rooter
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const styles = {
 	root: {
@@ -36,6 +37,7 @@ export default function App() {
 			}}
 		/>
 	);
+
 	return (
 		<div className='App' css={styles.root}>
 			<Routes>
