@@ -7,6 +7,7 @@ import Login from './Login';
 import Context from './Context';
 // Rooter
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const styles = {
   root: {
@@ -18,6 +19,7 @@ const styles = {
 };
 
 export default function App() {
+
   const location = useLocation();
   const { oauth } = useContext(Context);
   const gochannels = (
@@ -45,4 +47,5 @@ export default function App() {
       </Routes>
     </div>
   );
+
 }
