@@ -49,24 +49,24 @@ const useStyles = (theme) => ({
   message: {
     padding: '1px .8rem',
     ':hover': {
-      backgroundColor: '#0099ff'
+      backgroundColor: '#737373'
     },
     margin: '10px 5px',
     fontSize: 'small',
     borderRadius: '20px 15px 15px 0px',
-    backgroundColor: '#33adff',
+    backgroundColor: '#999999',
     width: 'fit-content',
     color: 'white'
   },
   myMessage: {
     padding: '1px .8rem',
     ':hover': {
-      backgroundColor: '#999999'
+      backgroundColor: '#0099ff'
     },
     margin: '5px 15px 15px 0px',
     fontSize: 'small',
     borderRadius: '20px 15px 0px 15px',
-    backgroundColor: '#737373',
+    backgroundColor: '#33adff',
     width: 'fit-content',
     color: 'white'
   },
@@ -187,7 +187,14 @@ const LiMessage = ({ message, i, value, channel, setMessages, myMessage }) => {
         />
         <li key={i} css={myMessage ? styles.myMessage : styles.message}>
           {!editOpen ? (
-            <div dangerouslySetInnerHTML={{ __html: value }}></div>
+            <div
+              style={{
+                maxInlineSize: '500px',
+                width: 'fit-content',
+                overflowWrap: 'break-word'
+              }}
+              dangerouslySetInnerHTML={{ __html: value }}
+            ></div>
           ) : (
             <div css={styles.edit}>
               <TextField
@@ -210,10 +217,11 @@ const LiMessage = ({ message, i, value, channel, setMessages, myMessage }) => {
                   editMessage(message, channel);
                 }}
                 sx={{ color: 'white' }}
+                size='small'
               >
                 confirm
               </Button>
-              <Button onClick={closeEdit} sx={{ color: 'white' }}>
+              <Button onClick={closeEdit} sx={{ color: 'white' }} size='small'>
                 Cancel
               </Button>
             </div>
