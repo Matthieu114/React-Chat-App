@@ -140,6 +140,7 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
 };
 
 export default function Channels() {
+
 	const { oauth, channels, setChannels, setCurrentChannel } =
 		useContext(Context);
 	useEffect(() => {
@@ -217,4 +218,5 @@ export default function Channels() {
 			</ul>
 		</div>
 	);
+
 }

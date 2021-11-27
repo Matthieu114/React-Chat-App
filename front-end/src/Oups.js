@@ -1,21 +1,20 @@
-
 /** @jsxImportSource @emotion/react */
 // Layout
 import { useTheme } from '@mui/styles';
 
 const useStyles = (theme) => ({
   root: {
-    background: theme.palette.background.default,
+    backgroundColor: 'grey',
     overflow: 'hidden',
     flex: '1 1 auto',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-})
+    alignItems: 'center'
+  }
+});
 
 export default function Oups() {
-  const styles = useStyles(useTheme())
+  const styles = useStyles(useTheme());
   return (
     <main css={styles.root}>
       <div>

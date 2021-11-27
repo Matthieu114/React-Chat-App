@@ -91,6 +91,8 @@ app.get('/users/:id', async (req, res) => {
 	res.json(user);
 });
 
+
+
 app.put('/users/:id', async (req, res) => {
 	const user = await db.users.update(req.body);
 	res.json(user);

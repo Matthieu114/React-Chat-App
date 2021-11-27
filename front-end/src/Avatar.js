@@ -44,6 +44,7 @@ export default function AvatarProfil({ clickable }) {
 	const handleClose = () => setOpen(false);
 	const handleOpen = () => setOpen(true);
 
+
 	const DefaultAvatar = () => {
 		//Set default Avatar to the first letter of the email
 		if (ifAvatar === false) {
@@ -113,4 +114,5 @@ export default function AvatarProfil({ clickable }) {
 			</Modal>
 		</div>
 	);
+
 }
