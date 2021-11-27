@@ -80,6 +80,7 @@ const Tokens = ({ oauth }) => {
     e.stopPropagation();
     setOauth(null);
   };
+
   return (
     <div css={styles.root}>
       Welcome {email}{' '}
@@ -132,6 +133,7 @@ export default function Login({ onUser }) {
   };
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
+
   // is there a code query parameters in the url
   if (!code) {
     // no: we are not being redirected from an oauth server
