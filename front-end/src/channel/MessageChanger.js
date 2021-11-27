@@ -96,7 +96,7 @@ const DeleteMessageConfirmation = ({
               <p style={{ fontSize: 'small', clear: 'both', color: '#4d4d4d' }}>
                 {message.author} - {dayjs().calendar(message.creation)}
               </p>
-              <p style={{ fontSize: 'small' }}>{message.content}</p>
+              <p style={{ fontSize: 'small' }}>"{message.content}"</p>
             </div>
           </Box>
         </DialogContent>

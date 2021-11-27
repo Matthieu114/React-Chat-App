@@ -1,25 +1,22 @@
-import { Button, Box, Modal, TextField } from '@mui/material';
+import {
+  Button,
+  Box,
+  IconButton,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import axios from 'axios';
 //Context
 import Context from '../Context';
 import React, { useContext, useState } from 'react';
 
-const styles = {
-  modal: {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-    backgroundColor: 'white'
-  }
-};
+const styles = {};
 
 const ModifyChannelModal = ({ channel, handleClose }) => {
   const [open, setOpen] = useState(false);
@@ -69,41 +66,70 @@ const ModifyChannelModal = ({ channel, handleClose }) => {
 
   return (
     <div onClick={handleChildOpen}>
+      <ModeEditOutlineIcon
+        fontSize='small'
+        sx={{ marginRight: '5px', marginBottom: '-5px' }}
+      />
       Modify Me
-      <Modal
+      <Dialog
         open={open}
         onClose={handleChildClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <Box sx={styles.modal}>
+        <DialogTitle
+          id='alert-dialog-title'
+          sx={{
+            textAlign: 'center',
+            borderBottom: 'solid lightgrey 1px',
+            marginBottom: '1rem'
+          }}
+        >
+          {'Modify the Discussion Name'}
+          <IconButton sx={{ float: 'right' }} onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            id='alert-dialog-description'
+            sx={{ fontSize: 'small' }}
+          >
+            When you modify the name of the channel it is modified for everybody
+          </DialogContentText>
           <TextField
             fullWidth
-            color='primary'
+            margin='dense'
             id='modifyChannel'
             label='Name of Channel'
             name='modifyChannel'
             variant='outlined'
+            color='info'
             onKeyPress={onKeyPress}
-            helperText='Enter the new channel name'
-            autoFocus
           />
+        </DialogContent>
+        <DialogActions css={styles.actions}>
           <Button
             onClick={() => {
               updateChannel(channel);
               handleClose();
             }}
-            sx={{ justifyContent: 'center' }}
+            sx={{ padding: '5px 2rem' }}
+            variant='outlined'
             color='info'
           >
             Modify
           </Button>
-          <Button onClick={handleClose} color='info'>
-            {' '}
+          <Button
+            onClick={handleClose}
+            sx={{ padding: '5px 2rem' }}
+            variant='outlined'
+            color='info'
+          >
             Cancel
           </Button>
-        </Box>
-      </Modal>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

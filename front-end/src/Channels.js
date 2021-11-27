@@ -29,7 +29,7 @@ const styles = {
     padding: '1.2rem',
     whiteSpace: 'nowrap',
     ':hover': {
-      backgroundColor: 'lightgrey'
+      backgroundColor: '#f2f2f2'
     }
   }
 };
@@ -110,7 +110,6 @@ const ChannelComponent = ({ i, channel, deleteChannel }) => {
               }
             }}
           >
-            <ModeEditOutlineIcon fontSize='small' sx={{ marginRight: '5px' }} />
             <ModifyChannelModal channel={channel} handleClose={handleClose} />
           </Button>
         </MenuItem>
