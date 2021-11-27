@@ -49,7 +49,6 @@ export default function AvatarProfil({ clickable }) {
       return;
     }
   };
-  const Save = () => {};
   return (
     <div>
       {clickable ? (
