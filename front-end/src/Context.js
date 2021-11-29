@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import axios from 'axios';
 
 const Context = React.createContext();
 
@@ -11,8 +12,20 @@ export const Provider = ({ children }) => {
 	const [drawerVisible, setDrawerVisible] = useState(false);
 	const [channels, setChannels] = useState([]);
 	const [currentChannel, setCurrentChannel] = useState(null);
-	const [ifAvatar, setIfAvatar] = useState(false);
 	const [user, setUser] = useState(null);
+
+	const createUserInDB = async () => {};
+	const checkUserDb = async () => {
+		const { data: users } = await axios.get(`http://localhost:3001/users`, {
+			headers: {
+				Authorization: `Bearer ${oauth.access_token}`
+			}
+		});
+		users.forEach((user) => {
+			user.email === oauth.email ? setUser(user) : createUserInDB();
+		});
+	};
+
 	return (
 		<Context.Provider
 			value={{
@@ -25,6 +38,7 @@ export const Provider = ({ children }) => {
 							)
 						);
 						oauth.email = payload.email;
+						oauth.name = payload.name;
 						setCookie('oauth', oauth);
 					} else {
 						setCurrentChannel(null);
@@ -32,6 +46,7 @@ export const Provider = ({ children }) => {
 						removeCookie('oauth');
 					}
 					setOauth(oauth);
+					checkUserDb();
 				},
 				channels: channels,
 				drawerVisible: drawerVisible,
@@ -43,9 +58,7 @@ export const Provider = ({ children }) => {
 					setCurrentChannel(channel);
 				},
 				user: user,
-				setUser: setUser,
-				ifAvatar: ifAvatar,
-				setIfAvatar: setIfAvatar
+				setUser: setUser
 			}}>
 			{children}
 		</Context.Provider>
