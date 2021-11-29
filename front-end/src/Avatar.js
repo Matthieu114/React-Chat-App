@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import Avatar from '@mui/material/Avatar';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 //Layout
 import {
@@ -41,33 +41,18 @@ const styles = {
 };
 export default function AvatarProfil({ clickable }) {
 	const [open, setOpen] = useState(false);
-	const { oauth, user, setUser } = useContext(Context);
+	const { user, setCookie, cookies } = useContext(Context);
 	const handleClose = () => setOpen(false);
 	const handleOpen = () => setOpen(true);
 
-	// useEffect(() => {
-	// 	const getUsersTest = async () => {
-	// 		const { data: users } = await axios.get(`http://localhost:3001/users`, {
-	// 			headers: {
-	// 				Authorization: `Bearer ${oauth.access_token}`
-	// 			}
-	// 		});
-
-	// 		users.forEach((user) => {
-	// 			user.email === 'obispo@gmail.com' ? setUser(user) : setUser(null);
-	// 		});
-	// 	};
-	// 	getUsersTest();
-	// }, [oauth, setUser]);
-
 	const DefaultAvatar = () => {
-		// Set default Avatar to the first letter of the email
-		if (user?.img) {
-			return <Avatar src={user.img} />;
-		}
 		//Use the Avatar database after the first modification
+		if (user?.img !== '') {
+			return <Avatar src={user?.img} />;
+		}
+		// Set default Avatar to the first letter of the username
 		else {
-			const str = user?.email.charAt(0);
+			const str = user?.username.charAt(0);
 			return <Avatar sx={{ bgcolor: 'grey' }}>{str?.toUpperCase()}</Avatar>;
 		}
 	};
@@ -88,16 +73,18 @@ export default function AvatarProfil({ clickable }) {
 		});
 	};
 
-	const handleFileInputChange = (e) => {
+	const handleFileInputChange = async (e) => {
 		getBase64(e.target.files[0])
 			.then((result) => {
 				user.img = result;
 				axios.put(`http://localhost:3001/users/${user.id}`, user);
+				setCookie('user', user);
+				console.log(cookies.user.img);
+				console.log(user.img);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-		setUser(user);
 	};
 
 	return (

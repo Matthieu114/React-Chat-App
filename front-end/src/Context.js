@@ -12,18 +12,29 @@ export const Provider = ({ children }) => {
 	const [drawerVisible, setDrawerVisible] = useState(false);
 	const [channels, setChannels] = useState([]);
 	const [currentChannel, setCurrentChannel] = useState(null);
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState(cookies.user);
 
-	const createUserInDB = async () => {};
-	const checkUserDb = async () => {
+	const createUserInDB = async (oauth) => {
+		try {
+			const { data: user } = await axios.post(`http://localhost:3001/users`, {
+				username: oauth.name,
+				email: oauth.email,
+				img: ''
+			});
+			setCookie('user', user);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const checkUserDb = async (oauth) => {
 		const { data: users } = await axios.get(`http://localhost:3001/users`, {
 			headers: {
 				Authorization: `Bearer ${oauth.access_token}`
 			}
 		});
-		users.forEach((user) => {
-			user.email === oauth.email ? setUser(user) : createUserInDB();
-		});
+		const userFound = users.find((user) => user.email === oauth.email);
+		userFound ? setCookie('user', userFound) : createUserInDB(oauth);
+		console.log('cook login:' + cookies.user);
 	};
 
 	return (
@@ -31,7 +42,7 @@ export const Provider = ({ children }) => {
 			value={{
 				oauth: oauth,
 				setOauth: (oauth) => {
-					if (oauth) {
+					if (oauth !== null) {
 						const payload = JSON.parse(
 							Buffer.from(oauth.id_token.split('.')[1], 'base64').toString(
 								'utf-8'
@@ -39,6 +50,7 @@ export const Provider = ({ children }) => {
 						);
 						oauth.email = payload.email;
 						oauth.name = payload.name;
+						checkUserDb(oauth);
 						setCookie('oauth', oauth);
 					} else {
 						setCurrentChannel(null);
@@ -46,7 +58,6 @@ export const Provider = ({ children }) => {
 						removeCookie('oauth');
 					}
 					setOauth(oauth);
-					checkUserDb();
 				},
 				channels: channels,
 				drawerVisible: drawerVisible,
@@ -58,7 +69,9 @@ export const Provider = ({ children }) => {
 					setCurrentChannel(channel);
 				},
 				user: user,
-				setUser: setUser
+				setUser: setUser,
+				setCookie: setCookie,
+				removeCookie: removeCookie
 			}}>
 			{children}
 		</Context.Provider>

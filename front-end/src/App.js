@@ -19,7 +19,7 @@ const styles = {
 
 export default function App() {
 	const location = useLocation();
-	const { oauth, setUser } = useContext(Context);
+	const { oauth } = useContext(Context);
 	const gochannels = (
 		<Navigate
 			to={{

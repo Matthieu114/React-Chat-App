@@ -155,7 +155,8 @@ const config = {
 	await axios.post(`http://localhost:3001/users`, {
 		username: 'Pascal',
 		email: 'obispo@gmail.com',
-		password: 'jesuisunchanteurachier'
+		password: 'jesuisunchanteurachier',
+		img: ''
 	});
 	process.exit();
 })();

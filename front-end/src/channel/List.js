@@ -274,7 +274,7 @@ export default forwardRef(
 						return (
 							<LiMessage
 								message={message}
-								i={i}
+								key={i}
 								value={value}
 								channel={channel}
 								setMessages={setMessages}
