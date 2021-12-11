@@ -13,7 +13,6 @@ export const Provider = ({ children }) => {
 	const [currentChannel, setCurrentChannel] = useState(null);
 	const [ifAvatar, setIfAvatar] = useState(false);
 	const [user, setUser] = useState(null);
-	const [name, img, email] = useState(null);
 	return (
 		<Context.Provider
 			value={{
@@ -43,11 +42,8 @@ export const Provider = ({ children }) => {
 					const channel = channels.find((channel) => channel.id === channelId);
 					setCurrentChannel(channel);
 				},
-				user: {
-					name: name,
-					img: img,
-					email: email
-				},
+				user: user,
+				setUser: setUser,
 				ifAvatar: ifAvatar,
 				setIfAvatar: setIfAvatar
 			}}>

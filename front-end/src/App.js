@@ -7,7 +7,6 @@ import Login from './Login';
 import Context from './Context';
 // Rooter
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
 
 const styles = {
   root: {
