@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 
 // Local
-import SignUp from './SignUp';
 import Context from './Context';
 import {useNavigate} from 'react-router-dom';
 
@@ -77,21 +76,24 @@ const Redirect = ({config, codeVerifier}) => {
       <Button
         onClick={redirect}
         variant='contained'
-        fullWidth
-        className='oauth-button'>
-        Login with Github
+        className='oauth-button'
+        fullWidth>
+        Sign Up with Github
       </Button>
     </div>
   );
 };
 
 const LoginForm = ({config, codeVerifier}) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   const handleChange = () => {};
   return (
     <body>
       <header></header>
       <content className='App-login'>
-        <form className='Form'>
+        <form className='Form' onSubmit={handleSubmit}>
           <DialogTitle
             id='alert-dialog-title'
             sx={{
@@ -101,12 +103,24 @@ const LoginForm = ({config, codeVerifier}) => {
             }}>
             Chat Anywhere Anytime
           </DialogTitle>
-          <p>Log in to your account</p>
+
+          <p style={{fontSize: 'small', textAlign: 'left', color: 'grey'}}>
+            sign up to connect with your friends
+          </p>
+          <TextField
+            label='Name'
+            id='name'
+            handleChange={handleChange}
+            type='text'
+            variant='outlined'
+            color='info'
+          />
+          <br></br>
           <TextField
             label='Email'
             id='email'
             handleChange={handleChange}
-            type='text'
+            type='email'
             variant='outlined'
             color='info'
           />
@@ -123,21 +137,27 @@ const LoginForm = ({config, codeVerifier}) => {
             color='info'
           />
           <Button
-            type='button'
+            type='submit'
             variant='contained'
             color='info'
-            className='login-button'>
-            Log In
+            className='login-button'
+            onClick={(e) => {
+              handleSubmit(e);
+            }}>
+            Get started, it's free!
           </Button>
           <div style={{display: 'flex', alignItems: 'center'}}>
-            <hr style={{color: 'black', width: '40%'}} />
+            <hr style={{color: 'grey', width: '40%'}} />
             <p style={{fontSize: 'small', color: 'grey'}}>or</p>
-            <hr style={{color: 'black', width: '40%'}} />
+            <hr style={{color: 'grey', width: '40%'}} />
           </div>
           <Redirect codeVerifier={codeVerifier} config={config} />
-          <DialogContentText sx={{marginTop: '10px'}}>
-            New to Brice Denis?
-            <Link to='/signup'>Sign up!</Link>
+          <p>
+            By continuing you agree to BriceDenis's <a href='#'>terms of use</a>
+          </p>
+          <DialogContentText
+            sx={{marginTop: '10px', textAlign: 'left', fontSize: 'small'}}>
+            Already signed up? <Link to='/'>Log In!</Link>
           </DialogContentText>
         </form>
       </content>
@@ -194,11 +214,10 @@ const LoadToken = ({code, codeVerifier, config, removeCookie, setOauth}) => {
   return <div css={styles.root}>Loading tokens</div>;
 };
 
-export default function Login() {
+export default function SignUp() {
   const styles = useStyles(useTheme());
-  // const location = useLocation();
   const [cookies, setCookie, removeCookie] = useCookies([]);
-  const {oauth, setOauth} = useContext(Context);
+  const {oauth, setOauth, email, setEmail} = useContext(Context);
   const config = {
     authorization_endpoint: 'http://localhost:5556/dex/auth',
     token_endpoint: 'http://localhost:5556/dex/token',

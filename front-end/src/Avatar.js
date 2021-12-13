@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import Avatar from '@mui/material/Avatar';
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 //Layout
 import {Modal, Typography, TextField, Box, Button, IconButton} from '@mui/material';
@@ -34,9 +34,13 @@ const styles = {
 };
 export default function AvatarProfil({clickable}) {
   const [open, setOpen] = useState(false);
-  const {user, setCookie, cookies} = useContext(Context);
+  const {user, setUser} = useContext(Context);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
+
+  const testFunction = () => {
+    console.log(user);
+  };
 
   const DefaultAvatar = () => {
     //Use the Avatar database after the first modification
@@ -70,11 +74,9 @@ export default function AvatarProfil({clickable}) {
     getBase64(e.target.files[0])
       .then((result) => {
         user.img = result;
-        axios.put(`http://localhost:3001/users/${user.id}`, user);
-        setCookie('user', user);
         console.log(user);
-        // console.log(cookies.user.img);
-        // console.log(user.img);
+        axios.put(`http://localhost:3001/users/${user.id}`, user);
+        setUser(user);
       })
       .catch((err) => {
         console.log(err);
@@ -87,6 +89,7 @@ export default function AvatarProfil({clickable}) {
         <IconButton
           onClick={() => {
             handleOpen();
+            testFunction();
           }}>
           <DefaultAvatar />
         </IconButton>
