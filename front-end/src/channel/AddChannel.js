@@ -70,11 +70,7 @@ const AddChannel = () => {
 
 	return (
 		<div>
-			<IconButton
-				color='info'
-				variant='outlined'
-				marginTop='300px'
-				onClick={handleOpen}>
+			<IconButton color='info' variant='outlined' onClick={handleOpen}>
 				<AddRounded />
 			</IconButton>
 			<Modal

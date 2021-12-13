@@ -1,16 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import Avatar from '@mui/material/Avatar';
-import { useContext, useState, useEffect } from 'react';
+import {useContext, useState} from 'react';
 import axios from 'axios';
 //Layout
-import {
-  Modal,
-  Typography,
-  TextField,
-  Box,
-  Button,
-  IconButton
-} from '@mui/material';
+import {Modal, Typography, TextField, Box, Button, IconButton} from '@mui/material';
 //Local
 import Context from './Context';
 
@@ -39,73 +32,53 @@ const styles = {
     marginLeft: '150px'
   }
 };
-export default function AvatarProfil({ clickable }) {
+export default function AvatarProfil({clickable}) {
   const [open, setOpen] = useState(false);
-  const { ifAvatar, oauth, setIfAvatar, user, setUser } = useContext(Context);
+  const {user, setCookie, cookies} = useContext(Context);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
 
-  useEffect(() => {
-    const getUsersTest = async () => {
-      const { data: users } = await axios.get(`http://localhost:3001/users/`, {
-        headers: {
-          Authorization: `Bearer ${oauth.access_token}`
-        }
-      });
-
-      users.forEach((user) => {
-        user.email === 'obispo@gmail.com' ? setUser(user) : setUser('');
-      });
-    };
-    getUsersTest();
-  }, [oauth, setUser]);
-
   const DefaultAvatar = () => {
-    // Set default Avatar to the first letter of the email
-    if (ifAvatar) {
-      return <Avatar src={user.img} />;
-    }
     //Use the Avatar database after the first modification
+    if (user?.img !== '') {
+      return <Avatar src={user?.img} />;
+    }
+    // Set default Avatar to the first letter of the username
     else {
-      const str = user?.email.charAt(0);
-      return <Avatar sx={{ bgcolor: 'grey' }}>{str?.toUpperCase()}</Avatar>;
+      const str = user?.username.charAt(0);
+      return <Avatar sx={{bgcolor: 'grey'}}>{str?.toUpperCase()}</Avatar>;
     }
   };
 
   const getBase64 = (file) => {
     return new Promise((resolve) => {
-      let fileInfo;
       let baseURL = '';
       // Make new FileReader
       let reader = new FileReader();
-
       // Convert the file to base64 text
       reader.readAsDataURL(file);
-
       // on reader load somthing...
       reader.onload = () => {
         // Make a fileInfo Object
-        //console.log('Called', reader);
         baseURL = reader.result;
-        //console.log(baseURL);
         resolve(baseURL);
       };
-      //console.log(fileInfo);
     });
   };
 
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = async (e) => {
     getBase64(e.target.files[0])
       .then((result) => {
-        let imgUrl = result;
         user.img = result;
         axios.put(`http://localhost:3001/users/${user.id}`, user);
+        setCookie('user', user);
+        console.log(user);
+        // console.log(cookies.user.img);
+        // console.log(user.img);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    setIfAvatar(true);
   };
 
   return (
@@ -114,8 +87,7 @@ export default function AvatarProfil({ clickable }) {
         <IconButton
           onClick={() => {
             handleOpen();
-          }}
-        >
+          }}>
           <DefaultAvatar />
         </IconButton>
       ) : (
@@ -125,24 +97,18 @@ export default function AvatarProfil({ clickable }) {
         open={open}
         onClose={handleClose}
         aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
-      >
+        aria-describedby='modal-modal-description'>
         <Box sx={styles.box}>
           <Typography
             color='black'
             id='modal-modal-title'
             variant='h6'
-            component='h6'
-          >
+            component='h6'>
             Welcome on your profil !
           </Typography>
           <Box sx={styles.boxAvatar}>
             <DefaultAvatar />
-            <input
-              type='file'
-              id='imgAvatar'
-              onChange={handleFileInputChange}
-            />
+            <input type='file' id='imgAvatar' onChange={handleFileInputChange} />
           </Box>
           <Box sx={styles.box2}>
             <TextField id='UserName' variant='standard' label='set Username' />
@@ -152,15 +118,10 @@ export default function AvatarProfil({ clickable }) {
               color='black'
               id='modal-modal-title'
               variant='h6'
-              component='h6'
-            >
+              component='h6'>
               Username:
             </Typography>
-            <TextField
-              id='UserName'
-              variant='standard'
-              sx={{ marginLeft: '20px' }}
-            />
+            <TextField id='UserName' variant='standard' sx={{marginLeft: '20px'}} />
           </Box>
           <Button variant='outlined'>Save</Button>
         </Box>
