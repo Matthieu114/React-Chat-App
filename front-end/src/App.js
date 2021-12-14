@@ -9,18 +9,17 @@ import Context from './Context';
 import {Route, Routes, Navigate, useLocation} from 'react-router-dom';
 import SignUp from './SignUp';
 
-
 const styles = {
-	root: {
-		boxSizing: 'border-box',
-		display: 'flex',
-		flexDirection: 'column',
-		
-	}
+  root: {
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column'
+  }
 };
 export default function App() {
   const location = useLocation();
-  const {oauth} = useContext(Context);
+  const {oauth, user} = useContext(Context);
+
   const gochannels = (
     <Navigate
       to={{
@@ -38,11 +37,20 @@ export default function App() {
     />
   );
   return (
-    <div className='App' className='App' css={styles.root}>
+    <div className='App' css={styles.root}>
       <Routes>
-        <Route exact path='/' element={oauth ? gochannels : <Login />} />
-        <Route exact path='/signup' element={oauth ? gochannels : <SignUp />} />
-        <Route path='/channels/*' element={oauth ? <Main /> : gohome} />
+        <Route
+          exact
+          path='/'
+          element={
+            oauth || Object.entries(user).length !== 0 ? gochannels : <Login />
+          }
+        />
+        <Route exact path='/signup' element={<SignUp />} />
+        <Route
+          path='/channels/*'
+          element={oauth || Object.entries(user).length !== 0 ? <Main /> : gohome}
+        />
         <Route path='/Oups' element={<Oups />} />
       </Routes>
     </div>

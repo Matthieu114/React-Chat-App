@@ -10,6 +10,8 @@ export const Provider = ({children}) => {
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const [oauth, setOauth] = useState(cookies.oauth);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
@@ -72,7 +74,11 @@ export const Provider = ({children}) => {
         setCookie: setCookie,
         removeCookie: removeCookie,
         email: email,
-        setEmail: setEmail
+        setEmail: setEmail,
+        password: password,
+        setPassword: setPassword,
+        username: username,
+        setUsername: setUsername
       }}>
       {children}
     </Context.Provider>

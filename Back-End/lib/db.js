@@ -114,7 +114,6 @@ module.exports = {
       return merge(user, {id: id});
     },
     get: async (id) => {
-      console.log('users id' + id);
       if (!id) throw Error('Invalid id');
       const data = await db.get(`users:${id}`);
       const user = JSON.parse(data);

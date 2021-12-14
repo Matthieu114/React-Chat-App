@@ -86,7 +86,6 @@ const Redirect = ({config, codeVerifier}) => {
 };
 
 const LoginForm = ({config, codeVerifier}) => {
-  const handleChange = () => {};
   return (
     <body>
       <header></header>
@@ -105,7 +104,6 @@ const LoginForm = ({config, codeVerifier}) => {
           <TextField
             label='Email'
             id='email'
-            handleChange={handleChange}
             type='text'
             variant='outlined'
             color='info'
@@ -114,10 +112,6 @@ const LoginForm = ({config, codeVerifier}) => {
           <TextField
             label='Password'
             id='password'
-            formControlProps={{
-              fullWidth: true
-            }}
-            handleChange={handleChange}
             type='password'
             variant='outlined'
             color='info'

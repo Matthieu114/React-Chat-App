@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useCookies} from 'react-cookie';
 import crypto from 'crypto';
 import qs from 'qs';
@@ -7,15 +7,7 @@ import axios from 'axios';
 // Layout
 import {useTheme} from '@mui/styles';
 import {Link} from 'react-router-dom';
-import {
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from '@mui/material';
+import {Button, TextField, DialogContentText, DialogTitle} from '@mui/material';
 
 // Local
 import Context from './Context';
@@ -85,10 +77,47 @@ const Redirect = ({config, codeVerifier}) => {
 };
 
 const LoginForm = ({config, codeVerifier}) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const {email, setEmail, password, setPassword, username, setUsername, setUser} =
+    useContext(Context);
+  const navigate = useNavigate();
+  let userExists;
+
+  const checkUsers = async () => {
+    const {data: users} = await axios.get(`http://localhost:3001/users`);
+
+    const userEmailExist = users.filter((user) => user.email === email);
+    const userNameExist = users.filter((user) => user.username === username);
+
+    if (userEmailExist.length === 0 || userNameExist.length === 0) {
+      userExists = false;
+    } else {
+      userExists = true;
+    }
   };
-  const handleChange = () => {};
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await checkUsers();
+
+    if (userExists) {
+      const div = document.getElementById('error-message');
+      div.innerHTML = 'User or email already exists!';
+      return;
+    }
+    const {data: newUser} = await axios.post(`http://localhost:3001/users`, {
+      username: username,
+      email: email,
+      password: password
+    });
+
+    setUser(newUser);
+    navigate(`/`);
+  };
+
+  const validateForm = () => {
+    return email.length > 0 && password.length > 6;
+  };
+
   return (
     <body>
       <header></header>
@@ -107,40 +136,56 @@ const LoginForm = ({config, codeVerifier}) => {
           <p style={{fontSize: 'small', textAlign: 'left', color: 'grey'}}>
             sign up to connect with your friends
           </p>
+
+          <br></br>
           <TextField
             label='Name'
             id='name'
-            handleChange={handleChange}
             type='text'
             variant='outlined'
             color='info'
+            required
+            size='small'
+            onChange={(e) => setUsername(e.target.value)}
           />
           <br></br>
           <TextField
             label='Email'
             id='email'
-            handleChange={handleChange}
+            onChange={(e) => setEmail(e.target.value)}
             type='email'
             variant='outlined'
             color='info'
+            required
+            size='small'
+            value={email}
           />
           <br></br>
           <TextField
             label='Password'
+            size='small'
             id='password'
-            formControlProps={{
-              fullWidth: true
-            }}
-            handleChange={handleChange}
+            onChange={(e) => setPassword(e.target.value)}
             type='password'
             variant='outlined'
             color='info'
+            required
+            value={password}
           />
+          <div
+            id='error-message'
+            style={{
+              color: 'red',
+              textAlign: 'left',
+              fontSize: 'small',
+              marginTop: '10px'
+            }}></div>
           <Button
             type='submit'
             variant='contained'
             color='info'
             className='login-button'
+            disabled={!validateForm()}
             onClick={(e) => {
               handleSubmit(e);
             }}>
@@ -217,7 +262,7 @@ const LoadToken = ({code, codeVerifier, config, removeCookie, setOauth}) => {
 export default function SignUp() {
   const styles = useStyles(useTheme());
   const [cookies, setCookie, removeCookie] = useCookies([]);
-  const {oauth, setOauth, email, setEmail} = useContext(Context);
+  const {oauth, setOauth} = useContext(Context);
   const config = {
     authorization_endpoint: 'http://localhost:5556/dex/auth',
     token_endpoint: 'http://localhost:5556/dex/token',
