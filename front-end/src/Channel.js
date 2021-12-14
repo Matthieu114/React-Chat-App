@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { useContext, useRef, useState, useEffect } from 'react';
+import {useContext, useRef, useState, useEffect} from 'react';
 import axios from 'axios';
 // Layout
-import { useTheme } from '@mui/styles';
-import { Fab } from '@mui/material';
+import {useTheme} from '@mui/styles';
+import {Fab} from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // Local
 import Form from './channel/Form';
 import List from './channel/List';
 import Context from './Context';
-import { useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import Header from './Header';
 
 const useStyles = (theme) => ({
@@ -20,7 +20,7 @@ const useStyles = (theme) => ({
     flexDirection: 'column',
     position: 'relative',
     overflowX: 'auto',
-    backgroundColor: ' #f2f2f2',
+    backgroundColor: 'white',
     color: 'black'
   },
   fab: {
@@ -35,8 +35,8 @@ const useStyles = (theme) => ({
 
 export default function Channel() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { channels, oauth } = useContext(Context);
+  const {id} = useParams();
+  const {channels, oauth} = useContext(Context);
   const channel = channels.find((channel) => channel.id === id);
   const styles = useStyles(useTheme());
   const listRef = useRef();
@@ -54,7 +54,7 @@ export default function Channel() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const { data: messages } = await axios.get(
+        const {data: messages} = await axios.get(
           `http://localhost:3001/channels/${id}/messages`,
           {
             headers: {
@@ -104,8 +104,7 @@ export default function Channel() {
         color='blue'
         aria-label='Latest messages'
         css={[styles.fab, scrollDown || styles.fabDisabled]}
-        onClick={onClickScroll}
-      >
+        onClick={onClickScroll}>
         <ArrowDropDownIcon />
       </Fab>
     </div>

@@ -16,6 +16,7 @@ export const Provider = ({children}) => {
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
   const [user, setUser] = useState({});
+  const [users, setUsers] = useState([]);
 
   const createUserInDB = async (oauth) => {
     try {
@@ -71,6 +72,8 @@ export const Provider = ({children}) => {
         },
         user: user,
         setUser: setUser,
+        users: users,
+        setUsers: setUsers,
         setCookie: setCookie,
         removeCookie: removeCookie,
         email: email,

@@ -39,7 +39,7 @@ export default function Header({channel}) {
     e.stopPropagation();
     setOauth(null);
     removeCookie('oauth');
-    setUser({});
+    setUser(null);
   };
   return (
     <header css={styles.header}>

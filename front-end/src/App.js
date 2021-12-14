@@ -39,18 +39,10 @@ export default function App() {
   return (
     <div className='App' css={styles.root}>
       <Routes>
-        <Route
-          exact
-          path='/'
-          element={
-            oauth || Object.entries(user).length !== 0 ? gochannels : <Login />
-          }
-        />
+        <Route exact path='/' element={oauth ? gochannels : <Login />} />
+        {/* Object.entries(user).length !== 0 */}
         <Route exact path='/signup' element={<SignUp />} />
-        <Route
-          path='/channels/*'
-          element={oauth || Object.entries(user).length !== 0 ? <Main /> : gohome}
-        />
+        <Route path='/channels/*' element={oauth ? <Main /> : gohome} />
         <Route path='/Oups' element={<Oups />} />
       </Routes>
     </div>

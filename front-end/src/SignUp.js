@@ -88,7 +88,10 @@ const LoginForm = ({config, codeVerifier}) => {
     const userEmailExist = users.filter((user) => user.email === email);
     const userNameExist = users.filter((user) => user.username === username);
 
-    if (userEmailExist.length === 0 || userNameExist.length === 0) {
+    console.log(userEmailExist);
+    console.log(userNameExist);
+
+    if (userEmailExist.length === 0 && userNameExist.length === 0) {
       userExists = false;
     } else {
       userExists = true;
@@ -101,17 +104,17 @@ const LoginForm = ({config, codeVerifier}) => {
 
     if (userExists) {
       const div = document.getElementById('error-message');
-      div.innerHTML = 'User or email already exists!';
+      div.innerHTML = 'Username or email already exists!';
       return;
+    } else {
+      const {data: newUser} = await axios.post(`http://localhost:3001/users`, {
+        username: username,
+        email: email,
+        password: password
+      });
+      setUser(newUser);
+      navigate(`/`);
     }
-    const {data: newUser} = await axios.post(`http://localhost:3001/users`, {
-      username: username,
-      email: email,
-      password: password
-    });
-
-    setUser(newUser);
-    navigate(`/`);
   };
 
   const validateForm = () => {
@@ -153,12 +156,11 @@ const LoginForm = ({config, codeVerifier}) => {
             label='Email'
             id='email'
             onChange={(e) => setEmail(e.target.value)}
-            type='email'
+            type='text'
             variant='outlined'
             color='info'
             required
             size='small'
-            value={email}
           />
           <br></br>
           <TextField
@@ -170,7 +172,6 @@ const LoginForm = ({config, codeVerifier}) => {
             variant='outlined'
             color='info'
             required
-            value={password}
           />
           <div
             id='error-message'

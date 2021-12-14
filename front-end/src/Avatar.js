@@ -32,7 +32,7 @@ const styles = {
     marginLeft: '150px'
   }
 };
-export default function AvatarProfil({clickable}) {
+export default function AvatarProfil({clickable, userName}) {
   const [open, setOpen] = useState(false);
   const {user, setUser} = useContext(Context);
   const handleClose = () => setOpen(false);
@@ -45,12 +45,17 @@ export default function AvatarProfil({clickable}) {
   const DefaultAvatar = () => {
     //Use the Avatar database after the first modification
     if (user?.img !== '') {
-      return <Avatar src={user?.img} />;
-    }
-    // Set default Avatar to the first letter of the username
-    else {
+      if (userName !== '') {
+        const str = userName?.username?.charAt(0);
+
+        return <Avatar src={userName?.img}>{str?.toUpperCase()}</Avatar>;
+      } else {
+        const str = user?.username.charAt(0);
+        return <Avatar src={user?.img}>{str?.toUpperCase()}</Avatar>;
+      }
+    } else {
       const str = user?.username.charAt(0);
-      return <Avatar sx={{bgcolor: 'grey'}}>{str?.toUpperCase()}</Avatar>;
+      return <Avatar>{str?.toUpperCase()}</Avatar>;
     }
   };
 

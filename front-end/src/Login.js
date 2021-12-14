@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 
 // Local
-import SignUp from './SignUp';
 import Context from './Context';
 import {useNavigate} from 'react-router-dom';
 
