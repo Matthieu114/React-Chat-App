@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import Avatar from '@mui/material/Avatar';
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 //Layout
 import {Modal, Typography, TextField, Box, Button, IconButton} from '@mui/material';
@@ -32,21 +32,34 @@ const styles = {
     marginLeft: '150px'
   }
 };
-export default function AvatarProfil({clickable}) {
+export default function AvatarProfil({clickable, userName, inUser}) {
   const [open, setOpen] = useState(false);
-  const {user, setCookie, cookies} = useContext(Context);
+  const {user, setUser} = useContext(Context);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
+
+  const testFunction = () => {
+    console.log(user);
+  };
 
   const DefaultAvatar = () => {
     //Use the Avatar database after the first modification
     if (user?.img !== '') {
-      return <Avatar src={user?.img} />;
+      const str = user?.username?.charAt(0);
+      return <Avatar src={user?.img}>{str?.toUpperCase()}</Avatar>;
+    } else {
+      const str = user?.username?.charAt(0);
+      return <Avatar src={user?.img}>{str?.toUpperCase()}</Avatar>;
     }
-    // Set default Avatar to the first letter of the username
-    else {
-      const str = user?.username.charAt(0);
-      return <Avatar sx={{bgcolor: 'grey'}}>{str?.toUpperCase()}</Avatar>;
+  };
+
+  const DefaultAvatarUsers = () => {
+    if (userName !== '') {
+      const str = userName?.username?.charAt(0);
+      return <Avatar src={userName?.img}>{str?.toUpperCase()}</Avatar>;
+    } else {
+      const str = userName?.username?.charAt(0);
+      return <Avatar src={userName?.img}>{str?.toUpperCase()}</Avatar>;
     }
   };
 
@@ -70,11 +83,9 @@ export default function AvatarProfil({clickable}) {
     getBase64(e.target.files[0])
       .then((result) => {
         user.img = result;
-        axios.put(`http://localhost:3001/users/${user.id}`, user);
-        setCookie('user', user);
         console.log(user);
-        // console.log(cookies.user.img);
-        // console.log(user.img);
+        axios.put(`http://localhost:3001/users/${user.id}`, user);
+        setUser(user);
       })
       .catch((err) => {
         console.log(err);
@@ -87,9 +98,12 @@ export default function AvatarProfil({clickable}) {
         <IconButton
           onClick={() => {
             handleOpen();
+            testFunction();
           }}>
           <DefaultAvatar />
         </IconButton>
+      ) : inUser ? (
+        <DefaultAvatarUsers />
       ) : (
         <DefaultAvatar />
       )}

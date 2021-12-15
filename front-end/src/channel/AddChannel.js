@@ -1,124 +1,215 @@
+/** @jsxImportSource @emotion/react */
 import {
-	Button,
-	Box,
-	Modal,
-	TextField,
-	IconButton,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle
+  Button,
+  Box,
+  Modal,
+  TextField,
+  IconButton,
+  Menu,
+  MenuItem,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Checkbox,
+  DialogTitle
 } from '@mui/material';
 import axios from 'axios';
 //Context
 import Context from '../Context';
-import { useContext, useState } from 'react';
+import {useContext, useState} from 'react';
+//local
 import AddRounded from '@mui/icons-material/AddRounded';
+import UserSearchBar from '../UserSearchBar';
+import AvatarProfil from '../Avatar';
 
 const styles = {
-	box: {
-		position: 'absolute',
-		top: '50%',
-		left: '50%',
-		transform: 'translate(-50%, -50%)',
-		width: 'max-content',
-		bgcolor: 'white',
-		p: 4,
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center'
-	},
-	box2: {
-		justifyContent: 'center',
-		color: 'white'
-	}
+  userContainerRoot: {
+    padding: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: '4px',
+    ':hover': {
+      backgroundColor: '#d9d9d9'
+    },
+    width: '100%',
+    justifyContent: 'space-between'
+  },
+  userContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  }
+};
+
+const UserComponent = ({
+  user,
+  key,
+  channelUser,
+  setChannelUser,
+  channelName,
+  setChannelName
+}) => {
+  const handleCheckboxChange = (e) => {
+    let newArray = [...channelUser, e.target.id];
+    if (channelUser.includes(e.target.id)) {
+      newArray = newArray.filter((user) => user.id !== e.target.id);
+    }
+
+    setChannelUser(newArray);
+  };
+  const handleNames = (e) => {
+    let newArray = [...channelName, e.target.value];
+    if (channelUser.includes(e.target.value)) {
+      newArray = newArray.filter((user) => user.username !== e.target.value);
+    }
+
+    setChannelName(newArray);
+  };
+
+  return (
+    <div key={key} css={styles.userContainerRoot}>
+      <span css={styles.userContainer}>
+        <AvatarProfil userName={user} inUser={true} />
+        {user.username}
+      </span>
+      <span>
+        <Checkbox
+          onChange={(e) => {
+            handleCheckboxChange(e);
+            handleNames(e);
+          }}
+          value={user.username}
+          id={user.id}
+        />
+      </span>
+    </div>
+  );
 };
 
 const AddChannel = () => {
-	const [open, setOpen] = useState(false);
-	const handleClose = () => setOpen(false);
-	const handleOpen = () => setOpen(true);
-	const { setChannels, oauth } = useContext(Context);
+  const {setChannels, oauth, users, setUsers, channels, user} = useContext(Context);
+  const [channelUser, setChannelUser] = useState([]);
+  const [channelName, setChannelName] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-	const fetchChannels = async () => {
-		const { data: channels } = await axios.get(
-			'http://localhost:3001/channels',
-			{
-				headers: {
-					Authorization: `Bearer ${oauth.access_token}`
-				}
-			}
-		);
-		setChannels(channels);
-	};
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-	const onSubmit = async () => {
-		const { data: channels } = await axios.post(
-			`http://localhost:3001/channels`,
-			{
-				name: document.getElementById('newChannel').value
-			}
-		);
-		fetchChannels(channels);
-		handleClose();
-	};
+  const fetchUsers = async () => {
+    const {data: users} = await axios.get('http://localhost:3001/users', {});
+    setUsers(users);
+  };
 
-	const onKeyPress = ({ nativeEvent: { key: keyValue } }) => {
-		if (keyValue === 'Enter') onSubmit();
-	};
+  const fetchChannels = async () => {
+    const {data: channels} = await axios.get('http://localhost:3001/channels', {
+      headers: {
+        Authorization: `Bearer ${oauth.access_token}`
+      }
+    });
+    setChannels(channels);
+  };
 
-	return (
-		<div>
-			<IconButton color='info' variant='outlined' onClick={handleOpen}>
-				<AddRounded />
-			</IconButton>
-			<Modal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby='modal-modal-title'
-				aria-describedby='modal-modal-description'>
-				<Box sx={styles.box}>
-					<Box sx={styles.box2}>
-						<TextField
-							autoFocus
-							fullWidth
-							id='newChannel'
-							label='New Channel Name'
-							variant='standard'
-							name='newChannel'
-							onKeyPress={onKeyPress}
-							helperText='New Channel Name'
-						/>
-						<Button
-							variant='outlined'
-							fullWidth
-							sx={{
-								marginTop: '15px',
-								marginLeft: '10px',
-								justifyContent: 'center'
-							}}
-							onClick={onSubmit}
-							color='info'>
-							ADD
-						</Button>
-						<Button
-							variant='outlined'
-							fullWidth
-							sx={{
-								marginTop: '15px',
-								marginLeft: '10px',
-								justifyContent: 'center'
-							}}
-							color='info'
-							onClick={handleClose}>
-							Cancel
-						</Button>
-					</Box>
-				</Box>
-			</Modal>
-		</div>
-	);
+  // const onSubmit = async () => {
+  //   const {data: channels} = await axios.post(`http://localhost:3001/channels`, {
+  //     name: document.getElementById('newChannel').value
+  //   });
+  //   fetchChannels(channels);
+  //   handleClose();
+  // };
+
+  const onKeyPress = ({nativeEvent: {key: keyValue}}) => {
+    if (keyValue === 'Enter') handleSubmit();
+  };
+
+  const handleSubmit = async () => {
+    let channelNames = [];
+
+    channelName.forEach((user) => {
+      channelNames.push(user);
+    });
+
+    const {data: channels} = await axios.post(`http://localhost:3001/channels`, {
+      usersId: channelUser,
+      name: channelNames.toString()
+    });
+    fetchChannels(channels);
+    setChannelName([]);
+    setChannelUser([]);
+  };
+
+  return (
+    <div>
+      <IconButton
+        color='info'
+        variant='outlined'
+        onClick={(e) => {
+          handleClick(e);
+          fetchUsers();
+        }}>
+        <AddRounded />
+      </IconButton>
+      <form onSubmit={handleSubmit}>
+        <Menu
+          id='demo-positioned-menu'
+          aria-labelledby='demo-positioned-button'
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          sx={{boxShadow: '0px 0px 7px 1px grey'}}>
+          <DialogTitle
+            id='alert-dialog-title'
+            sx={{
+              textAlign: 'left',
+              borderBottom: 'solid lightgrey 1px',
+              marginBottom: '1rem'
+            }}>
+            Create new discussion
+            <p style={{fontSize: 'small'}}>Select friends</p>
+            <UserSearchBar setUsers={setUsers} />
+          </DialogTitle>
+          <DialogContent sx={{maxHeight: '10rem', minWidth: '400px'}}>
+            {users.map((myuser, i) => {
+              return (
+                myuser.username !== user.username && (
+                  <UserComponent
+                    user={myuser}
+                    key={i}
+                    channelUser={channelUser}
+                    setChannelUser={setChannelUser}
+                    channelName={channelName}
+                    setChannelName={setChannelName}
+                  />
+                )
+              );
+            })}
+          </DialogContent>
+          <DialogActions css={styles.actions}>
+            <Button
+              type='submit'
+              onClick={() => {
+                handleClose();
+                handleSubmit();
+              }}
+              fullWidth
+              sx={{padding: '5px 2rem'}}
+              variant='contained'
+              color='info'
+              onKeyPress={onKeyPress}>
+              Create Channel
+            </Button>
+          </DialogActions>
+        </Menu>
+      </form>
+    </div>
+  );
 };
 
 export default AddChannel;

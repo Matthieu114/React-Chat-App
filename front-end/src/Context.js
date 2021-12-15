@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useCookies} from 'react-cookie';
 import axios from 'axios';
 
@@ -9,10 +9,14 @@ export default Context;
 export const Provider = ({children}) => {
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const [oauth, setOauth] = useState(cookies.oauth);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
-  const [user, setUser] = useState(cookies.user);
+  const [user, setUser] = useState({});
+  const [users, setUsers] = useState([]);
 
   const createUserInDB = async (oauth) => {
     try {
@@ -21,11 +25,12 @@ export const Provider = ({children}) => {
         email: oauth.email,
         img: ''
       });
-      setCookie('user', user);
+      setUser(user);
     } catch (err) {
       console.log(err);
     }
   };
+
   const checkUserDb = async (oauth) => {
     const {data: users} = await axios.get(`http://localhost:3001/users`, {
       headers: {
@@ -33,7 +38,7 @@ export const Provider = ({children}) => {
       }
     });
     const userFound = users.find((user) => user.email === oauth.email);
-    userFound ? setCookie('user', userFound) : createUserInDB(oauth);
+    userFound ? setUser(userFound) : createUserInDB(oauth);
   };
 
   return (
@@ -67,8 +72,16 @@ export const Provider = ({children}) => {
         },
         user: user,
         setUser: setUser,
+        users: users,
+        setUsers: setUsers,
         setCookie: setCookie,
-        removeCookie: removeCookie
+        removeCookie: removeCookie,
+        email: email,
+        setEmail: setEmail,
+        password: password,
+        setPassword: setPassword,
+        username: username,
+        setUsername: setUsername
       }}>
       {children}
     </Context.Provider>
