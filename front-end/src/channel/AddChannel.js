@@ -40,33 +40,45 @@ const styles = {
   }
 };
 
-const UserComponent = ({user, key, channelUsers}) => {
-  let check = false;
+const UserComponent = ({
+  user,
+  key,
+  channelUser,
+  setChannelUser,
+  channelName,
+  setChannelName
+}) => {
+  const handleCheckboxChange = (e) => {
+    let newArray = [...channelUser, e.target.id];
+    if (channelUser.includes(e.target.id)) {
+      newArray = newArray.filter((user) => user.id !== e.target.id);
+    }
 
-  const handleChange = (e) => {
-    check = e.target.checked;
-    console.log(check);
+    setChannelUser(newArray);
   };
+  const handleNames = (e) => {
+    let newArray = [...channelName, e.target.value];
+    if (channelUser.includes(e.target.value)) {
+      newArray = newArray.filter((user) => user.username !== e.target.value);
+    }
 
-  const removeArray = (channelUsers, userRemove) => {
-    return channelUsers.filter((user) => {
-      return user != userRemove;
-    });
+    setChannelName(newArray);
   };
 
   return (
     <div key={key} css={styles.userContainerRoot}>
       <span css={styles.userContainer}>
-        <AvatarProfil userName={user} />
+        <AvatarProfil userName={user} inUser={true} />
         {user.username}
       </span>
       <span>
         <Checkbox
-          onClick={async (e) => {
-            await handleChange(e);
-            check ? channelUsers.push(user) : removeArray(channelUsers, user);
-            console.log(channelUsers);
+          onChange={(e) => {
+            handleCheckboxChange(e);
+            handleNames(e);
           }}
+          value={user.username}
+          id={user.id}
         />
       </span>
     </div>
@@ -75,9 +87,9 @@ const UserComponent = ({user, key, channelUsers}) => {
 
 const AddChannel = () => {
   const {setChannels, oauth, users, setUsers, channels, user} = useContext(Context);
-  const channelUsers = [];
+  const [channelUser, setChannelUser] = useState([]);
+  const [channelName, setChannelName] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
-  const checked = [];
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -101,20 +113,32 @@ const AddChannel = () => {
     setChannels(channels);
   };
 
-  const onSubmit = async () => {
-    const {data: channels} = await axios.post(`http://localhost:3001/channels`, {
-      name: document.getElementById('newChannel').value
-    });
-    fetchChannels(channels);
-    handleClose();
-  };
+  // const onSubmit = async () => {
+  //   const {data: channels} = await axios.post(`http://localhost:3001/channels`, {
+  //     name: document.getElementById('newChannel').value
+  //   });
+  //   fetchChannels(channels);
+  //   handleClose();
+  // };
 
   const onKeyPress = ({nativeEvent: {key: keyValue}}) => {
-    if (keyValue === 'Enter') onSubmit();
+    if (keyValue === 'Enter') handleSubmit();
   };
 
-  const handleSubmit = () => {
-    console.log(channels);
+  const handleSubmit = async () => {
+    let channelNames = [];
+
+    channelName.forEach((user) => {
+      channelNames.push(user);
+    });
+
+    const {data: channels} = await axios.post(`http://localhost:3001/channels`, {
+      usersId: channelUser,
+      name: channelNames.toString()
+    });
+    fetchChannels(channels);
+    setChannelName([]);
+    setChannelUser([]);
   };
 
   return (
@@ -157,9 +181,11 @@ const AddChannel = () => {
                 myuser.username !== user.username && (
                   <UserComponent
                     user={myuser}
-                    checked={checked}
                     key={i}
-                    channelUsers={channelUsers}
+                    channelUser={channelUser}
+                    setChannelUser={setChannelUser}
+                    channelName={channelName}
+                    setChannelName={setChannelName}
                   />
                 )
               );

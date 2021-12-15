@@ -32,7 +32,7 @@ const styles = {
     marginLeft: '150px'
   }
 };
-export default function AvatarProfil({clickable, userName}) {
+export default function AvatarProfil({clickable, userName, inUser}) {
   const [open, setOpen] = useState(false);
   const {user, setUser} = useContext(Context);
   const handleClose = () => setOpen(false);
@@ -45,17 +45,21 @@ export default function AvatarProfil({clickable, userName}) {
   const DefaultAvatar = () => {
     //Use the Avatar database after the first modification
     if (user?.img !== '') {
-      if (userName !== '') {
-        const str = userName?.username?.charAt(0);
-
-        return <Avatar src={userName?.img}>{str?.toUpperCase()}</Avatar>;
-      } else {
-        const str = user?.username.charAt(0);
-        return <Avatar src={user?.img}>{str?.toUpperCase()}</Avatar>;
-      }
+      const str = user?.username?.charAt(0);
+      return <Avatar src={user?.img}>{str?.toUpperCase()}</Avatar>;
     } else {
-      const str = user?.username.charAt(0);
-      return <Avatar>{str?.toUpperCase()}</Avatar>;
+      const str = user?.username?.charAt(0);
+      return <Avatar src={user?.img}>{str?.toUpperCase()}</Avatar>;
+    }
+  };
+
+  const DefaultAvatarUsers = () => {
+    if (userName !== '') {
+      const str = userName?.username?.charAt(0);
+      return <Avatar src={userName?.img}>{str?.toUpperCase()}</Avatar>;
+    } else {
+      const str = userName?.username?.charAt(0);
+      return <Avatar src={userName?.img}>{str?.toUpperCase()}</Avatar>;
     }
   };
 
@@ -98,6 +102,8 @@ export default function AvatarProfil({clickable, userName}) {
           }}>
           <DefaultAvatar />
         </IconButton>
+      ) : inUser ? (
+        <DefaultAvatarUsers />
       ) : (
         <DefaultAvatar />
       )}
