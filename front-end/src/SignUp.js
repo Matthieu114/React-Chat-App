@@ -12,6 +12,7 @@ import {Button, TextField, DialogContentText, DialogTitle} from '@mui/material';
 // Local
 import Context from './Context';
 import {useNavigate} from 'react-router-dom';
+import LoginHeader from './LoginHeader';
 
 const base64URLEncode = (str) => {
   return str
@@ -123,8 +124,8 @@ const LoginForm = ({config, codeVerifier}) => {
 
   return (
     <body>
-      <header></header>
-      <content className='App-login'>
+      <LoginHeader />
+      <div className='App-login'>
         <form className='Form' onSubmit={handleSubmit}>
           <DialogTitle
             id='alert-dialog-title'
@@ -206,7 +207,7 @@ const LoginForm = ({config, codeVerifier}) => {
             Already signed up? <Link to='/'>Log In!</Link>
           </DialogContentText>
         </form>
-      </content>
+      </div>
     </body>
   );
 };

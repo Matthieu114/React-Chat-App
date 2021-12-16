@@ -7,19 +7,12 @@ import axios from 'axios';
 // Layout
 import {useTheme} from '@mui/styles';
 import {Link} from 'react-router-dom';
-import {
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from '@mui/material';
+import {Button, TextField, DialogContentText, DialogTitle} from '@mui/material';
 
 // Local
 import Context from './Context';
 import {useNavigate} from 'react-router-dom';
+import LoginHeader from './LoginHeader';
 
 const base64URLEncode = (str) => {
   return str
@@ -87,8 +80,8 @@ const Redirect = ({config, codeVerifier}) => {
 const LoginForm = ({config, codeVerifier}) => {
   return (
     <body>
-      <header></header>
-      <content className='App-login'>
+      <LoginHeader />
+      <div className='App-login'>
         <form className='Form'>
           <DialogTitle
             id='alert-dialog-title'
@@ -133,7 +126,7 @@ const LoginForm = ({config, codeVerifier}) => {
             <Link to='/signup'>Sign up!</Link>
           </DialogContentText>
         </form>
-      </content>
+      </div>
     </body>
   );
 };
@@ -162,6 +155,7 @@ const Tokens = ({oauth}) => {
 const LoadToken = ({code, codeVerifier, config, removeCookie, setOauth}) => {
   const styles = useStyles(useTheme());
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetch = async () => {
       try {

@@ -51,15 +51,16 @@ const UserComponent = ({
   const handleCheckboxChange = (e) => {
     let newArray = [...channelUser, e.target.id];
     if (channelUser.includes(e.target.id)) {
-      newArray = newArray.filter((user) => user.id !== e.target.id);
+      newArray = newArray.filter((user) => user !== e.target.id);
     }
 
     setChannelUser(newArray);
   };
+
   const handleNames = (e) => {
     let newArray = [...channelName, e.target.value];
-    if (channelUser.includes(e.target.value)) {
-      newArray = newArray.filter((user) => user.username !== e.target.value);
+    if (channelName.includes(e.target.value)) {
+      newArray = newArray.filter((name) => name !== e.target.value);
     }
 
     setChannelName(newArray);
