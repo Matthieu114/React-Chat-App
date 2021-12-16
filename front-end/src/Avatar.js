@@ -34,13 +34,9 @@ const styles = {
 };
 export default function AvatarProfil({clickable, userName, inUser}) {
   const [open, setOpen] = useState(false);
-  const {user, setUser} = useContext(Context);
+  const {user, setCookie, cookies, removeCookie} = useContext(Context);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
-
-  const testFunction = () => {
-    console.log(user);
-  };
 
   const DefaultAvatar = () => {
     //Use the Avatar database after the first modification
@@ -81,11 +77,11 @@ export default function AvatarProfil({clickable, userName, inUser}) {
 
   const handleFileInputChange = async (e) => {
     getBase64(e.target.files[0])
-      .then((result) => {
+      .then(async (result) => {
         user.img = result;
-        console.log(user);
-        axios.put(`http://localhost:3001/users/${user.id}`, user);
-        setUser(user);
+        await axios.put(`http://localhost:3001/users/${user.id}`, user);
+        removeCookie('user');
+        setCookie('user', user);
       })
       .catch((err) => {
         console.log(err);
@@ -98,7 +94,6 @@ export default function AvatarProfil({clickable, userName, inUser}) {
         <IconButton
           onClick={() => {
             handleOpen();
-            testFunction();
           }}>
           <DefaultAvatar />
         </IconButton>

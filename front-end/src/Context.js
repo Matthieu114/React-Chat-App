@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useCookies} from 'react-cookie';
+import {Cookies, useCookies} from 'react-cookie';
 import axios from 'axios';
 
 const Context = React.createContext();
@@ -15,7 +15,7 @@ export const Provider = ({children}) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(cookies.user);
   const [users, setUsers] = useState([]);
 
   const createUserInDB = async (oauth) => {
@@ -26,6 +26,7 @@ export const Provider = ({children}) => {
         img: ''
       });
       setUser(user);
+      setCookie('user', user);
     } catch (err) {
       console.log(err);
     }
@@ -39,6 +40,8 @@ export const Provider = ({children}) => {
     });
     const userFound = users.find((user) => user.email === oauth.email);
     userFound ? setUser(userFound) : createUserInDB(oauth);
+
+    setCookie('user', userFound);
   };
 
   return (
@@ -58,6 +61,7 @@ export const Provider = ({children}) => {
             setCurrentChannel(null);
             setChannels([]);
             removeCookie('oauth');
+            removeCookie('user');
           }
           setOauth(oauth);
         },
@@ -76,6 +80,7 @@ export const Provider = ({children}) => {
         setUsers: setUsers,
         setCookie: setCookie,
         removeCookie: removeCookie,
+        cookies: cookies,
         email: email,
         setEmail: setEmail,
         password: password,

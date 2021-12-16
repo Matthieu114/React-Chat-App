@@ -66,7 +66,6 @@ const ModifyChannelModal = ({channel, handleClose}) => {
         fontSize='small'
         sx={{marginRight: '5px', marginBottom: '-5px'}}
       />
-      Edit Discussion
       <Dialog
         open={open}
         onClose={handleChildClose}
@@ -79,7 +78,7 @@ const ModifyChannelModal = ({channel, handleClose}) => {
             borderBottom: 'solid lightgrey 1px',
             marginBottom: '1rem'
           }}>
-          {'Modify the Discussion Name'}
+          {'Modify the Discussion'}
           <IconButton sx={{float: 'right'}} onClick={handleClose}>
             <CloseIcon />
           </IconButton>
@@ -103,7 +102,7 @@ const ModifyChannelModal = ({channel, handleClose}) => {
           <Button
             onClick={() => {
               updateChannel(channel);
-              handleClose();
+              handleChildClose();
             }}
             sx={{padding: '5px 2rem'}}
             variant='outlined'
@@ -111,7 +110,7 @@ const ModifyChannelModal = ({channel, handleClose}) => {
             Modify
           </Button>
           <Button
-            onClick={handleClose}
+            onClick={handleChildClose}
             sx={{padding: '5px 2rem'}}
             variant='outlined'
             color='info'>

@@ -84,8 +84,16 @@ const ChannelComponent = ({i, channel, deleteChannel}) => {
         onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
         }}>
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             canClick = false;
           }}
@@ -104,7 +112,7 @@ const ChannelComponent = ({i, channel, deleteChannel}) => {
             }}>
             <ModifyChannelModal channel={channel} handleClose={handleClose} />
           </Button>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           color='info'
           onClick={(e) => {
