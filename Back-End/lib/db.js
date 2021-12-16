@@ -10,6 +10,7 @@ module.exports = {
       if (!channel.name) throw Error('Invalid channel');
       const users = [];
       let promise = new Promise((resolve, reject) => {
+        if (!channel.usersId) resolve();
         channel?.usersId?.forEach(async (user, index) => {
           const myUser = await db.get(`users:${user}`);
           users.push(JSON.parse(myUser));
@@ -18,8 +19,8 @@ module.exports = {
       });
 
       const id = uuid();
-
       promise.then(async () => {
+        console.log('here');
         await db.put(
           `channels:${id}`,
           JSON.stringify(merge(channel, {usersId: users}))
