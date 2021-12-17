@@ -58,7 +58,7 @@ export default function Channel() {
           `http://localhost:3001/channels/${id}/messages`,
           {
             headers: {
-              Authorization: `Bearer ${oauth.access_token}`
+              Authorization: `Bearer ${oauth?.access_token}`
             }
           }
         );

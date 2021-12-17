@@ -6,6 +6,8 @@ import App from './App';
 import {Provider as ContextProvider} from './Context';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
+import Context from './Context';
+import {useContext} from 'react';
 // Layout
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {BrowserRouter as Router} from 'react-router-dom';

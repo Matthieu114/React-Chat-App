@@ -1,23 +1,31 @@
 import * as React from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {styled, useTheme} from '@mui/material/styles';
+//mui components
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import ModifyChannelModal from './channel/ModifyChannelModal';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import StarBorder from '@mui/icons-material/StarBorder';
+import ListItemButton from '@mui/material/ListItemButton';
+import Collapse from '@mui/material/Collapse';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+//local
+import Context from './Context';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import {ListItemAvatar} from '@mui/material';
+import AvatarProfil from './Avatar';
+
 const drawerWidth = 350;
 
 const DrawerHeader = styled('div')(({theme}) => ({
@@ -30,22 +38,49 @@ const DrawerHeader = styled('div')(({theme}) => ({
 }));
 
 export default function PersistentDrawerRight({channel}) {
+  const navigate = useNavigate();
+  const {oauth, user} = useContext(Context);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [isShown, setIsShown] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const isOpen = Boolean(anchorEl);
+  const [channelUsers, setChannelUsers] = React.useState([]);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-    setIsShown(false);
+  const [userOpen, setUserOpen] = React.useState(true);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const {data: channels} = await axios.get(
+          `http://localhost:3001/channels/${channel.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${oauth?.access_token}`
+            }
+          }
+        );
+        setChannelUsers(channels);
+      } catch (err) {
+        navigate('/oups');
+      }
+    };
+
+    fetch();
+  }, [channel, oauth, navigate]);
+
+  const handleClick = () => {
+    setUserOpen(!userOpen);
   };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const modifyChildhandle = (value) => {
+    setOpen(value);
   };
 
   return (
@@ -75,24 +110,63 @@ export default function PersistentDrawerRight({channel}) {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Modify Channel', 'Discussion Members'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? (
-                  <ModifyChannelModal channel={channel} handleClose={handleClose} />
-                ) : (
-                  <MailIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button onClick={modifyChildhandle}>
+            <ListItemIcon>
+              <ModifyChannelModal channel={channel} />
+            </ListItemIcon>
+            <ListItemText primary={'Modify Channel'} />
+          </ListItem>
+
+          <ListItemButton onClick={handleClick}>
+            <ListItemIcon>
+              {userOpen ? (
+                <ExpandLess color='info' />
+              ) : (
+                <ExpandMoreIcon color='info' />
+              )}
+            </ListItemIcon>
+            <ListItemText primary='Discussion Members' />
+          </ListItemButton>
+
+          <Collapse in={userOpen} timeout='auto' unmountOnExit>
+            <List component='div' disablePadding>
+              <div>
+                <ListItem>
+                  <ListItemAvatar>
+                    <AvatarProfil></AvatarProfil>
+                  </ListItemAvatar>
+                  <ListItemText primary={user.username} />
+                </ListItem>
+              </div>
+
+              {channelUsers.usersId?.map((user) => {
+                return (
+                  <div>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <AvatarProfil userName={user} inUser={true}></AvatarProfil>
+                      </ListItemAvatar>
+                      <ListItemText primary={user.username} />
+                    </ListItem>
+                  </div>
+                );
+              })}
+
+              <ListItem button>
+                <ListItemIcon>
+                  <AddCircleIcon color='info' />
+                </ListItemIcon>
+                <ListItemText primary='Add new Member' />
+              </ListItem>
+            </List>
+          </Collapse>
         </List>
+
         <Divider />
         <List>
           <ListItem button>
             <ListItemIcon>
-              <InboxIcon />
+              <InboxIcon color='info' />
             </ListItemIcon>
             <ListItemText primary='Shared Files' />
           </ListItem>
@@ -100,13 +174,4 @@ export default function PersistentDrawerRight({channel}) {
       </Drawer>
     </div>
   );
-}
-
-{
-  /* <IconButton
-                          onClick={(e) => {
-                            toggleDrawer('right', true);
-                          }}>
-                          <MoreHorizIcon color='info' style={{float: 'right'}} />
-                        </IconButton> */
 }

@@ -150,7 +150,7 @@ export default function Channels() {
       try {
         const {data: channels} = await axios.get('http://localhost:3001/channels', {
           headers: {
-            Authorization: `Bearer ${oauth.access_token}`
+            Authorization: `Bearer ${oauth?.access_token}`
           }
         });
         setChannels(channels);
@@ -164,7 +164,7 @@ export default function Channels() {
   const fetchChannels = async () => {
     const {data: channels} = await axios.get('http://localhost:3001/channels', {
       headers: {
-        Authorization: `Bearer ${oauth.access_token}`
+        Authorization: `Bearer ${oauth?.access_token}`
       }
     });
     setChannels(channels);
@@ -182,7 +182,7 @@ export default function Channels() {
   const deleteChannel = async (channel) => {
     const config = {
       headers: {
-        Authorization: `Bearer ${oauth.access_token}`
+        Authorization: `Bearer ${oauth?.access_token}`
       },
       data: {
         name: channel.name,

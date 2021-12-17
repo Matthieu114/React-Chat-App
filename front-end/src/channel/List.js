@@ -167,7 +167,7 @@ const LiMessage = ({message, i, value, channel, setMessages, myMessage}) => {
         css={myMessage ? styles.myContentDiv : styles.contentdiv}
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}>
-        {isShown && oauth.email === message.author ? (
+        {isShown && oauth?.email === message.author ? (
           <MoreVertIcon
             color='info'
             onClick={handleClick}
@@ -282,7 +282,7 @@ export default forwardRef(({messages, onScrollDown, channel, setMessages}, ref) 
               channel={channel}
               setMessages={setMessages}
               myMessage={
-                message.author === oauth.email ? (myMessage = true) : console.log()
+                message?.author === oauth?.email ? (myMessage = true) : console.log()
               }
             />
           );

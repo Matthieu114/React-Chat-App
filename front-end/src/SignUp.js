@@ -89,9 +89,6 @@ const LoginForm = ({config, codeVerifier}) => {
     const userEmailExist = users.filter((user) => user.email === email);
     const userNameExist = users.filter((user) => user.username === username);
 
-    console.log(userEmailExist);
-    console.log(userNameExist);
-
     if (userEmailExist.length === 0 && userNameExist.length === 0) {
       userExists = false;
     } else {
@@ -213,7 +210,7 @@ const LoginForm = ({config, codeVerifier}) => {
 };
 
 const Tokens = ({oauth}) => {
-  const {setOauth} = useContext(Context);
+  const {setOauth, setUser, removeCookie} = useContext(Context);
   const styles = useStyles(useTheme());
   const {id_token} = oauth;
   const id_payload = id_token.split('.')[1];
@@ -225,7 +222,7 @@ const Tokens = ({oauth}) => {
 
   return (
     <div css={styles.root}>
-      Welcome {email}{' '}
+      Welcome {email}
       <Link onClick={logout} color='secondary'>
         logout blud
       </Link>
