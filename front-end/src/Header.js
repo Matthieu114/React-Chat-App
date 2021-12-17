@@ -1,10 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 // Layout
 import {useTheme} from '@mui/styles';
-import {IconButton, Link} from '@mui/material';
+import {IconButton, Link, Button} from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import Context from './Context';
+import ModifyChannelModal from './channel/ModifyChannelModal';
+import EditChannelDrawer from './EditChannelDrawer';
 
 const useStyles = (theme) => ({
   header: {
@@ -30,6 +33,13 @@ const useStyles = (theme) => ({
 
 export default function Header({channel}) {
   const styles = useStyles(useTheme());
+  const [isShown, setIsShown] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  let canClick = true;
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   const {oauth, setOauth, drawerVisible, setDrawerVisible, removeCookie, setUser} =
     useContext(Context);
   const drawerToggle = (e) => {
@@ -38,9 +48,16 @@ export default function Header({channel}) {
   const onClickLogout = (e) => {
     e.stopPropagation();
     setOauth(null);
-    removeCookie('oauth');
     setUser(null);
+    removeCookie('oauth');
+    removeCookie('user');
+    removeCookie('code_verifier');
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setIsShown(false);
+  };
+
   return (
     <header css={styles.header}>
       <IconButton
@@ -54,8 +71,13 @@ export default function Header({channel}) {
       {oauth ? (
         <span style={{width: '100%'}}>
           <Link onClick={onClickLogout} sx={{color: 'black', float: 'right'}}>
-            logout
+            <IconButton>
+              <LogoutIcon />
+            </IconButton>
           </Link>
+          <span style={{float: 'right'}}>
+            <EditChannelDrawer channel={channel} />
+          </span>
         </span>
       ) : (
         <span>new user</span>

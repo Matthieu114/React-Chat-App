@@ -8,8 +8,25 @@ module.exports = {
   channels: {
     create: async (channel) => {
       if (!channel.name) throw Error('Invalid channel');
+      const users = [];
+      let promise = new Promise((resolve, reject) => {
+        if (!channel.usersId) resolve();
+        channel?.usersId?.forEach(async (user, index) => {
+          const myUser = await db.get(`users:${user}`);
+          users.push(JSON.parse(myUser));
+          if (index === channel.usersId.length - 1) resolve();
+        });
+      });
+
       const id = uuid();
-      await db.put(`channels:${id}`, JSON.stringify(channel));
+      promise.then(async () => {
+        console.log('here');
+        await db.put(
+          `channels:${id}`,
+          JSON.stringify(merge(channel, {usersId: users}))
+        );
+      });
+
       return merge(channel, {id: id});
     },
     get: async (id) => {
@@ -43,8 +60,9 @@ module.exports = {
       if (!channel.name) {
         throw Error('Invalid Channel: ' + channel);
       }
-
-      await db.put(`channels:${id}`, JSON.stringify(channel));
+      const oldChannel = await db.get(`channels:${id}`);
+      const newChannel = merge(JSON.parse(oldChannel), channel);
+      await db.put(`channels:${id}`, JSON.stringify(newChannel));
     },
     delete: async (id) => {
       if (!id) throw Error('invalid Id');
