@@ -110,13 +110,7 @@ export default function PersistentDrawerRight({channel}) {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem button onClick={modifyChildhandle}>
-            <ListItemIcon>
-              <ModifyChannelModal channel={channel} />
-            </ListItemIcon>
-            <ListItemText primary={'Modify Channel'} />
-          </ListItem>
-
+          <ModifyChannelModal channel={channel} />
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               {userOpen ? (

@@ -6,7 +6,10 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle
+  DialogTitle,
+  ListItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
@@ -62,7 +65,12 @@ const ModifyChannelModal = ({channel, handleClose}) => {
 
   return (
     <div onClick={handleChildOpen}>
-      <ModeEditOutlineIcon fontSize='small' color='info' />
+      <ListItem button>
+        <ListItemIcon>
+          <ModeEditOutlineIcon fontSize='small' color='info' />
+        </ListItemIcon>
+        <ListItemText primary={'Modify Channel'} />
+      </ListItem>
       <Dialog
         open={open}
         onClose={handleChildClose}
