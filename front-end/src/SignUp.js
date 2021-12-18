@@ -108,7 +108,8 @@ const LoginForm = ({config, codeVerifier}) => {
       const {data: newUser} = await axios.post(`http://localhost:3001/users`, {
         username: username,
         email: email,
-        password: password
+        password: password,
+        img: ''
       });
       setUser(newUser);
       navigate(`/`);

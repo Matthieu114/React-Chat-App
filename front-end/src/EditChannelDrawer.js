@@ -12,7 +12,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import ModifyChannelModal from './channel/ModifyChannelModal';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import StarBorder from '@mui/icons-material/StarBorder';
@@ -24,7 +23,9 @@ import Context from './Context';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {ListItemAvatar} from '@mui/material';
+import ModifyChannelModal from './channel/ModifyChannelModal';
 import AvatarProfil from './Avatar';
+import AddUserModal from './AddUserModal';
 
 const drawerWidth = 350;
 
@@ -146,12 +147,7 @@ export default function PersistentDrawerRight({channel}) {
                 );
               })}
 
-              <ListItem button>
-                <ListItemIcon>
-                  <AddCircleIcon color='info' />
-                </ListItemIcon>
-                <ListItemText primary='Add new Member' />
-              </ListItem>
+              <AddUserModal />
             </List>
           </Collapse>
         </List>
