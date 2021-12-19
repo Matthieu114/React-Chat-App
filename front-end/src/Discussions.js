@@ -45,12 +45,12 @@ const Discussions = ({setChannels, oauth}) => {
     <div css={styles.root}>
       <h2 css={styles.text}>
         <AvatarProfil sx={styles.avatar} clickable={true} inUser={false} />
-        <p style={{margin: '0 2px'}}>Discussions</p> <AddChannel />
+        <p style={{margin: '0 5px'}}>Discussions</p> <AddChannel />
         {oauth || user !== null ? (
           <span style={{width: '100%'}}>
             <Link onClick={onClickLogout} sx={{color: 'black'}}>
-              <IconButton>
-                <LogoutIcon fontSize='' />
+              <IconButton color='info'>
+                <LogoutIcon fontSize='small' />
               </IconButton>
             </Link>
           </span>

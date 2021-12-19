@@ -40,7 +40,7 @@ const DrawerHeader = styled('div')(({theme}) => ({
 
 export default function PersistentDrawerRight({channel}) {
   const navigate = useNavigate();
-  const {oauth, user} = useContext(Context);
+  const {oauth, user, setUsers} = useContext(Context);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -64,9 +64,8 @@ export default function PersistentDrawerRight({channel}) {
         navigate('/oups');
       }
     };
-
     fetch();
-  }, [channel, oauth, navigate]);
+  }, [channel, oauth, navigate, setChannelUsers]);
 
   const handleClick = () => {
     setUserOpen(!userOpen);
@@ -84,13 +83,21 @@ export default function PersistentDrawerRight({channel}) {
     setOpen(value);
   };
 
+  const fetchUsers = async () => {
+    const {data: users} = await axios.get('http://localhost:3001/users', {});
+    setUsers(users);
+  };
+
   return (
     <div>
       <IconButton
         sx={{float: 'right'}}
         color='info'
         aria-label='open drawer'
-        onClick={handleDrawerOpen}>
+        onClick={() => {
+          fetchUsers();
+          handleDrawerOpen();
+        }}>
         <MoreHorizIcon />
       </IconButton>
       <Drawer
@@ -147,7 +154,7 @@ export default function PersistentDrawerRight({channel}) {
                 );
               })}
 
-              <AddUserModal />
+              <AddUserModal channelUsers={channelUsers.usersId} />
             </List>
           </Collapse>
         </List>

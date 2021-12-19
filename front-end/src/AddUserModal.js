@@ -1,3 +1,4 @@
+import React, {useContext, useState, useEffect} from 'react';
 import {
   Button,
   IconButton,
@@ -9,132 +10,170 @@ import {
   DialogTitle,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  List,
+  ListItemAvatar,
+  ListItemButton,
+  Checkbox
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import UserSearchBar from './UserSearchBar';
 import axios from 'axios';
+import {useParams} from 'react-router-dom';
 //Context
 import Context from './Context';
-import React, {useContext, useState} from 'react';
+import AvatarProfil from './Avatar';
 
 const styles = {};
 
-const ModifyChannelModal = ({channel, handleClose}) => {
+const AddUserModal = ({channelUsers}) => {
   const [open, setOpen] = useState(false);
+  const [notInChannel, setNotInChannel] = useState([]);
+  const [addUserId, setAddUserId] = useState([]);
+  const {setUsers, users, user, channels} = useContext(Context);
+  const {id} = useParams();
+  const channel = channels.find((channel) => channel.id === id);
+
   const handleChildOpen = () => {
     setOpen(true);
   };
   const handleChildClose = () => {
     setOpen(false);
   };
-  const {setChannels, oauth} = useContext(Context);
 
   const onKeyPress = async ({nativeEvent: {key: keyValue}}) => {
     if (keyValue === 'Enter') {
-      updateChannel(channel);
       await handleChildClose();
     }
   };
 
-  const fetchChannels = async () => {
-    const {data: channels} = await axios.get('http://localhost:3001/channels', {
-      headers: {
-        Authorization: `Bearer ${oauth.access_token}`
-      }
-    });
-    setChannels(channels);
+  const filterUsersinChannel = () => {
+    if (channelUsers != null) {
+      const notInChannel = [].concat(
+        users.filter((user) =>
+          channelUsers?.every((userChan) => userChan.username !== user.username)
+        )
+      );
+      const finalChannel = notInChannel?.filter((currentUser) => {
+        return currentUser.username !== user.username;
+      });
+      setNotInChannel(finalChannel);
+    } else {
+      const finalChannel = users?.filter((currentUser) => {
+        return currentUser.username !== user.username;
+      });
+      setNotInChannel(finalChannel);
+    }
   };
 
-  const updateChannel = async (channel) => {
-    const {data: channels} = await fetch(
+  const handleCheckboxChange = (e) => {
+    let newArray = [...addUserId, e.target.id];
+    if (addUserId.includes(e.target.id)) {
+      newArray = newArray.filter((user) => user !== e.target.id);
+    }
+
+    setAddUserId(newArray);
+  };
+
+  const handleSubmit = async () => {
+    let userIds = [];
+
+    addUserId.forEach((user) => {
+      userIds.push(user);
+    });
+
+    const {data: channels} = await axios.put(
       `http://localhost:3001/channels/${channel.id}`,
       {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${oauth.access_token}`,
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: document.getElementById('modifyChannel').value
-        })
+        name: channel.name,
+        usersId: addUserId
       }
     );
-    fetchChannels(channels);
+    setAddUserId([]);
   };
 
   return (
-    <div onClick={handleChildOpen}>
-      <ListItem button>
-        <ListItemIcon>
-          <AddCircleIcon color='info' />
-        </ListItemIcon>
-        <ListItemText primary={'Add new member'} />
-      </ListItem>
-      <Dialog
-        open={open}
-        onClose={handleChildClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'>
-        <DialogTitle
-          id='alert-dialog-title'
-          sx={{
-            textAlign: 'center',
-            borderBottom: 'solid lightgrey 1px',
-            marginBottom: '1rem'
-          }}>
-          {'Modify the Discussion'}
-          <IconButton
-            sx={{float: 'right'}}
-            onClick={async () => {
-              await handleChildClose();
-              setOpen(false);
+    <div
+      onClick={() => {
+        handleChildOpen();
+        filterUsersinChannel();
+      }}>
+      <form onSubmit={handleSubmit}>
+        <ListItem button>
+          <ListItemIcon>
+            <AddCircleIcon color='info' />
+          </ListItemIcon>
+          <ListItemText primary={'Add new member'} />
+        </ListItem>
+        <Dialog
+          open={open}
+          onClose={handleChildClose}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'>
+          <DialogTitle
+            id='alert-dialog-title'
+            sx={{
+              textAlign: 'center',
+              borderBottom: 'solid lightgrey 1px',
+              marginBottom: '1rem'
             }}>
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description' sx={{fontSize: 'small'}}>
-            When you modify the name of the channel it is modified for everybody
-          </DialogContentText>
-          <TextField
-            fullWidth
-            margin='dense'
-            id='modifyChannel'
-            label='Name of Channel'
-            name='modifyChannel'
-            variant='outlined'
-            color='info'
-            onKeyPress={onKeyPress}
-          />
-        </DialogContent>
-        <DialogActions css={styles.actions}>
-          <Button
-            onClick={async () => {
-              updateChannel(channel);
-              await handleChildClose();
-              setOpen(false);
-            }}
-            sx={{padding: '5px 2rem'}}
-            variant='outlined'
-            color='info'>
-            Modify
-          </Button>
-          <Button
-            onClick={async () => {
-              await handleChildClose();
-              setOpen(false);
-            }}
-            sx={{padding: '5px 2rem'}}
-            variant='outlined'
-            color='info'>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
+            Add friends to the group
+            <IconButton
+              sx={{float: 'right'}}
+              onClick={async () => {
+                await handleChildClose();
+                setOpen(false);
+              }}>
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent sx={{overflowX: 'hidden'}}>
+            <UserSearchBar setUsers={setUsers} />
+            <DialogContentText
+              id='alert-dialog-description'
+              sx={{fontSize: 'medium', marginTop: '1rem'}}>
+              Suggestions
+            </DialogContentText>
+          </DialogContent>
+          <DialogContent sx={{maxHeight: '10rem'}}>
+            <List component='div' disablePadding>
+              {notInChannel?.map((user, key) => {
+                return (
+                  <div>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <AvatarProfil userName={user} inUser={true}></AvatarProfil>
+                      </ListItemAvatar>
+                      <ListItemText primary={user.username} />
+                      <Checkbox id={user.id} onClick={handleCheckboxChange} />
+                    </ListItem>
+                  </div>
+                );
+              })}
+            </List>
+          </DialogContent>
+          <DialogActions css={styles.actions}>
+            <Button
+              type='submit'
+              onClick={async () => {
+                await handleChildClose();
+                setOpen(false);
+                handleSubmit();
+              }}
+              fullWidth
+              sx={{padding: '5px 2rem'}}
+              variant='contained'
+              color='info'
+              onKeyPress={onKeyPress}>
+              Create Channel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </form>
     </div>
   );
 };
 
-export default ModifyChannelModal;
+export default AddUserModal;

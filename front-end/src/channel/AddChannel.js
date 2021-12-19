@@ -16,9 +16,9 @@ import {
 import axios from 'axios';
 //Context
 import Context from '../Context';
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 //local
-import AddRounded from '@mui/icons-material/AddRounded';
+import ChatIcon from '@mui/icons-material/Chat';
 import UserSearchBar from '../UserSearchBar';
 import AvatarProfil from '../Avatar';
 
@@ -143,7 +143,7 @@ const AddChannel = () => {
           handleClick(e);
           fetchUsers();
         }}>
-        <AddRounded />
+        <ChatIcon fontSize='small' />
       </IconButton>
       <form onSubmit={handleSubmit}>
         <Menu
