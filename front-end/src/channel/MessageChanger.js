@@ -138,11 +138,11 @@ const MessageChanger = ({
   const styles = useStyles(useTheme());
 
   const deleteMessage = async (message, channel) => {
-    console.log('deleted message = ' + JSON.stringify(message));
+ 
 
     const config = {
       headers: {
-        Authorization: `Bearer ${oauth.access_token}`
+        Authorization: `Bearer ${oauth?.access_token}`
       },
       data: {
         author: message.author,

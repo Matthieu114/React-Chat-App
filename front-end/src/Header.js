@@ -70,11 +70,6 @@ export default function Header({channel}) {
       <h3 style={{whiteSpace: 'nowrap', color: 'black'}}>{channel.name}</h3>
       {oauth ? (
         <span style={{width: '100%'}}>
-          <Link onClick={onClickLogout} sx={{color: 'black', float: 'right'}}>
-            <IconButton>
-              <LogoutIcon />
-            </IconButton>
-          </Link>
           <span style={{float: 'right'}}>
             <EditChannelDrawer channel={channel} />
           </span>

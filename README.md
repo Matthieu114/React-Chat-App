@@ -4,6 +4,8 @@ _presentation, introduction, ..._
 
 ## Usage
 
+- To get the best CSS use, Mozilla or Chrome
+
 _how to start and use the application, run the tests, ..._
 
 - Clone this repository, from your local machine:
@@ -29,9 +31,9 @@ _how to start and use the application, run the tests, ..._
     id: github
     name: GitHub
     config:
-      clientID: xxxx98f1c26493dbxxxx
-      clientSecret: xxxxxxxxx80e139441b637796b128d8xxxxxxxxx
-      redirectURI: http://127.0.0.1:5556/dex/callback
+     clientID: xxxx98f1c26493dbxxxx
+     clientSecret: xxxxxxxxx80e139441b637796b128d8xxxxxxxxx
+     redirectURI: http://127.0.0.1:5556/dex/callback
   ```
 - Inside `./dex-config/config.yml`, the front-end application is already registered and CORS is activated. Now that Dex is built and configured, you can start the Dex server:
   ```yaml
@@ -59,7 +61,8 @@ _how to start and use the application, run the tests, ..._
 
 ## Author
 
-_name, email, ..._
+Brice Benjamin: benjamin.brice@edu.ece.fr
+Denis Matthieu: matthieu.denis@edu.ece.fr
 
 ## Tasks
 
@@ -70,40 +73,34 @@ Project management
   and VARIABLE_VAR caps lock for constants.
   React functionnal and class components -> Component MyComp
 - Project structure  
-  we tried to structure the project with as many functionnal components as possible.
-
+  We tried to structure the project with as many functionnal components as possible.
 - Code quality  
-  _place your graduation and comments_
+  We are in medium quality code because it's not always the best option, or the more otpimise
 - Design, UX  
-  _place your graduation and comments_
+  We inspired a lot of Messenger because it's our favorite UX application
 - Git and DevOps  
-  _place your graduation and comments_
+  We used git to share our implementation
 
 Application development
 
 - Welcome screens  
-  _place your graduation and comments_
+  Our first welcome screens is the login or sign in screen, then the second one, is after the connexion it's here to show you our possibilities
 - New channel creation  
-  _place your graduation and comments_
+  We used a common MUI component (TopLeftSide next to discussions and before logout) who permited to add DB users in a channel
 - Channel membership and access  
-  _place your graduation and comments_
-- Ressource access control  
-  _place your graduation and comments_
+  The acces is done on the creation or if you open the channel option drawer (TopRightSide) you can manage the actif user
 - Invite users to channels  
-  _place your graduation and comments_
+  At the creation our in the channel option drawer
 - Message modification  
-  _place your graduation and comments_
+  If you slide on a message, a component will appear so you can choose between Delete, or modify the message.
 - Message removal  
-  _place your graduation and comments_
+  Same component than message modification
 - Account settings  
-  _place your graduation and comments_
-- Gravatar integration  
-  _place your graduation and comments_
-- Avatar selection  
-  _place your graduation and comments_
+  (TopLeftSide) By clicking on the avatar, you will open a modal then you can change the username, and add a new image to your avatar.
 - Personal custom avatar  
-  _place your graduation and comments_
+  Implemented by a Input change event -> transformed in Base64 to put it in DB.
 
 ## Bonus
 
-_place your graduation and comments_
+- We add Search bar on the channel page and on the user selection a the creation of a channel
+- Many of our TextField like the message form can be executed by pres ENTER or clicking on a button

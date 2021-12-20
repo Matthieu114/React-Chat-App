@@ -6,7 +6,10 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle
+  DialogTitle,
+  ListItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
@@ -27,10 +30,10 @@ const ModifyChannelModal = ({channel, handleClose}) => {
   };
   const {setChannels, oauth} = useContext(Context);
 
-  const onKeyPress = ({nativeEvent: {key: keyValue}}) => {
+  const onKeyPress = async ({nativeEvent: {key: keyValue}}) => {
     if (keyValue === 'Enter') {
       updateChannel(channel);
-      handleClose();
+      await handleChildClose();
     }
   };
 
@@ -62,10 +65,12 @@ const ModifyChannelModal = ({channel, handleClose}) => {
 
   return (
     <div onClick={handleChildOpen}>
-      <ModeEditOutlineIcon
-        fontSize='small'
-        sx={{marginRight: '5px', marginBottom: '-5px'}}
-      />
+      <ListItem button>
+        <ListItemIcon>
+          <ModeEditOutlineIcon fontSize='small' color='info' />
+        </ListItemIcon>
+        <ListItemText primary={'Modify Channel'} />
+      </ListItem>
       <Dialog
         open={open}
         onClose={handleChildClose}
@@ -79,7 +84,12 @@ const ModifyChannelModal = ({channel, handleClose}) => {
             marginBottom: '1rem'
           }}>
           {'Modify the Discussion'}
-          <IconButton sx={{float: 'right'}} onClick={handleClose}>
+          <IconButton
+            sx={{float: 'right'}}
+            onClick={async () => {
+              await handleChildClose();
+              setOpen(false);
+            }}>
             <CloseIcon />
           </IconButton>
         </DialogTitle>
@@ -100,9 +110,10 @@ const ModifyChannelModal = ({channel, handleClose}) => {
         </DialogContent>
         <DialogActions css={styles.actions}>
           <Button
-            onClick={() => {
+            onClick={async () => {
               updateChannel(channel);
-              handleChildClose();
+              await handleChildClose();
+              setOpen(false);
             }}
             sx={{padding: '5px 2rem'}}
             variant='outlined'
@@ -110,7 +121,10 @@ const ModifyChannelModal = ({channel, handleClose}) => {
             Modify
           </Button>
           <Button
-            onClick={handleChildClose}
+            onClick={async () => {
+              await handleChildClose();
+              setOpen(false);
+            }}
             sx={{padding: '5px 2rem'}}
             variant='outlined'
             color='info'>

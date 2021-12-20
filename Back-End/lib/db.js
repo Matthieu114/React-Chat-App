@@ -20,7 +20,6 @@ module.exports = {
 
       const id = uuid();
       promise.then(async () => {
-        console.log('here');
         await db.put(
           `channels:${id}`,
           JSON.stringify(merge(channel, {usersId: users}))
@@ -61,8 +60,30 @@ module.exports = {
         throw Error('Invalid Channel: ' + channel);
       }
       const oldChannel = await db.get(`channels:${id}`);
-      const newChannel = merge(JSON.parse(oldChannel), channel);
-      await db.put(`channels:${id}`, JSON.stringify(newChannel));
+      const newChannel = merge(JSON.parse(oldChannel), {name: channel.name});
+
+      const users = [];
+      //get users info from their id and fill the users array with the info
+      let promise = new Promise((resolve, reject) => {
+        if (!channel.usersId) resolve();
+        channel?.usersId?.forEach(async (user, index) => {
+          const myUser = await db.get(`users:${user}`);
+          users.push(JSON.parse(myUser));
+          if (index === channel.usersId.length - 1) resolve();
+        });
+      });
+
+      promise.then(async () => {
+        if (users.length === 0) {
+          await db.put(`channels:${id}`, JSON.stringify(newChannel));
+        } else {
+          const newArray = [].concat(JSON.parse(oldChannel).usersId, users);
+          await db.put(
+            `channels:${id}`,
+            JSON.stringify(merge(newChannel, {usersId: newArray}))
+          );
+        }
+      });
     },
     delete: async (id) => {
       if (!id) throw Error('invalid Id');

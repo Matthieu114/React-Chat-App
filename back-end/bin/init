@@ -4,21 +4,21 @@ const axios = require('axios');
 const app = require('../lib/app');
 const db = require('../lib/db');
 const config = {
-  port: 3001
+	port: 3001
 };
 
 (async function () {
-  await db.admin.clear();
-  await app.listen(config.port);
-  await Promise.all(
-    [
-      {
-        name: 'Channel 1',
-        messages: [
-          {
-            author: 'sergei',
-            creation: 1602831101929,
-            content: `
+	await db.admin.clear();
+	await app.listen(config.port);
+	await Promise.all(
+		[
+			{
+				name: 'Channel 1',
+				messages: [
+					{
+						author: 'sergei',
+						creation: 1602831101929,
+						content: `
       ## 1 - Architecture - Level easy
   
       It is now the right time to re-organize/refactor our code. Split this
@@ -48,22 +48,22 @@ const config = {
       +--------------------------------------------+
       \`\`\`
       `.replace(/^ {6}/gm, '')
-          },
-          {
-            author: 'david',
-            creation: 1602832138892,
-            content: `
+					},
+					{
+						author: 'david',
+						creation: 1602832138892,
+						content: `
       ## 2 - Styles - Level easy
   
       Give it some styles, use CSS to make it looks good. Possible source of
       improvements include changing the colors, replacing the HTML "send" button
       with an icon, working on the header, providing day/night themes ... be creative
       `.replace(/^ {6}/gm, '')
-          },
-          {
-            author: 'sergei',
-            creation: 1602840139202,
-            content: `
+					},
+					{
+						author: 'sergei',
+						creation: 1602840139202,
+						content: `
       ## 3 - Use an external library - Level medium
   
       Format the date in a human readable format. While the date is generated on
@@ -74,11 +74,11 @@ const config = {
       top right corner of their homepage, it is now depreciated. Read the reasons
       and act accordingly.
       `.replace(/^ {6}/gm, '')
-          },
-          {
-            author: 'david',
-            creation: 1602844139200,
-            content: `
+					},
+					{
+						author: 'david',
+						creation: 1602844139200,
+						content: `
       ## 4 - Support message contents in Markdown - Level hard
   
       Markdown is the most popular syntax to format text into HTML. It is used
@@ -93,70 +93,82 @@ const config = {
       Consider adding syntax highlight support with a library like
       [Prism](https://prismjs.com/).
       `
-              .replace(/^ {6}/gm, '')
-              .replace(/^ {6}/gm, '')
-          }
-        ]
-      },
-      {
-        name: 'Channel 2',
-        messages: [
-          {
-            author: 'sergei',
-            creation: 1602223579200,
-            content: `
+							.replace(/^ {6}/gm, '')
+							.replace(/^ {6}/gm, '')
+					}
+				]
+			},
+			{
+				name: 'Channel 2',
+				messages: [
+					{
+						author: 'sergei',
+						creation: 1602223579200,
+						content: `
       Ping
       `.replace(/^ {6}/gm, '')
-          },
-          {
-            author: 'david',
-            creation: 1602523579200,
-            content: `
+					},
+					{
+						author: 'david',
+						creation: 1602523579200,
+						content: `
       Pong
       `.replace(/^ {6}/gm, '')
-          }
-        ]
-      },
-      {
-        name: 'Channel 3',
-        messages: [
-          {
-            author: 'sergei',
-            creation: 1602223579200,
-            content: `
+					}
+				]
+			},
+			{
+				name: 'Channel 3',
+				messages: [
+					{
+						author: 'sergei',
+						creation: 1602223579200,
+						content: `
       What is the answer to the Ultimate Question of Life, the Universe and Everything ?
       `.replace(/^ {6}/gm, '')
-          },
-          {
-            author: 'david',
-            creation: 1602523579200,
-            content: `
+					},
+					{
+						author: 'david',
+						creation: 1602523579200,
+						content: `
       42
       `.replace(/^ {6}/gm, '')
-          }
-        ]
-      }
-    ].map(async (channel) => {
-      const {
-        data: {id}
-      } = await axios.post(`http://localhost:${config.port}/channels`, {
-        name: channel.name
-      });
-      return Promise.all(
-        channel.messages.map(async (message) => {
-          await axios.post(
-            `http://localhost:${config.port}/channels/${id}/messages`,
-            message
-          );
-        })
-      );
-    })
-  );
-  // await axios.post(`http://localhost:3001/users`, {
-  // 	username: 'Pascal',
-  // 	email: 'obispo@gmail.com',
-  // 	password: 'jesuisunchanteurachier',
-  // 	img: ''
-  // });
-  process.exit();
+					}
+				]
+			}
+		].map(async (channel) => {
+			const {
+				data: { id }
+			} = await axios.post(`http://localhost:${config.port}/channels`, {
+				name: channel.name
+			});
+			return Promise.all(
+				channel.messages.map(async (message) => {
+					await axios.post(
+						`http://localhost:${config.port}/channels/${id}/messages`,
+						message
+					);
+				})
+			);
+		})
+	);
+	await axios.post(`http://localhost:3001/users`, {
+		username: 'Pascal Obispo',
+		email: 'obispo@gmail.com',
+		password: 'iLoveWebTech',
+		img: 'https://voi.img.pmdstatic.net/fit/http.3A.2F.2Fprd2-bone-image.2Es3-website-eu-west-1.2Eamazonaws.2Ecom.2Fprismamedia_people.2F2017.2F06.2F30.2F7f69904e-53eb-49b0-8cb7-befb810cd77c.2Ejpeg/2048x1536/quality/80/pascal-obispo.jpeg'
+	});
+	await axios.post(`http://localhost:3001/users`, {
+		username: 'Harry Potter',
+		email: 'harrypotter@gmail.com',
+		password: 'iLoveWebTech',
+		img: 'https://fac.img.pmdstatic.net/fit/http.3A.2F.2Fprd2-bone-image.2Es3-website-eu-west-1.2Eamazonaws.2Ecom.2FFAC.2Fvar.2Ffemmeactuelle.2Fstorage.2Fimages.2Fculture.2Fnews-culture.2Fharry-potter-enfin-papa.21-18074.2F12621795-1-fre-FR.2Fharry-potter-enfin-papa.2Ejpg/750x562/quality/80/crop-from/center/cr/wqkgQ3LDqWRpdDogVmlzdWFsIC8gRmVtbWUgQWN0dWVsbGU%3D/harry-potter-enfin-papa.jpeg'
+	});
+	await axios.post(`http://localhost:3001/users`, {
+		username: 'Antoine Dupont',
+		email: 'antoinedupont@gmail.com',
+		password: 'imTheWorldBestPlayer',
+		img: 'https://i.la-croix.com/x/smart/2021/11/06/1201183932/Antoine-Dupont_0.jpg'
+	});
+	process.exit();
 })();

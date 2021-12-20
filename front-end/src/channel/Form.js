@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { styled, alpha } from '@mui/material/styles';
-import { useState, useContext } from 'react';
+import {styled, alpha} from '@mui/material/styles';
+import {useState, useContext} from 'react';
 import axios from 'axios';
 // Layout
-import { IconButton, InputBase } from '@mui/material';
+import {IconButton, InputBase} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { useTheme } from '@mui/styles';
+import {useTheme} from '@mui/styles';
 import Context from '../Context';
+import UserSearchBar from '../UserSearchBar';
 
 const useStyles = (theme) => {
   // See https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/OutlinedInput/OutlinedInput.js
@@ -36,7 +37,7 @@ const useStyles = (theme) => {
   };
 };
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({theme}) => ({
   color: 'black',
   '& .MuiInputBase-input': {
     transition: theme.transitions.create('width'),
@@ -46,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const Search = styled('div')(({ theme }) => ({
+const Search = styled('div')(({theme}) => ({
   position: 'relative',
   borderRadius: '25px',
   backgroundColor: alpha(theme.palette.common.black, 0.15),
@@ -56,12 +57,12 @@ const Search = styled('div')(({ theme }) => ({
   width: '100vw'
 }));
 
-export default function Form({ addMessage, channel, onClickScroll }) {
-  const { oauth } = useContext(Context);
+export default function Form({addMessage, channel, onClickScroll}) {
+  const {oauth} = useContext(Context);
   const [content, setContent] = useState('');
   const styles = useStyles(useTheme());
   const onSubmit = async () => {
-    const { data: message } = await axios.post(
+    const {data: message} = await axios.post(
       `http://localhost:3001/channels/${channel.id}/messages`,
       {
         content: content,
@@ -75,7 +76,7 @@ export default function Form({ addMessage, channel, onClickScroll }) {
     setContent(e.target.value);
   };
 
-  const onKeyPress = ({ nativeEvent: { key: keyValue } }) => {
+  const onKeyPress = ({nativeEvent: {key: keyValue}}) => {
     if (keyValue === 'Enter') {
       onSubmit();
       onClickScroll();

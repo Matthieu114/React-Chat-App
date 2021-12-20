@@ -17,6 +17,7 @@ export const Provider = ({children}) => {
   const [currentChannel, setCurrentChannel] = useState(null);
   const [user, setUser] = useState(cookies.user);
   const [users, setUsers] = useState([]);
+  const [theme, setTheme] = useState('');
 
   const createUserInDB = async (oauth) => {
     try {
@@ -39,9 +40,8 @@ export const Provider = ({children}) => {
       }
     });
     const userFound = users.find((user) => user.email === oauth.email);
+    await setCookie('user', userFound);
     userFound ? setUser(userFound) : createUserInDB(oauth);
-
-    setCookie('user', userFound);
   };
 
   return (
@@ -86,7 +86,9 @@ export const Provider = ({children}) => {
         password: password,
         setPassword: setPassword,
         username: username,
-        setUsername: setUsername
+        setUsername: setUsername,
+        theme: theme,
+        setTheme: setTheme
       }}>
       {children}
     </Context.Provider>

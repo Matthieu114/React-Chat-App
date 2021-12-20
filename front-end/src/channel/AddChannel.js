@@ -16,9 +16,9 @@ import {
 import axios from 'axios';
 //Context
 import Context from '../Context';
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 //local
-import AddRounded from '@mui/icons-material/AddRounded';
+import ChatIcon from '@mui/icons-material/Chat';
 import UserSearchBar from '../UserSearchBar';
 import AvatarProfil from '../Avatar';
 
@@ -108,19 +108,11 @@ const AddChannel = () => {
   const fetchChannels = async () => {
     const {data: channels} = await axios.get('http://localhost:3001/channels', {
       headers: {
-        Authorization: `Bearer ${oauth.access_token}`
+        Authorization: `Bearer ${oauth?.access_token}`
       }
     });
     setChannels(channels);
   };
-
-  // const onSubmit = async () => {
-  //   const {data: channels} = await axios.post(`http://localhost:3001/channels`, {
-  //     name: document.getElementById('newChannel').value
-  //   });
-  //   fetchChannels(channels);
-  //   handleClose();
-  // };
 
   const onKeyPress = ({nativeEvent: {key: keyValue}}) => {
     if (keyValue === 'Enter') handleSubmit();
@@ -151,7 +143,7 @@ const AddChannel = () => {
           handleClick(e);
           fetchUsers();
         }}>
-        <AddRounded />
+        <ChatIcon fontSize='small' />
       </IconButton>
       <form onSubmit={handleSubmit}>
         <Menu
@@ -179,7 +171,7 @@ const AddChannel = () => {
           <DialogContent sx={{maxHeight: '10rem', minWidth: '400px'}}>
             {users.map((myuser, i) => {
               return (
-                myuser.username !== user.username && (
+                myuser?.username !== user?.username && (
                   <UserComponent
                     user={myuser}
                     key={i}
