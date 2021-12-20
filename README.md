@@ -59,8 +59,8 @@ _how to start and use the application, run the tests, ..._
 
 ## Author
 
-- Brice Benjamin: benjamin.brice@edu.ece.fr SiInter
-- Denis Matthieu: matthieu.denis@edu.ece.fr SiInter
+- Brice Benjamin: benjamin.brice@edu.ece.fr SI Inter Gr3
+- Denis Matthieu: matthieu.denis@edu.ece.fr SI Inter Gr3
 
 ## Tasks
 
