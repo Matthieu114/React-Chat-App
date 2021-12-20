@@ -33,20 +33,20 @@ _how to start and use the application, run the tests, ..._
      clientSecret: xxxxxxxxx80e139441b637796b128d8xxxxxxxxx
      redirectURI: http://127.0.0.1:5556/dex/callback
   ```
-- Inside `./dex-config/config.yml`, the front-end application is already registered and CORS is activated. Now that Dex is built and configured, you can start the Dex server:
+- Inside `./dex-config/config.yml`, the front-end application is already registered and CORS is activated. Now that Dex is built and configured, you can start the Dex server: (You will need to swap your dex config by our config-dev.yaml)
   ```yaml
   cd dex
-  bin/dex serve dex-config/config.yaml
+  bin/dex serve dex-config/config-dev.yaml
   ```
 - Start the back-end
   ```bash
   cd back-end
   # Install dependencies (use yarn or npm)
   yarn install
-  # Optional, fill the database with initial data
-  bin/init
-  # Start the back-end
-  bin/start
+  # Required is to init, fill the database with initial data, and start:
+  yarn develop
+  # Start the back-end if you didn't used develop
+  yarn start
   ```
 - Start the front-end
   ```bash
@@ -59,8 +59,8 @@ _how to start and use the application, run the tests, ..._
 
 ## Author
 
-- Brice Benjamin: benjamin.brice@edu.ece.fr
-- Denis Matthieu: matthieu.denis@edu.ece.fr
+- Brice Benjamin: benjamin.brice@edu.ece.fr SiInter
+- Denis Matthieu: matthieu.denis@edu.ece.fr SiInter
 
 ## Tasks
 
@@ -84,13 +84,13 @@ Application development
 - Welcome screens  
   Our first welcome screens is the login or sign in screen, then the second one, is after the connexion it's here to show you our possibilities
 - New channel creation  
-  We used a common MUI component (TopLeftSide next to discussions and before logout) who permited to add DB users in a channel
+  We used a common MUI component (TopLeftSide next to discussions and before logout) who permited to add DB users in a channel by listing them with checkBox, we also used a search bar to find a user
 - Channel membership and access  
   The acces is done on the creation or if you open the channel option drawer (TopRightSide) you can manage the actif user
 - Invite users to channels  
-  At the creation our in the channel option drawer
+  At the creation or in the channel option drawer
 - Message modification  
-  If you slide on a message, a component will appear so you can choose between Delete, or modify the message.
+  If you slide on a message, a button will appear, by clicking you gonna open a dialog then you can choose between Delete, or modify the message you can also cancel your action.
 - Message removal  
   Same component than message modification
 - Account settings  
@@ -102,4 +102,4 @@ Application development
 
 - We add Search bar on the channel page and on the user selection a the creation of a channel
 - Many of our TextField like the message form can be executed by pres ENTER or clicking on a button
-- As we can modify our username, we can modify the channel name
+- Like message we manage our channel on the same way, it's possible to delete or rename them
