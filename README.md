@@ -1,7 +1,5 @@
 # Chat application - final project
 
-_presentation, introduction, ..._
-
 ## Usage
 
 - To get the best CSS use, Mozilla or Chrome
@@ -61,8 +59,8 @@ _how to start and use the application, run the tests, ..._
 
 ## Author
 
-Brice Benjamin: benjamin.brice@edu.ece.fr
-Denis Matthieu: matthieu.denis@edu.ece.fr
+- Brice Benjamin: benjamin.brice@edu.ece.fr
+- Denis Matthieu: matthieu.denis@edu.ece.fr
 
 ## Tasks
 
@@ -104,3 +102,4 @@ Application development
 
 - We add Search bar on the channel page and on the user selection a the creation of a channel
 - Many of our TextField like the message form can be executed by pres ENTER or clicking on a button
+- As we can modify our username, we can modify the channel name
