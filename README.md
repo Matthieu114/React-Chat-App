@@ -75,7 +75,7 @@ Project management
 - Code quality  
   We are in medium quality code because it's not always the best option, or the more otpimise
 - Design, UX  
-  We inspired a lot of Messenger because it's our favorite UX application
+  We inspired a lot of Messenger because it's our favorite UX application and she have a clean design without to much button
 - Git and DevOps  
   We used git to share our implementation
 
@@ -86,7 +86,7 @@ Application development
 - New channel creation  
   We used a common MUI component (TopLeftSide next to discussions and before logout) who permited to add DB users in a channel by listing them with checkBox, we also used a search bar to find a user
 - Channel membership and access  
-  The acces is done on the creation or if you open the channel option drawer (TopRightSide) you can manage the actif user
+  The acces is done on the creation or if you open the channel option drawer (TopRightSide) you can manage the actif user, currently we don't have friends on the app you can just add any users that are in DB
 - Invite users to channels  
   At the creation or in the channel option drawer
 - Message modification  
