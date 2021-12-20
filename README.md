@@ -95,8 +95,10 @@ Application development
   Same component than message modification,and well styled
 - Account settings  
   (TopLeftSide) By clicking on the avatar, you will open a modal then you can change the username, and add a new image to your avatar.
+- Gravatar integration
+  User have a letter avatar corresponding to their first letter username, if you are uploading an image it will be change by this one
 - Personal custom avatar  
-  Implemented by a Input change event -> transformed in Base64 to put it in DB.
+  Implemented by a Input change event -> transformed in Base64 to put it in DB. Image size up to 50mb
   This custom avatar will disapeard when we actualise the webpage beacause failed to manege the cookies on the avatar but if your logout then login the image will be there.
   For a new user, the avatar image is the first letter of the username. To change it you need to go on the account settings
 
