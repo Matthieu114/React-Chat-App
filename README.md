@@ -4,7 +4,7 @@
 
 - To get the best CSS use, Mozilla or Chrome
 
-_how to start and use the application, run the tests, ..._
+_how to start and use the application_
 
 - Clone this repository, from your local machine:
   ```
@@ -92,14 +92,17 @@ Application development
 - Message modification  
   If you slide on a message, a button will appear, by clicking you gonna open a dialog then you can choose between Delete, or modify the message you can also cancel your action.
 - Message removal  
-  Same component than message modification
+  Same component than message modification,and well styled
 - Account settings  
   (TopLeftSide) By clicking on the avatar, you will open a modal then you can change the username, and add a new image to your avatar.
 - Personal custom avatar  
   Implemented by a Input change event -> transformed in Base64 to put it in DB.
+  This custom avatar will disapeard when we actualise the webpage beacause failed to manege the cookies on the avatar but if your logout then login the image will be there.
+  For a new user, the avatar image is the first letter of the username. To change it you need to go on the account settings
 
 ## Bonus
 
 - We add Search bar on the channel page and on the user selection a the creation of a channel
 - Many of our TextField like the message form can be executed by pres ENTER or clicking on a button
 - Like message we manage our channel on the same way, it's possible to delete or rename them
+- We tried to implement an other login than the Oauth way, by sign up in DB. So we can create new users in db but the login is impossible because we will need a JWS token to get the Barear Autorization to CRUD channel or message. Currently we can just add new user by signing in
