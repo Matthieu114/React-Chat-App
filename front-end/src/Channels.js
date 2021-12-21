@@ -62,7 +62,10 @@ const ChannelComponent = ({i, channel, deleteChannel}) => {
         canClick === true ? navigate(`/channels/${channel.id}`) : (canClick = false);
       }}>
       <Link
-        sx={{textDecoration: 'none', color: 'black'}}
+        sx={{
+          textDecoration: 'none',
+          color: 'black'
+        }}
         href={`/channels/${channel.id}`}>
         {channel.name}
       </Link>
@@ -93,26 +96,6 @@ const ChannelComponent = ({i, channel, deleteChannel}) => {
           vertical: 'bottom',
           horizontal: 'center'
         }}>
-        {/* <MenuItem
-          onClick={() => {
-            canClick = false;
-          }}
-          sx={{
-            ':hover': {
-              backgroundColor: 'white'
-            }
-          }}>
-          <Button
-            sx={{
-              fontSize: 'small',
-              ':hover': {
-                backgroundColor: '#0099ff',
-                color: 'white'
-              }
-            }}>
-            <ModifyChannelModal channel={channel} handleClose={handleClose} />
-          </Button>
-        </MenuItem> */}
         <MenuItem
           color='info'
           onClick={(e) => {

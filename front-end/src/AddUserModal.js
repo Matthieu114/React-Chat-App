@@ -167,7 +167,7 @@ const AddUserModal = ({channelUsers}) => {
               variant='contained'
               color='info'
               onKeyPress={onKeyPress}>
-              Create Channel
+              Add user
             </Button>
           </DialogActions>
         </Dialog>
