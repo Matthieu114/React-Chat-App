@@ -67,7 +67,7 @@ _how to start and use the application_
 Project management
 
 - Naming convention  
-  We will use camelCame for normal variables
+  We will use camelCame for normal variables.
   and VARIABLE_VAR caps lock for constants.
   React functionnal and class components -> Component MyComp
 - Project structure  
