@@ -1,8 +1,8 @@
 # Chat application - final project
 
-![Optional Text](../main/Screenshot/Home.png)
+![Optional Text](../master/appScreenshot/Home.png)
 
-![Optional Text](../main/Screenshot/ChatApp.png)
+![Optional Text](../master/appScreenshot/ChatApp.png)
 
 ## Usage
 
