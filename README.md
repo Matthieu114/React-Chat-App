@@ -1,5 +1,9 @@
 # Chat application - final project
 
+![Optional Text](../main/Screenshot/Home.png)
+
+![Optional Text](../main/Screenshot/ChatApp.png)
+
 ## Usage
 
 - To get the best CSS use, Mozilla or Chrome
