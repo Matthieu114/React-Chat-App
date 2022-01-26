@@ -4,6 +4,10 @@
 
 ![Optional Text](../master/appScreenshot/ChatApp.png)
 
+[Channel Info showing users and options](../master/appScreenshot/ChannelInfo.png)
+
+[Can add a user to a Channel](../master/appScreenshot/AddUser.png)
+
 ## Usage
 
 - To get the best CSS use, Mozilla or Chrome
@@ -33,9 +37,9 @@ _how to start and use the application_
     id: github
     name: GitHub
     config:
-     clientID: xxxx98f1c26493dbxxxx
-     clientSecret: xxxxxxxxx80e139441b637796b128d8xxxxxxxxx
-     redirectURI: http://127.0.0.1:5556/dex/callback
+      clientID: xxxx98f1c26493dbxxxx
+      clientSecret: xxxxxxxxx80e139441b637796b128d8xxxxxxxxx
+      redirectURI: http://127.0.0.1:5556/dex/callback
   ```
 - Inside `./dex-config/config.yml`, the front-end application is already registered and CORS is activated. Now that Dex is built and configured, you can start the Dex server: (You will need to swap your dex config by our config-dev.yaml)
   ```yaml
