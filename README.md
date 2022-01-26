@@ -1,11 +1,15 @@
 # Chat application - final project
 
+### Login page (purely decorative can only login with github through oauthv2)
 ![Optional Text](../master/appScreenshot/Home.png)
 
+### Can Add users to a Channel
 ![Optional Text](../master/appScreenshot/ChatApp.png)
 
+### Can see channel Info (users, name)
 ![Channel Info showing users and options](../master/appScreenshot/ChannelInfo.png)
 
+### Can add a user to a channel
 ![Can add a user to a Channel](../master/appScreenshot/AddUser.png)
 
 ## Usage
