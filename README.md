@@ -85,38 +85,48 @@ Project management
 - Project structure  
   We tried to structure the project with as many functionnal components as possible.
 - Code quality  
-  We are in medium quality code because it's not always the best option, or the more otpimise
+ 
+  The code quality is ok but not incredible. We tried to use clean code and avoid repeating code. It isnt as simpled and optimised as we would of liked
+  but the code is readable and ok to understand.
 - Design, UX  
-  We inspired a lot of Messenger because it's our favorite UX application and she have a clean design without to much button
+  We were heavily inspired by messenger as it has a simple yet effective UI/Ux design
 - Git and DevOps  
   We used git to share our implementation
 
 Application development
 
 - Welcome screens  
-  Our first welcome screens is the login or sign in screen, then the second one, is after the connexion it's here to show you our possibilities
+  Our first welcome screen is the login screen, you can access the sign up screen by clicking signup
+  For now you can only signup with a github account through oauth
 - New channel creation  
-  We used a common MUI component (TopLeftSide next to discussions and before logout) who permited to add DB users in a channel by listing them with checkBox, we also used a search bar to find a user
+  We used a common MUI component (TopLeftSide next to discussions and before logout) who allowed us to add database users of your choice to a channel,
+  You can search through the users with the real time search search bar
 - Channel membership and access  
-  The acces is done on the creation or if you open the channel option drawer (TopRightSide) you can manage the actif user, currently we don't have friends on the app you can just add any users that are in DB
-- Invite users to channels  
-  At the creation or in the channel option drawer
+  Only the users of the channel have access to that channel, right now there are no admin priviledges. People get access to a channel when it is created.
+  There is no friend system yet so we add users from the Db and not from a friends list.
+  A channel name can be modified by any user in it by cliking on the edit channel button in the channel settings drawer
+- Invite users to channels 
+  Users can be invited to a channel by anyone in that channel by clicking on the add new member button in the channel settings drawer. You can then invite any active users not currently in the channel
 - Message modification  
-  If you slide on a message, a button will appear, by clicking you gonna open a dialog then you can choose between Delete, or modify the message you can also cancel your action.
+  Hovering over your own message will make a more info icon appear, by clicking on it you can select the edit message property
+  it will open a textinput right on your message where you can enter the new desired message.
+  A user can only modify his message
 - Message removal  
-  Same component than message modification,and well styled
+  Same as for the message modification by hovering over the message you and clicking on the icon you get a delete option
+  clicking on it opens up a deletion confirmation pop-up with the message info.
+  A user can only delete his own message
 - Account settings  
   (TopLeftSide) By clicking on the avatar, you will open a modal then you can change the username, and add a new image to your avatar.
 - Gravatar integration
-  User have a letter avatar corresponding to their first letter username, if you are uploading an image it will be change by this one
+  We have not implemented gravatar integration yet
 - Personal custom avatar  
   Implemented by a Input change event -> transformed in Base64 to put it in DB. Image size up to 50mb
-  This custom avatar will disapeard when we actualise the webpage beacause failed to manege the cookies on the avatar but if your logout then login the image will be there.
-  For a new user, the avatar image is the first letter of the username. To change it you need to go on the account settings
+  This custom avatar will disapear when we refresh the webpage as only the user info without the image avatar is stored in the cookies beacause failed to manege the cookies.
+  However the image is stored in the back end and will be there if you logout and log back in
+  For a new user, the avatar image is the first letter of his username. To change it you need to go in the account settings
 
 ## Bonus
 
-- We add Search bar on the channel page and on the user selection a the creation of a channel
-- Many of our TextField like the message form can be executed by pres ENTER or clicking on a button
-- Like message we manage our channel on the same way, it's possible to delete or rename them
-- We tried to implement an other login than the Oauth way, by sign up in DB. So we can create new users in db but the login is impossible because we will need a JWS token to get the Barear Autorization to CRUD channel or message. Currently we can just add new user by signing in
+- We added Search bars on the channel page and on the user selection at the creation of a channel
+- We tried to implement an other login than the Oauth way, by signing up in DB.  We can create new users in db but the login is impossible because we will need a JWS token to get the Barear Autorization to CRUD channel or message. Currently we can just create a new user by signing in.
+The user will be visible in the users when we log in with oauth
