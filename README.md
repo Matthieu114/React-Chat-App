@@ -12,6 +12,11 @@
 ### Can add a user to a channel
 ![Can add a user to a Channel](../master/appScreenshot/AddUser.png)
 
+## Important
+
+we are aware of a problem when first signing in with GitHub oauth that there isnt a correct redirection
+In case this happens you must go back to the login page and sign in again
+
 ## Usage
 
 - To get the best CSS use, Mozilla or Chrome
