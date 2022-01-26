@@ -4,9 +4,9 @@
 
 ![Optional Text](../master/appScreenshot/ChatApp.png)
 
-[Channel Info showing users and options](../master/appScreenshot/ChannelInfo.png)
+![Channel Info showing users and options](../master/appScreenshot/ChannelInfo.png)
 
-[Can add a user to a Channel](../master/appScreenshot/AddUser.png)
+![Can add a user to a Channel](../master/appScreenshot/AddUser.png)
 
 ## Usage
 
