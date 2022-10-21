@@ -19,8 +19,6 @@ In case this happens you must go back to the login page and sign in again
 
 ## Usage
 
-- To get the best CSS use, Mozilla or Chrome
-
 _how to start and use the application_
 
 - Clone this repository, from your local machine:
